@@ -23,8 +23,14 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+        textTheme: const TextTheme(
+          headline1: TextStyle(fontSize: 50.0,color:Colors.blue, fontWeight: FontWeight.bold),
+          headline4: TextStyle(fontSize:38.0, color:Colors.green),
+          headline6: TextStyle(fontSize: 36.0),
+          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Sans Serif'),
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Ecotone Test Theme'),
     );
   }
 }
