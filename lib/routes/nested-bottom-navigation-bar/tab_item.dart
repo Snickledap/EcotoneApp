@@ -5,7 +5,7 @@ enum TabItem { amber, green, blue }
 const Map<TabItem, String> tabName = {
   TabItem.amber: 'Map',
   TabItem.green: 'Checklist',
-  TabItem.blue: 'Profile',
+  TabItem.blue: 'Account Profile',
 };
 
 const Map<TabItem, MaterialColor> activeTabColor = {
