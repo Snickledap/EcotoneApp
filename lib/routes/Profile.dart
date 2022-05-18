@@ -31,15 +31,19 @@ class MyApp extends StatelessWidget {
     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     static const List<Widget> _widgetOptions = <Widget>[
     Text(
-    'Index 0: Home',
+    'Index 0: Map',
     style: optionStyle,
     ),
     Text(
-    'Index 1: Business',
+    'Index 1: Checklist',
     style: optionStyle,
     ),
     Text(
-    'Index 2: School',
+    'Index 2: Informational Videos',
+    style: optionStyle,
+    ),
+    Text(
+    'Index 3: Profile',
     style: optionStyle,
     ),
     ];
@@ -60,12 +64,12 @@ class MyApp extends StatelessWidget {
           title: RichText(
           textAlign: TextAlign.center,
           text: const TextSpan(
-          text: "Developer Developer",
+          text: "Ecotone Application",
           style: TextStyle(fontSize: 20),
             children:
             <TextSpan>[
             TextSpan(
-            text: '\nTrip List',
+            text: '\nBeta',
             style: TextStyle(
             fontSize: 16,
             ),
@@ -79,22 +83,29 @@ class MyApp extends StatelessWidget {
             child: _widgetOptions.elementAt(_selectedIndex),
           ),
           bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.black,
+          unselectedItemColor: Colors.grey,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+              icon: Icon(Icons.location_on, color: Colors.white),
+              label: 'Map',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              label: 'Business',
+              icon: Icon(Icons.checklist, color: Colors.white),
+              label: 'Checklist',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              label: 'School',
+              icon: Icon(Icons.help_outline, color: Colors.white),
+              label: 'Info',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline, color: Colors.white),
+              label: 'Profile',
             ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
+          selectedItemColor: Colors.blue[400],
           onTap: _onItemTapped,
         )
       );
