@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 enum TabItem { amber, green, blue }
 
 const Map<TabItem, String> tabName = {
-  TabItem.amber: 'red',
-  TabItem.green: 'green',
-  TabItem.blue: 'blue',
+  TabItem.amber: 'Map',
+  TabItem.green: 'Checklist',
+  TabItem.blue: 'Profile',
 };
 
 const Map<TabItem, MaterialColor> activeTabColor = {
