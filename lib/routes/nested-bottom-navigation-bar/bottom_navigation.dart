@@ -10,8 +10,7 @@ class BottomNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-        backgroundColor: Colors.black,
-        type: BottomNavigationBarType.fixed,
+        type: BottomNavigationBarType.shifting,
         items: [
           _buildItem(TabItem.map),
           _buildItem(TabItem.checklist),
@@ -30,14 +29,19 @@ class BottomNavigation extends StatelessWidget {
 
   BottomNavigationBarItem _buildItem(TabItem tabItem) {
     return BottomNavigationBarItem(
+      backgroundColor: Colors.black,
       icon: Icon(tabIcon[tabItem],
         color: _colorTabMatching(tabItem),
       ),
       label: tabName[tabItem],
-    );
+
+      );
+
+
   }
 
   Color _colorTabMatching(TabItem item) {
     return currentTab == item ? activeTabColor[item]! : Colors.white;
   }
+
 }
