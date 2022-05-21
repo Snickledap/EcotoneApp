@@ -30,7 +30,7 @@ class TestingState extends State<Testing> {
       appBar: AppBar(
         title: RichText(text: const TextSpan(text: "Testing"))
       ),
-      bottomNavigationBar: NavBar(),
+     //bottomNavigationBar: NavBar(),
 
     );
   }
