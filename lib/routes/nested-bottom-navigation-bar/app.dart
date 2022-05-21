@@ -9,11 +9,12 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  var _currentTab = TabItem.amber;
+  var _currentTab = TabItem.map;
   final _navigatorKeys = {
-    TabItem.amber: GlobalKey<NavigatorState>(),
-    TabItem.green: GlobalKey<NavigatorState>(),
-    TabItem.blue: GlobalKey<NavigatorState>(),
+    TabItem.map: GlobalKey<NavigatorState>(),
+    TabItem.checklist: GlobalKey<NavigatorState>(),
+    TabItem.help: GlobalKey<NavigatorState>(),
+    TabItem.profile: GlobalKey<NavigatorState>(),
   };
 
   void _selectTab(TabItem tabItem) {
@@ -33,9 +34,9 @@ class AppState extends State<App> {
         !await _navigatorKeys[_currentTab]!.currentState!.maybePop();
         if (isFirstRouteInCurrentTab) {
           // if not on the 'main' tab
-          if (_currentTab != TabItem.amber) {
+          if (_currentTab != TabItem.map) {
             // select 'main' tab
-            _selectTab(TabItem.amber);
+            _selectTab(TabItem.map);
             // back button handled by app
             return false;
           }
@@ -45,9 +46,10 @@ class AppState extends State<App> {
       },
       child: Scaffold(
         body: Stack(children: <Widget>[
-          _buildOffstageNavigator(TabItem.amber),
-          _buildOffstageNavigator(TabItem.green),
-          _buildOffstageNavigator(TabItem.blue),
+          _buildOffstageNavigator(TabItem.map),
+          _buildOffstageNavigator(TabItem.checklist),
+          _buildOffstageNavigator(TabItem.help),
+          _buildOffstageNavigator(TabItem.profile),
         ]),
         bottomNavigationBar: BottomNavigation(
           currentTab: _currentTab,
