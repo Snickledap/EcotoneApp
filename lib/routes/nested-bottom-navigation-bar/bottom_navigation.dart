@@ -34,10 +34,14 @@ class BottomNavigation extends StatelessWidget {
         color: _colorTabMatching(tabItem),
       ),
       label: tabName[tabItem],
-    );
+
+      );
+
+
   }
 
   Color _colorTabMatching(TabItem item) {
     return currentTab == item ? activeTabColor[item]! : Colors.white;
   }
+
 }
