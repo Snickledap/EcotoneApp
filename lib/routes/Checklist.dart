@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../NavBar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,6 +45,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Ecotone'),
       ),
+      bottomNavigationBar: NavBar(),
       body: Container(
         child:  Column(
         children: <Widget>[SingleChildScrollView(
