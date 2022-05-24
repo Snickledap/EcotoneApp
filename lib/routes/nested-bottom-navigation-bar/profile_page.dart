@@ -66,8 +66,6 @@ class ProfilePage extends StatelessWidget {
 }
 }
 
-
-  @override
   class _customcards extends StatelessWidget{
   @override
     Widget build (BuildContext context) {
@@ -81,15 +79,15 @@ class ProfilePage extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-            IconButton(
-            icon: Icon(
-              Icons.alarm_add_outlined,
-              size: 20.0,
-              color: Colors.brown[900],
-            ),
-            onPressed: () {},
-          ),
-        ],
+              IconButton(
+                icon: Icon(
+                Icons.alarm_add_outlined,
+                size: 20.0,
+                color: Colors.brown[900],
+                ),
+                onPressed: () {},
+              ),
+            ],
             ),
           ),
         );
