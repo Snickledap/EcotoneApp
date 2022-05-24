@@ -9,7 +9,7 @@ class Test extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: "Testing",
+      title: "TestingKaya",
       home: Testing(),
     );
   }
@@ -28,7 +28,15 @@ class TestingState extends State<Testing> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: RichText(text: const TextSpan(text: "Testing123"))
+        backgroundColor: Colors.white,
+        title: Text(
+          "Information",
+          style : TextStyle(
+            color: Colors.blue,
+            fontSize: 20.0,
+            letterSpacing: 1.0,
+          )
+        ),
       ),
      //bottomNavigationBar: NavBar(),
 
