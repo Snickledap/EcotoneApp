@@ -33,11 +33,50 @@ class TestingState extends State<Testing> {
           "Information",
           style : TextStyle(
             color: Colors.blue,
-            fontSize: 20.0,
+            fontSize: 30.0,
             letterSpacing: 1.0,
           )
         ),
       ),
+     body: Column(
+       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+       crossAxisAlignment: CrossAxisAlignment.start,
+       children: <Widget>[
+         Center(
+           child: Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: Container(
+               padding: EdgeInsets.fromLTRB(200,110,200,110),
+               color: Colors.white,
+               child: Text("Video 1"),
+             ),
+           ),
+         ),
+         Center(
+           child: Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: Container(
+               padding: EdgeInsets.fromLTRB(200,110,200,110),
+               color: Colors.white,
+               child: Text("Video 2"),
+             ),
+           ),
+         ),
+         Center(
+           child: Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: Container(
+               padding: EdgeInsets.fromLTRB(200,110,200,110),
+               color: Colors.white,
+               child: Text("Video 3"),
+             ),
+           ),
+         )
+
+       ]
+
+     )
+
      //bottomNavigationBar: NavBar(),
 
     );
