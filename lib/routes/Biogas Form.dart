@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 void main() => runApp(BioGasForm());
 class BioGasForm extends StatelessWidget {
   @override
-Widget build(BuildContext context) {
-
+  Widget build(BuildContext context) {
 
     return MaterialApp(
       home: Scaffold(
@@ -14,41 +13,51 @@ Widget build(BuildContext context) {
         ),
         body:Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const <Widget>[
-            TextField(
-                style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'OpenSans',
-                ),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Whatever you want',
-                  contentPadding: EdgeInsets.only(top: 10.0),
-                  prefixIcon: Icon(
-                    Icons.email,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-            TextField(
-              style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'OpenSans',
-              ),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Whatever you want',
-                contentPadding: EdgeInsets.only(top: 10.0),
-                prefixIcon: Icon(
-                  Icons.email,
-                  color: Colors.red,
-                ),
-              ),
-            ),
+          children: <Widget>[
+            _TextBoxes(),
+            Padding(padding: EdgeInsets.all(14)),
+            _TextBoxes(),
+            Padding(padding: EdgeInsets.all(14)),
+            _TextBoxes(),
+            Padding(padding: EdgeInsets.all(14)),
+            _TextBoxes(),
+            Padding(padding: EdgeInsets.all(14)),
+            _TextBoxes(),
+            Padding(padding: EdgeInsets.all(14)),
+            _SubmitButton(),
           ],
         ),
       ),
 
+    );
+  }
+}
+
+
+class _TextBoxes extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      style: TextStyle(
+        color: Colors.black,
+        fontFamily: 'OpenSans',
+      ),
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        hintText: 'Your Answer',
+        contentPadding: EdgeInsets.all( 10.0),
+      ),
+    );
+
+  }
+}
+
+class _SubmitButton extends StatelessWidget {
+  @override
+  Widget build (BuildContext context) {
+    return ElevatedButton(
+      onPressed: (){},
+      child: Text('Submit'),
     );
   }
 }
