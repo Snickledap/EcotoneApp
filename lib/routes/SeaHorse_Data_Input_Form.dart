@@ -3,6 +3,17 @@ import 'package:ecotone_app/NavBar.dart';
 
 
 void main() => runApp(SeaHorseDataForm());
+
+const question1 = 'Name';
+const question2 = 'Date';
+const question3 = 'Weight of food waste input (lb)';
+const question4 = 'Food waste type (type of vegetables, fruits, carbs, etc)';
+const question5 = 'Weight of water added (lb)';
+const question6 = 'Fertilizer Drained (Gallon Containers)';
+const question7 = 'Fertilizer Drained (16oz Containers)';
+const question8 = 'Temperature of the stomach (Fahrenheit)';
+
+
 class SeaHorseDataForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -23,6 +34,7 @@ class SeaHorseDataForm extends StatelessWidget {
             _TextBoxes(),
             _TextBoxes(),
             _TextBoxes(),
+            _TextBoxes(),
             _SubmitButton(),
           ],
         ),
@@ -34,8 +46,14 @@ class SeaHorseDataForm extends StatelessWidget {
 }
 
 
-class _TextBoxes extends StatelessWidget {
+class _TextBoxes extends StatefulWidget {
+  const _TextBoxes ({Key? key}) : super(key: key);
+
   @override
+  State<_TextBoxes> createState() => _TextBoxesState();
+}
+class _TextBoxesState extends State<_TextBoxes> {
+
   Widget build(BuildContext context) {
     return TextField(
 
