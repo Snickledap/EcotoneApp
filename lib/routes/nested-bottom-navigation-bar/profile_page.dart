@@ -39,6 +39,7 @@ class ProfilePage extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                     Text('Hi Employee 1'),
+                      Padding(padding: EdgeInsets.all(15)),
                       Text('Reminder'),
                       Text('You have some tasks to complete')
                     ],
