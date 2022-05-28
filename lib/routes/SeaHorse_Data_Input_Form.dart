@@ -1,9 +1,13 @@
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ecotone_app/NavBar.dart';
 
 
-void main() => runApp(SeaHorseDataForm());
+void main(){
+  runApp(MyApp());
+}
+
 
 class Questions {
 
@@ -23,40 +27,53 @@ class Questions {
   ];
 
 
+
+class MyApp extends StatelessWidget{
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return MaterialApp(
+      home:SeaHorseDataForm()
+    );
+  }
+}
+
+
+
 class SeaHorseDataForm extends StatelessWidget {
   const SeaHorseDataForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
-      home: Scaffold(
-        resizeToAvoidBottomInset: false,
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Sea Horse Data Input Form'),
         ),
         body:Container(
-          alignment: Alignment.bottomCenter,
           margin: const EdgeInsets.all(20),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget> [
               Title(color: Colors.black, child: const Text('Form')),
+              Padding(padding: EdgeInsets.all(10)),
               SizedBox(
-                height: 500,
+                height: 450,
                 width: 400,
-                child: _FormList(),
+                child: FormList(),
               ),
-               Padding(padding: EdgeInsets.all(10)),
+              Padding(padding: EdgeInsets.all(10)),
               _SubmitButton(),
+              Padding(padding: EdgeInsets.all(10)),
             ],
           ),
         ),
 
         bottomNavigationBar: NavBar(),
-      ),
-
-    );
+      );
   }
 }
 
@@ -74,14 +91,13 @@ class _TextBoxes extends StatelessWidget {
         fontFamily: 'OpenSans',
       ),
       decoration: InputDecoration(
-        floatingLabelBehavior:FloatingLabelBehavior.always , //test-delete later
         label: Text(questions[index].formQuestions),
         border: const OutlineInputBorder(),
         hintText: 'Your Answer',
         contentPadding: EdgeInsets.all(10.0),
         ),
+      onEditingComplete: () => FocusScope.of(context).nextFocus(),
       );
-
   }
 }
 
@@ -99,30 +115,31 @@ class _SubmitButton extends StatelessWidget {
 
 
 
-class _FormList extends StatelessWidget{
+class FormList extends StatelessWidget {
+
   @override
   Widget build (BuildContext context){
     return ListView.builder(
       itemCount: questions.length,
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
-
+        padding: const EdgeInsets.all(5),
         itemBuilder:(context,index){
-          return SizedBox(
-              height: 75,
-              width: 200,
-              child:ScrollConfiguration(
-                behavior: MyBehavior(),
-                child: ListView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: <Widget>[
-                    _TextBoxes(index)
-                  ],
-                ),
-              )
+        return SizedBox(
+          height: 75,
+          width: 400,
+          child:ScrollConfiguration(
+            behavior: MyBehavior(),
+            child: ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                _TextBoxes(index)
+              ],
+            ),
+          )
           );
-        }
-    );
+        },
+        );
   }
 }
 
