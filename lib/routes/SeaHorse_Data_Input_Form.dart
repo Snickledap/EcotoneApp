@@ -41,13 +41,13 @@ class SeaHorseDataForm extends StatelessWidget {
           margin: const EdgeInsets.all(20),
           child: Column(
             children: <Widget> [
-              Title(color: Colors.black, child: Text('Form')),
+              Title(color: Colors.black, child: const Text('Form')),
               SizedBox(
                 height: 500,
                 width: 400,
                 child: _FormList(),
               ),
-              Padding(padding: EdgeInsets.all(10)),
+               Padding(padding: EdgeInsets.all(10)),
               _SubmitButton(),
             ],
           ),
