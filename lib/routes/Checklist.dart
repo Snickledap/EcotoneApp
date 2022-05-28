@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(20),
           child:
               Column(
-                  crossAxisAlignment: CrossAxisAlignment.start, children: [
+                crossAxisAlignment: CrossAxisAlignment.start, children: [
                 const Text(
                 'Checklist: \n ',
                 style: TextStyle(fontSize: 24),
