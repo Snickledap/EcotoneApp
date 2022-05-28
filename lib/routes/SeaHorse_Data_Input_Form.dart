@@ -8,7 +8,6 @@ void main(){
   runApp(MyApp());
 }
 
-
 class Questions {
 
   String formQuestions;
@@ -48,30 +47,35 @@ class SeaHorseDataForm extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Sea Horse Data Input Form'),
         ),
-        body:Container(
-          margin: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget> [
-              Title(color: Colors.black, child: const Text('Form')),
-              Padding(padding: EdgeInsets.all(10)),
-              SizedBox(
-                height: 450,
-                width: 400,
-                child: FormList(),
+        body:SingleChildScrollView(
+          reverse: true,
+          child:Padding(
+          padding: EdgeInsets.only(bottom:MediaQuery.of(context).viewInsets.bottom),
+            child: Container(
+              margin: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    Title(color: Colors.black, child: const Text('Form')),
+                    Padding(padding: EdgeInsets.all(10)),
+                    SizedBox(
+                      height: 450,
+                      width: 400,
+                      child: FormList(),
+                    ),
+                    Padding(padding: EdgeInsets.all(10)),
+                    _SubmitButton(),
+                    Padding(padding: EdgeInsets.all(10)),
+                ],
               ),
-              Padding(padding: EdgeInsets.all(10)),
-              _SubmitButton(),
-              Padding(padding: EdgeInsets.all(10)),
-            ],
-          ),
-        ),
-
+            ),
+            ),
+            ),
         bottomNavigationBar: NavBar(),
       );
   }
@@ -106,10 +110,17 @@ class _TextBoxes extends StatelessWidget {
 class _SubmitButton extends StatelessWidget {
   @override
   Widget build (BuildContext context) {
-    return ElevatedButton(
-        onPressed: (){},
-        child: const Text('Submit'),
-    );
+    return SizedBox(
+      height: 55,
+        width: 300,
+        child: ElevatedButton(
+          onPressed: (){},
+          child: const Text('Submit',
+            style: TextStyle(
+              fontSize: 26
+            ),
+          ),
+    ));
   }
 }
 
