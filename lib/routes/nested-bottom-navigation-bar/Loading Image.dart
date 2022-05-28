@@ -13,7 +13,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       home: Scaffold(
-        body: SizedBox(child: Image.asset('lib/assets/images/Loading_Screen.png'))
+        body: Container(
+          height: double.infinity,
+            width: double.infinity,
+            child: Image.asset('lib/assets/images/Loading_Screen_2.png'))
           ),
     );
   }
