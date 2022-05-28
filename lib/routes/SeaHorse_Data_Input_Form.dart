@@ -31,22 +31,23 @@ class SeaHorseDataForm extends StatelessWidget {
 
     return MaterialApp(
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Sea Horse Data Input Form'),
         ),
         body:Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.all(5),
+          alignment: Alignment.bottomCenter,
+          margin: const EdgeInsets.all(20),
           child: Column(
             children: <Widget> [
               Title(color: Colors.black, child: Text('Form')),
-              Padding(padding: EdgeInsets.all(5)),
               SizedBox(
-                height: 400,
+                height: 500,
                 width: 400,
                 child: _FormList(),
               ),
+              Padding(padding: EdgeInsets.all(10)),
               _SubmitButton(),
             ],
           ),
@@ -73,6 +74,7 @@ class _TextBoxes extends StatelessWidget {
         fontFamily: 'OpenSans',
       ),
       decoration: InputDecoration(
+        floatingLabelBehavior:FloatingLabelBehavior.always , //test-delete later
         label: Text(questions[index].formQuestions),
         border: const OutlineInputBorder(),
         hintText: 'Your Answer',
@@ -104,6 +106,7 @@ class _FormList extends StatelessWidget{
       itemCount: questions.length,
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
+
         itemBuilder:(context,index){
           return SizedBox(
               height: 75,
