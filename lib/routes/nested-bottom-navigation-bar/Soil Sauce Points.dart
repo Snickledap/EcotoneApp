@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+
+
 String points = "100";
 
 void main() {
@@ -35,64 +38,54 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: const Text('Ecotone'),
         ),
-        body: Container(
+        body: Center(
             child:  Column(
-              children: <Widget>[SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(40),
-                  child:
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(
-                      "\n \n \n \n \n \n \n \nYou have earned $points Soil Sauce Points!",
-                      style: TextStyle(fontSize: 24),
-                    ),
-
-                const Padding(padding: EdgeInsets.all(35)),
-                Container(alignment: Alignment.center,height:60, width: 400, child:
-                ElevatedButton(
+              mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "You have earned $points Soil Sauce Points!",
+                style: TextStyle(fontSize: 24),
+                textAlign: TextAlign.center,
+              ),
+              const Padding(padding: EdgeInsets.all(35)),
+              SizedBox(
+               height: 50,
+                  width: 300,
+                  child: ElevatedButton(
                     style:ElevatedButton.styleFrom(
                       primary: Color(0xFF3B7621),
                       onPrimary: Colors.white,
                       elevation: 4,
                     ),
                     onPressed: (){},
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                          "Shop Soil Sauce",
-                          style: TextStyle(fontSize: 24.0),
-                          textAlign: TextAlign.center
-                      ),
-                    )
-                )
+                    child: Text(
+                        "Shop Soil Sauce",
+                        style: TextStyle(fontSize: 24.0),
+                        textAlign: TextAlign.center
+                    ),
+                  ),
+              ),
+              const Padding(padding: EdgeInsets.all(20)),
+            SizedBox(
+              height: 50,
+              width: 300,
+              child: ElevatedButton(
+                style:ElevatedButton.styleFrom(
+                  primary: Color(0xFF015486),
+                  onPrimary: Colors.white,
+                  elevation: 4,
                 ),
-                    const Padding(padding: EdgeInsets.all(20)),
-                    Container(alignment: Alignment.center,height:60, width: 400, child:
-                    ElevatedButton(
-                        style:ElevatedButton.styleFrom(
-                          primary: Color(0xFF015486),
-                          onPrimary: Colors.white,
-                          elevation: 4,
-                        ),
-                        onPressed: (){},
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                              "Back",
-                              style: TextStyle(fontSize: 24.0),
-                              textAlign: TextAlign.center
-                          ),
-                        )
-                    )
-                    )
-              ],
+                onPressed: (){},
+                child: Text(
+                  "Back",
+                    style: TextStyle(fontSize: 24.0),
+                    textAlign: TextAlign.center
+                ),
+              ),
             )
+            ],
         )
-         )
-        ],
-        )
-        )
+    )
     );
   }
 }
