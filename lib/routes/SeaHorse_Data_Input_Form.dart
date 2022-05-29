@@ -55,7 +55,8 @@ class SeaHorseDataForm extends StatelessWidget {
         body:SingleChildScrollView(
           reverse: true,
           child:Padding(
-          padding: EdgeInsets.only(bottom:MediaQuery.of(context).viewInsets.bottom),
+          padding: EdgeInsets.only(
+            bottom:MediaQuery.of(context).viewInsets.bottom),
             child: Container(
               margin: const EdgeInsets.all(20),
                 child: Column(
