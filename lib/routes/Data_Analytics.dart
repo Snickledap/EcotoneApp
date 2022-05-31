@@ -3,35 +3,52 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
+
+
 String last_date= "5/28/2022";
 
 
-void main() => runApp(AnalyticsPage());
+void main() {
+  runApp(AnalyticsPage());
+}
 
 class AnalyticsPage extends StatelessWidget {
 
-  @override
-  Widget build(BuildContext context) {
+@override
+Widget build(BuildContext context) {
+  return Sizer(builder: (context, orientation, deviceType) {
     return MaterialApp(
         home: Scaffold(
           appBar: AppBar(
-            title: const Text(
-              'Profile',
-            ),
-            titleTextStyle:
-            const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-            ),
-            centerTitle: true,
+            leading: _DropDownMenu(),
+            leadingWidth: 17.w,
             backgroundColor: const Color(0xFF309BE9), //Ecotone Colors
+            actions: [
+              TextButton(
+                style: ButtonStyle(
+              overlayColor: MaterialStateColor.resolveWith((states) => Colors.blue)
+              ),
+                onPressed: (){},
+                child: Text('All',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20
+                ),
+                ),
+              )
+            ],
           ),
-          body: Container(
+          body: SizedBox(
             child: Column(
               children:<Widget>[
-                Padding(padding: EdgeInsets.all(5)),
-                Text(
-                  'Today, Week, Month, 3 Month'
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    TextButton(onPressed: (){}, child: Text('Today')),
+                    TextButton(onPressed: (){}, child: Text('1 Week')),
+                    TextButton(onPressed: (){}, child: Text('1 Month')),
+                    TextButton(onPressed: (){}, child: Text('3 Months')),
+                  ]
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.max,
@@ -41,7 +58,7 @@ class AnalyticsPage extends StatelessWidget {
                       _pHCard()
                     ],
                 ),
-                Padding(padding: EdgeInsets.all(5)),
+                Padding(padding: EdgeInsets.all(3)),
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -50,7 +67,7 @@ class AnalyticsPage extends StatelessWidget {
                     _DateCard(),
                   ],
                 ),
-                Padding(padding: EdgeInsets.all(5)),
+                Padding(padding: EdgeInsets.all(3)),
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -59,12 +76,12 @@ class AnalyticsPage extends StatelessWidget {
                     _VolumeCard()
                   ],
                 ),
-                Padding(padding: EdgeInsets.all(5)),
+                Padding(padding: EdgeInsets.all(3)),
                 Ink.image(
-                    image: AssetImage('lib/assets/images/PlaceHolderPic1.png'),
-                  fit: BoxFit.cover,
-                  width: 300,
-                  height: 150,
+                    image: AssetImage('lib/assets/images/PlaceHolderPic2.png'),
+                  fit: BoxFit.fill,
+                  width: 70.w,
+                  height: 16.h,
                 ),
                   const Text('Last Service Date:'),
                   Text('$last_date'),
@@ -75,8 +92,43 @@ class AnalyticsPage extends StatelessWidget {
     )
     );
   }
+  );
+  }
 }
 
+
+class _DropDownMenu extends StatefulWidget {
+  const _DropDownMenu({Key? key}) : super(key: key);
+
+  @override
+  State<_DropDownMenu> createState() => _DropDownMenuState();
+}
+
+class _DropDownMenuState extends State<_DropDownMenu> {
+  String dropdownValue = 'Zeus 1';
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.black),
+      onChanged: (String? newValue) {
+        setState(() {
+          dropdownValue = newValue!;
+        });
+      },
+      items: <String>['Zeus 1', 'Zeus 2', 'Zeus 3', 'Zeus 4']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
+}
 
 @override
 class _TemperatureCard extends StatelessWidget{
@@ -86,8 +138,10 @@ class _TemperatureCard extends StatelessWidget{
         borderRadius: 15,
         borderColor: Color(0xFF015486),
         color: Colors.white,
-        height: 125,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
-        width: 200,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
+        height: 16.h,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
+        width: 45.w,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
+        onTap: (){
+        },
       child:
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,8 +175,8 @@ class _pHCard extends StatelessWidget{
         borderRadius: 15,
         borderColor: Color(0xFF015486),
         color: Colors.white,
-        height: 125,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
-        width: 150,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
+        height: 16.h,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
+        width: 50.w,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
       child:
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,8 +210,8 @@ class _ConductivityCard extends StatelessWidget{
         borderRadius: 15,
         borderColor: Color(0xFF015486),
         color: Colors.white,
-        height: 125,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
-        width: 225,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
+        height: 16.h,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
+        width: 60.w,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
       child:
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,8 +245,8 @@ class _DateCard extends StatelessWidget{
         borderRadius: 15,
         borderColor: Color(0xFF015486),
         color: Colors.white,
-        height: 125,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
-        width: 125,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
+        height: 16.h,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
+        width: 35.w,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
       child:
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,8 +280,8 @@ class _StockCard extends StatelessWidget{
         borderRadius: 15,
         borderColor: Color(0xFF015486),
         color: Colors.white,
-        height: 125,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
-        width: 145,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
+        height: 16.h,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
+        width: 40.w,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
       child:
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,7 +307,6 @@ class _StockCard extends StatelessWidget{
 }
 
 
-
 @override
 class _VolumeCard extends StatelessWidget{
   @override
@@ -262,8 +315,8 @@ class _VolumeCard extends StatelessWidget{
         borderRadius: 15,
         borderColor: Color(0xFF015486),
         color: Colors.white,
-        height: 125,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
-        width: 205,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
+        height: 16.h,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
+        width: 55.w,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
       child:
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
