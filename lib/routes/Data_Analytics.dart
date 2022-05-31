@@ -77,11 +77,16 @@ Widget build(BuildContext context) {
                   ],
                 ),
                 Padding(padding: EdgeInsets.all(3)),
-                Ink.image(
+                InkWell(
+                  child: Ink.image(
                     image: AssetImage('lib/assets/images/PlaceHolderPic2.png'),
-                  fit: BoxFit.fill,
-                  width: 70.w,
-                  height: 16.h,
+                    fit: BoxFit.fill,
+                    width: 70.w,
+                    height: 16.h,
+                  ),
+                  onTap: (){
+                    print("Tapped on Place Holder");
+                  },
                 ),
                   const Text('Last Service Date:'),
                   Text('$last_date'),
@@ -130,6 +135,8 @@ class _DropDownMenuState extends State<_DropDownMenu> {
   }
 }
 
+
+
 @override
 class _TemperatureCard extends StatelessWidget{
   @override
@@ -138,10 +145,9 @@ class _TemperatureCard extends StatelessWidget{
         borderRadius: 15,
         borderColor: Color(0xFF015486),
         color: Colors.white,
-        height: 16.h,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
-        width: 45.w,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
-        onTap: (){
-        },
+        height: 16.h,
+        width: 45.w,
+        onTap: (){},
       child:
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,6 +173,7 @@ class _TemperatureCard extends StatelessWidget{
 }
 
 
+
 @override
 class _pHCard extends StatelessWidget{
   @override
@@ -175,8 +182,9 @@ class _pHCard extends StatelessWidget{
         borderRadius: 15,
         borderColor: Color(0xFF015486),
         color: Colors.white,
-        height: 16.h,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
-        width: 50.w,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
+        height: 16.h,
+        width: 50.w,
+        onTap: (){},
       child:
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,6 +210,7 @@ class _pHCard extends StatelessWidget{
 }
 
 
+
 @override
 class _ConductivityCard extends StatelessWidget{
   @override
@@ -210,8 +219,9 @@ class _ConductivityCard extends StatelessWidget{
         borderRadius: 15,
         borderColor: Color(0xFF015486),
         color: Colors.white,
-        height: 16.h,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
-        width: 60.w,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
+        height: 16.h,
+        width: 60.w,
+      onTap: (){},
       child:
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,6 +247,7 @@ class _ConductivityCard extends StatelessWidget{
 }
 
 
+
 @override
 class _DateCard extends StatelessWidget{
   @override
@@ -245,8 +256,9 @@ class _DateCard extends StatelessWidget{
         borderRadius: 15,
         borderColor: Color(0xFF015486),
         color: Colors.white,
-        height: 16.h,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
-        width: 35.w,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
+        height: 16.h,
+        width: 35.w,
+      onTap: (){},
       child:
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -272,6 +284,7 @@ class _DateCard extends StatelessWidget{
 }
 
 
+
 @override
 class _StockCard extends StatelessWidget{
   @override
@@ -280,8 +293,9 @@ class _StockCard extends StatelessWidget{
         borderRadius: 15,
         borderColor: Color(0xFF015486),
         color: Colors.white,
-        height: 16.h,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
-        width: 40.w,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
+        height: 16.h,
+        width: 40.w,
+      onTap: (){},
       child:
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -307,6 +321,7 @@ class _StockCard extends StatelessWidget{
 }
 
 
+
 @override
 class _VolumeCard extends StatelessWidget{
   @override
@@ -315,8 +330,9 @@ class _VolumeCard extends StatelessWidget{
         borderRadius: 15,
         borderColor: Color(0xFF015486),
         color: Colors.white,
-        height: 16.h,           //needs to be MediaQuery.of(context).size.height * 'a number less than 1'
-        width: 55.w,           //needs to be MediaQuery.of(context).size.width * 'a number less than 1'
+        height: 16.h,
+        width: 55.w,
+      onTap: (){},
       child:
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -332,7 +348,7 @@ class _VolumeCard extends StatelessWidget{
                 child: SizedBox(
                   height: double.infinity,
                   width: double.infinity,
-                  child: Image.asset('lib/assets/images/PlaceHolderPic2.png'),
+                  child: Image.asset('lib/assets/images/PlaceHolderPic2.png',),
                 )
             ),
           ],
@@ -340,3 +356,6 @@ class _VolumeCard extends StatelessWidget{
     );
   }
 }
+
+
+
