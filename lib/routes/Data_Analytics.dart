@@ -1,64 +1,108 @@
+import 'package:ecotone_app/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_cards/flutter_custom_cards.dart';
+import 'package:sizer/sizer.dart';
+import 'package:ecotone_app/NavBar.dart';
+String last_date= "5/28/2022";
+
 
 void main() => runApp(AnalyticsPage());
 
-
 class AnalyticsPage extends StatelessWidget {
-  const AnalyticsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text('Data'),
-          leading: _DropDownButton(),
-        ),
-        body: SizedBox(
-          height: double.infinity,
-          width: double.infinity,
-        ),
-      ),
+        home: Scaffold(
+          appBar:
+          AppBar(
+            title: const Text(
+              'Profile',
+            ),
+            titleTextStyle:
+            const TextStyle(
+              color: Colors.white,
+              fontSize: 28,
+            ),
+            centerTitle: true,
+            backgroundColor: const Color(0xFF309BE9), //Ecotone Colors
+          ),
+          body:
+          Container(
+              alignment: Alignment.bottomCenter,
+              margin: EdgeInsets.all(5),
+              child: Column(
+                children: <Widget>[
+                  Padding(padding: EdgeInsets.all(20)),
+                  Container(
+                    height: 100,
+                    width: 500,
+                    child: _CardList(),
+                  ),
+                  Padding(padding: EdgeInsets.all(20)),
+                  Container(
+                    height: 100,
+                    width: 500,
+                    child: _CardList(),
+                  ),
+                  Padding(padding: EdgeInsets.all(20)),
+                  Container(
+                    height: 100,
+                    width: 500,
+                    child: _CardList(),
+                  ),
+                  Padding(padding: EdgeInsets.all(60)),
+                  Container(
+                    child: Column(
+                        children:<Widget>[
+                          Text('Last Service Date:'),
+                          Text('$last_date'),
+                        ]
+                    ),
+                  ),
+                ],
+              )
+          ),
+
+        )
     );
   }
 }
 
 
-
-class _DropDownButton extends StatefulWidget {
-  const _DropDownButton({Key? key}) : super(key: key);
-
+@override
+class _customcards extends StatelessWidget{
   @override
-  State<_DropDownButton> createState() => _DropDownButtonState();
+  Widget build (BuildContext context) {
+    return CustomCard(
+        borderRadius: 15,
+        color: Color(0x10FFFFF),
+        child: ListTile(
+          title: Text(''),
+          subtitle: Text(''),
+        )
+    );
+  }
 }
-class _DropDownButtonState extends State<_DropDownButton> {
-  String dropdownValue = 'SeaHorse1';
 
+class _CardList extends StatelessWidget{
   @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: dropdownValue,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 1,
-        width: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      onChanged: (String? newValue) {
-        setState(() {
-          dropdownValue = newValue!;
-        });
-      },
-      items: <String>['SeaHorse1', 'Two', 'Free', 'Four']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+  Widget build (BuildContext context) {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: 2,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return Container(
+            height: 100,
+            width: 200,
+            child: ListView(
+              children: <Widget>[
+                _customcards()
+              ],
+            ),
+          );
+        }
     );
   }
 }
