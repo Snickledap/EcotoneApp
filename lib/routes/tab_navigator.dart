@@ -1,4 +1,4 @@
-import 'package:ecotone_app/routes/profile_page.dart';
+import 'package:ecotone_app/routes/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ecotone_app/routes/color_detail_page.dart';
 import 'package:ecotone_app/routes/colors_list_page.dart';
