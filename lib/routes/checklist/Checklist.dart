@@ -42,59 +42,53 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ecotone'),
-      ),
-      bottomNavigationBar: NavBar(),
-      body: Container(
-        child:  Column(
-        children: <Widget>[SingleChildScrollView(
-          child: Padding(
-          padding: const EdgeInsets.all(20),
-          child:
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const Text(
-                'Checklist: \n ',
-                style: TextStyle(fontSize: 24),
-                ),
-                Column(
-                children: checklist.map((task) {
-              return CheckboxListTile(
-                  value: task["isChecked"],
-                  title: Text(task["name"]),
-                  onChanged: (newValue) {
-                    setState(() {
-                      task["isChecked"] = newValue;
-                    });
-                  });
-            }).toList()),
-          ]
-              ),
+        appBar: AppBar(
+          title: const Text('Check List'),
+          centerTitle: true,
         ),
-      ),
-          const Padding(padding: EdgeInsets.all(60)),
-          Container(alignment: Alignment.center,height:60, width: 400, child:
-          ElevatedButton(
-              style:ElevatedButton.styleFrom(
-              primary: Color(0xFF015486),
-              onPrimary: Colors.white,
-              elevation: 4,
-          ),
-          onPressed: (){},
-            child: Align(
-            alignment: Alignment.center,
-            child: Text(
-            "Submit",
-            style: TextStyle(fontSize: 24.0),
-            textAlign: TextAlign.center
-            ),
-          )
-          )
-          )
-     ],
-        )
-    )
+        body:Container(
+          alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Padding(padding: EdgeInsets.all(10)),
+                Column(
+                    children: checklist.map((task) {
+                      return CheckboxListTile(
+                          value: task["isChecked"],
+                          title: Text(task["name"]),
+                          onChanged: (newValue) {
+                            setState(() {
+                              task["isChecked"] = newValue;
+                            });
+                          });
+                    }).toList()),
+                const Padding(padding: EdgeInsets.all(60)),
+                Container(alignment: Alignment.center,height:60, width: 400, child:
+                SizedBox(
+                    height: 60,
+                    width: 300,
+                    child:ElevatedButton(
+                    style:ElevatedButton.styleFrom(
+                      primary: const Color(0xFF015486),
+                      onPrimary: Colors.white,
+                      elevation: 4,
+                    ),
+                    onPressed: (){},
+
+                      child:
+                      Text(
+                          "Submit",
+                          style: TextStyle(fontSize: 24.0),
+                          textAlign: TextAlign.center
+                      ),
+                    )
+                )
+                )
+              ],
+            )
+        ),
+      bottomNavigationBar: NavBar(),
     );
   }
 }
