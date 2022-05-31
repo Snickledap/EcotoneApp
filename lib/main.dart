@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/routes/nested-bottom-navigation-bar/app.dart';
+import 'package:ecotone_app/routes/app.dart';
 
 
 

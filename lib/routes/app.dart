@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/routes/nested-bottom-navigation-bar/bottom_navigation.dart';
-import 'package:ecotone_app/routes/nested-bottom-navigation-bar/tab_item.dart';
-import 'package:ecotone_app/routes/nested-bottom-navigation-bar/tab_navigator.dart';
+import 'package:ecotone_app/routes/bottom_navigation.dart';
+import 'package:ecotone_app/routes/tab_item.dart';
+import 'package:ecotone_app/routes/tab_navigator.dart';
 
 class App extends StatefulWidget {
   @override
