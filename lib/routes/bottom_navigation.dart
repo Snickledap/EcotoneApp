@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/routes/nested-bottom-navigation-bar/tab_item.dart';
+import 'package:ecotone_app/routes/tab_item.dart';
 
 class BottomNavigation extends StatelessWidget {
   BottomNavigation({required this.currentTab, required this.onSelectTab});

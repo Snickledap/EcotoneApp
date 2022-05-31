@@ -1,8 +1,8 @@
-import 'package:ecotone_app/routes/nested-bottom-navigation-bar/profile_page.dart';
+import 'package:ecotone_app/routes/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/routes/nested-bottom-navigation-bar/color_detail_page.dart';
-import 'package:ecotone_app/routes/nested-bottom-navigation-bar/colors_list_page.dart';
-import 'package:ecotone_app/routes/nested-bottom-navigation-bar/tab_item.dart';
+import 'package:ecotone_app/routes/color_detail_page.dart';
+import 'package:ecotone_app/routes/colors_list_page.dart';
+import 'package:ecotone_app/routes/tab_item.dart';
 
 
 class TabNavigatorRoutes {
