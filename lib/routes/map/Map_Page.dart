@@ -1,35 +1,79 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-void main() => runApp(Map());
+
+
+void main() {
+  runApp(Map());
+}
+
 
 class Map extends StatelessWidget{
-
-  Widget build(BuildContext context){
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
-      home: Map(),
+        home:Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text('Map'),
+        ),
+          body: Column(
+          children: <Widget>[
+           Container(
+             height: 400,
+             width: 500,
+             child: googleMap(),
+           )
+            //map
+            //list
+          ],
+        ),
+      )
     );
   }
 }
 
-class Maping extends StatefulWidget {
-  const Maping({Key? key}) : super(key: key);
+
+class googleMap extends StatefulWidget{
 
   @override
-  State<Maping> createState() => MapingState();
+  State<googleMap> createState() => googleMapState();
 }
 
-class MapingState extends State<Maping> {
+class googleMapState extends State<googleMap>{
+  final Completer<GoogleMapController> _controller = Completer();
+
+  static final CameraPosition _kBrottier = CameraPosition(
+    target: LatLng(40.437509, -79.993047),
+    zoom: 14.4746,
+  );
+
+  static final CameraPosition _kHome = CameraPosition(
+      target: LatLng(40.64221310404301, -79.93630650628933),
+      tilt: 59.440717697143555,
+      zoom: 19.151926040649414);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('Map'),
+    return new Scaffold(
+      body: GoogleMap(
+        mapType: MapType.hybrid,
+        initialCameraPosition: _kBrottier,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
       ),
-      body: SizedBox(
-          width:double.infinity,
-          height:double.infinity),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _goHome,
+        label: Text('Go Home'),
+        icon: Icon(Icons.house),
+      ),
     );
   }
+
+  Future<void> _goHome() async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(_kHome));
   }
+}
