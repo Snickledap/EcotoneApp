@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
+//Header
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -26,8 +27,8 @@ class Login extends StatefulWidget {
 }
 // Create a corresponding State class. This class holds data related to the form.
 class LoginState extends State<Login> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
+
+  // Create a global key that uniquely identifies the Form widget and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -38,8 +39,9 @@ class LoginState extends State<Login> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            //Email Entry Field
             Padding(
-              padding: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.all(25.0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.alternate_email),
@@ -48,8 +50,10 @@ class LoginState extends State<Login> {
                 ),
               ),
             ),
+
+            //Password Entry Field
             Padding(
-              padding: EdgeInsets.only(top: 40.0),
+              padding: EdgeInsets.all(25.0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.password),
@@ -58,15 +62,23 @@ class LoginState extends State<Login> {
                 ),
               ),
             ),
+
+            //Button Format
             const Padding(padding: EdgeInsets.all(30)),
             Container(alignment: Alignment.center,height:60, width: 600, child:
+
+            //Button
             ElevatedButton(
                 style:ElevatedButton.styleFrom(
                   primary: Color(0xFF015486),
                   onPrimary: Colors.white,
                   elevation: 4,
                 ),
+
+                //Button Action
                 onPressed: (){},
+
+                //Button Text
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
