@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "315275309774",
+    "project_id": "ecotone-app",
+    "storage_bucket": "ecotone-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315275309774:android:e374150f72a98cbaa0d69f",
+        "android_client_info": {
+          "package_name": "com.ecotone_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315275309774-eunb3mtvv3h0mr50pb8s5qplb4336m1m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgLsaxSTFy1zb4Q4ol4ah2DpagRzCJcvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315275309774-eunb3mtvv3h0mr50pb8s5qplb4336m1m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,11 +1,16 @@
+import 'package:ecotone_app/routes/profile/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/routes/nested-bottom-navigation-bar/color_detail_page.dart';
-import 'package:ecotone_app/routes/nested-bottom-navigation-bar/colors_list_page.dart';
-import 'package:ecotone_app/routes/nested-bottom-navigation-bar/tab_item.dart';
+import 'package:ecotone_app/routes/color_detail_page.dart';
+import 'package:ecotone_app/routes/colors_list_page.dart';
+import 'package:ecotone_app/routes/tab_item.dart';
+
 
 class TabNavigatorRoutes {
-  static const String root = '/';
-  static const String detail = '/detail';
+  static const String map = '/';
+  static const String checklist= '/checklist';
+  static const String help= '/help';
+
+
 }
 
 class TabNavigator extends StatelessWidget {
@@ -20,7 +25,7 @@ class TabNavigator extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (context) =>
-            routeBuilders[TabNavigatorRoutes.detail]!(context),
+            routeBuilders[TabNavigatorRoutes.map]!(context),
       ),
     );
   }
@@ -28,16 +33,23 @@ class TabNavigator extends StatelessWidget {
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context,
       {int materialIndex: 500}) {
     return {
-      TabNavigatorRoutes.root: (context) => ColorsListPage(
+      TabNavigatorRoutes.map: (context) => ColorsListPage(
         color: activeTabColor[tabItem]!,
         title: tabName[tabItem]!,
         onPush: (materialIndex) =>
             _push(context, materialIndex: materialIndex),
       ),
-      TabNavigatorRoutes.detail: (context) => ColorDetailPage(
+      TabNavigatorRoutes.checklist: (context) => ColorsListPage(
         color: activeTabColor[tabItem]!,
         title: tabName[tabItem]!,
-        materialIndex: materialIndex,
+        onPush: (materialIndex) =>
+            _push(context, materialIndex: materialIndex),
+      ),
+      TabNavigatorRoutes.help: (context) => ColorsListPage(
+        color: activeTabColor[tabItem]!,
+        title: tabName[tabItem]!,
+        onPush: (materialIndex) =>
+            _push(context, materialIndex: materialIndex),
       ),
     };
   }
@@ -47,7 +59,7 @@ class TabNavigator extends StatelessWidget {
     final routeBuilders = _routeBuilders(context);
     return Navigator(
       key: navigatorKey,
-      initialRoute: TabNavigatorRoutes.root,
+      initialRoute: TabNavigatorRoutes.map,
       onGenerateRoute: (routeSettings) {
         return MaterialPageRoute(
           builder: (context) => routeBuilders[routeSettings.name!]!(context),

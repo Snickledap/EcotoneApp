@@ -28,7 +28,7 @@ class TestingState extends State<Testing> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: RichText(text: const TextSpan(text: "Testing"))
+        title: RichText(text: const TextSpan(text: "Testing123"))
       ),
      //bottomNavigationBar: NavBar(),
 
