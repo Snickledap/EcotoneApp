@@ -39,6 +39,15 @@ class Sign_UpState extends State<Sign_Up> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
+              padding: const EdgeInsets.fromLTRB(40.0, 30.0, 0,0),
+              child: Text(
+                  "Sign Up",
+                  style: TextStyle(
+                    fontSize: 40.0,
+                  )
+              ),
+            ),
+            Padding(
               padding: EdgeInsets.only(top: 50.0),
               child: new TextFormField(
                 decoration: const InputDecoration(
