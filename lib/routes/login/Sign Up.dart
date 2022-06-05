@@ -48,7 +48,7 @@ class Sign_UpState extends State<Sign_Up> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.fromLTRB(30.0, 50.0, 0,0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.person),
@@ -58,7 +58,7 @@ class Sign_UpState extends State<Sign_Up> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.fromLTRB(30.0, 50.0, 0,0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.person),
@@ -68,7 +68,7 @@ class Sign_UpState extends State<Sign_Up> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.fromLTRB(30.0, 50.0, 0,0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.alternate_email),
@@ -78,7 +78,7 @@ class Sign_UpState extends State<Sign_Up> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.fromLTRB(30.0, 50.0, 0,0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.password),
@@ -88,7 +88,7 @@ class Sign_UpState extends State<Sign_Up> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.fromLTRB(30.0, 50.0, 0,0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.password),
@@ -98,7 +98,7 @@ class Sign_UpState extends State<Sign_Up> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.fromLTRB(30.0, 50.0, 0,0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.location_city),
@@ -108,7 +108,7 @@ class Sign_UpState extends State<Sign_Up> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 40.0),
+              padding: EdgeInsets.fromLTRB(30.0, 50.0, 0,0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.numbers),
@@ -117,7 +117,7 @@ class Sign_UpState extends State<Sign_Up> {
                 ),
               ),
             ),
-            const Padding(padding: EdgeInsets.all(30)),
+            const Padding(padding: EdgeInsets.fromLTRB(30.0, 50.0, 0,0)),
             Container(alignment: Alignment.center,height:60, width: 600, child:
             ElevatedButton(
                 style:ElevatedButton.styleFrom(
