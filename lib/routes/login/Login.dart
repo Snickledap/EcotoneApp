@@ -69,21 +69,24 @@ class LoginState extends State<Login> {
             ),
             const Padding(padding: EdgeInsets.fromLTRB(30.0, 50.0, 0,0)),
             Container(alignment: Alignment.center,height:60, width: 600, child:
-            ElevatedButton(
-                style:ElevatedButton.styleFrom(
-                  primary: Color(0xFF015486),
-                  onPrimary: Colors.white,
-                  elevation: 4,
-                ),
-                onPressed: (){},
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                      "Login",
-                      style: TextStyle(fontSize: 24.0),
-                      textAlign: TextAlign.center
+            Padding(
+              padding: const EdgeInsets.fromLTRB(40.0,0.0,0.0,0.0),
+              child: ElevatedButton(
+                  style:ElevatedButton.styleFrom(
+                    primary: Colors.black,
+                    onPrimary: Colors.white,
+                    elevation: 4,
                   ),
-                )
+                  onPressed: (){},
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                        "Login",
+                        style: TextStyle(fontSize: 24.0),
+                        textAlign: TextAlign.center
+                    ),
+                  )
+              ),
             )
             )
           ],
