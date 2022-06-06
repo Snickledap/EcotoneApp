@@ -58,7 +58,7 @@ Widget build(BuildContext context) {
                       _pHCard()
                     ],
                 ),
-                Padding(padding: EdgeInsets.all(3)),
+
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -67,7 +67,7 @@ Widget build(BuildContext context) {
                     _DateCard(),
                   ],
                 ),
-                Padding(padding: EdgeInsets.all(3)),
+
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -76,7 +76,7 @@ Widget build(BuildContext context) {
                     _VolumeCard()
                   ],
                 ),
-                Padding(padding: EdgeInsets.all(3)),
+
                 InkWell(
                   child: Ink.image(
                     image: AssetImage('lib/assets/images/PlaceHolderPic2.png'),
