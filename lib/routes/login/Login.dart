@@ -44,7 +44,7 @@ class LoginState extends State<Login> {
                   "LOGIN",
                   style: TextStyle(
                     fontSize: 40.0,
-                    color: Colors.blueAccent,
+                    color: Color(0xFF015486),
                   )
                 ),
               ),
@@ -75,7 +75,7 @@ class LoginState extends State<Login> {
               padding: const EdgeInsets.fromLTRB(180.0,0.0,0.0,0.0),
               child: ElevatedButton(
                   style:ElevatedButton.styleFrom(
-                    primary: Colors.blueAccent,
+                    primary: Color(0xFF015486),
                     onPrimary: Colors.white,
                     elevation: 4,
                   ),
