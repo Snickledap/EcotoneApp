@@ -45,7 +45,7 @@ class Sign_UpState extends State<Sign_Up> {
                     "Sign Up",
                     style: TextStyle(
                       fontSize: 40.0,
-                      color: Colors.blueAccent,
+                      color: Color(0xFF015486),
                     )
                 ),
               ),
@@ -124,7 +124,7 @@ class Sign_UpState extends State<Sign_Up> {
             Container(alignment: Alignment.center,height:60, width: 600, child:
             ElevatedButton(
                 style:ElevatedButton.styleFrom(
-                  primary: Colors.blueAccent,
+                  primary: Color(0xFF015486),
                   onPrimary: Colors.white,
                   elevation: 4,
                 ),
