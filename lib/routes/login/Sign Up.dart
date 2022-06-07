@@ -9,7 +9,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: appTitle,
       home: Scaffold(
-        backgroundColor: Colors.green[100],
         appBar: AppBar(
           title: Text(appTitle),
         ),
@@ -39,13 +38,16 @@ class Sign_UpState extends State<Sign_Up> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(40.0, 30.0, 0,0),
-              child: Text(
-                  "Sign Up",
-                  style: TextStyle(
-                    fontSize: 40.0,
-                  )
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0,0),
+                child: Text(
+                    "Sign Up",
+                    style: TextStyle(
+                      fontSize: 40.0,
+                      color: Colors.blueAccent,
+                    )
+                ),
               ),
             ),
             Padding(
@@ -122,7 +124,7 @@ class Sign_UpState extends State<Sign_Up> {
             Container(alignment: Alignment.center,height:60, width: 600, child:
             ElevatedButton(
                 style:ElevatedButton.styleFrom(
-                  primary: Colors.black,
+                  primary: Colors.blueAccent,
                   onPrimary: Colors.white,
                   elevation: 4,
                 ),
