@@ -9,7 +9,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: appTitle,
       home: Scaffold(
-        backgroundColor: Colors.green[100],
         appBar: AppBar(
           title: Text(appTitle),
         ),
@@ -40,15 +39,18 @@ class LoginState extends State<Login> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(40.0, 30.0, 0,0),
-              child: Text(
-                "Log in",
-                style: TextStyle(
-                  fontSize: 40.0,
-                )
+              child: Center(
+                child: Text(
+                  "LOGIN",
+                  style: TextStyle(
+                    fontSize: 40.0,
+                    color: Colors.blueAccent,
+                  )
+                ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(30.0, 50.0, 0,0),
+              padding: EdgeInsets.fromLTRB(30.0, 30.0, 0,0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.alternate_email),
@@ -58,7 +60,7 @@ class LoginState extends State<Login> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(30.0, 50.0, 0,0),
+              padding: EdgeInsets.fromLTRB(30.0, 30.0, 0,0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.password),
@@ -70,10 +72,10 @@ class LoginState extends State<Login> {
             const Padding(padding: EdgeInsets.fromLTRB(30.0, 50.0, 0,0)),
             Container(alignment: Alignment.center,height:60, width: 600, child:
             Padding(
-              padding: const EdgeInsets.fromLTRB(40.0,0.0,0.0,0.0),
+              padding: const EdgeInsets.fromLTRB(180.0,0.0,0.0,0.0),
               child: ElevatedButton(
                   style:ElevatedButton.styleFrom(
-                    primary: Colors.black,
+                    primary: Colors.blueAccent,
                     onPrimary: Colors.white,
                     elevation: 4,
                   ),
