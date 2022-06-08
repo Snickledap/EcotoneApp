@@ -73,11 +73,12 @@ class _HomePageState extends State<HomePage> {
                               value: task["isChecked"],
                               title: Text(task["name"],
                                    style: TextStyle(
-                                   color:Color(0xFF015486),
+                                     color: Color(0xFF015486),
                                    ),
                               ),
-                              checkColor: Color(0xFF015486),
-                              tileColor: Colors.lightBlueAccent,
+                              activeColor: Color(0xFF015486),
+                              checkColor: Colors.white,
+                              tileColor: Colors.white30,
                               onChanged: (newValue) {
                                 setState(() {
                                   task["isChecked"] = newValue;
