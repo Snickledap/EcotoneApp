@@ -51,17 +51,40 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      'CHECKLIST',
+                      style: TextStyle(
+                           color: Color(0xFF015486),
+                           fontSize: 40.0,
+                    ),
+                  ),
+                ),
+                ),
                 const Padding(padding: EdgeInsets.all(10)),
                 Column(
                     children: checklist.map((task) {
-                      return CheckboxListTile(
-                          value: task["isChecked"],
-                          title: Text(task["name"]),
-                          onChanged: (newValue) {
-                            setState(() {
-                              task["isChecked"] = newValue;
-                            });
-                          });
+                      return Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Center(
+                          child: CheckboxListTile(
+                              value: task["isChecked"],
+                              title: Text(task["name"],
+                                   style: TextStyle(
+                                   color:Color(0xFF015486),
+                                   ),
+                              ),
+                              checkColor: Color(0xFF015486),
+                              tileColor: Colors.lightBlueAccent,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  task["isChecked"] = newValue;
+                                });
+                              }),
+                        ),
+                      );
                     }).toList()),
                 const Padding(padding: EdgeInsets.all(60)),
                 Container(alignment: Alignment.center,height:60, width: 400, child:
@@ -75,7 +98,6 @@ class _HomePageState extends State<HomePage> {
                       elevation: 4,
                     ),
                     onPressed: (){},
-
                       child:
                       Text(
                           "Submit",
