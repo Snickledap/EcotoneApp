@@ -11,7 +11,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Header
     return const MaterialApp(
+
       // Hide the debug banner
       debugShowCheckedModeBanner: false,
       title: 'Checklist',
@@ -28,7 +30,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Generate a list of available hobbies here
+
+  // Generate checklist here
   List<Map> checklist= [
     {"name": "Feed system 1:2 ratio of Food to Water ", "isChecked": false},
     {"name": "Drain Soil Sauce", "isChecked": false},
@@ -42,16 +45,24 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      //Header
         appBar: AppBar(
-          title: const Text('Check List'),
+          title: const Text('Checklist'),
           centerTitle: true,
         ),
+
+        //Check Box Containers
         body:Container(
           alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+
+                //Check Box Format
                 const Padding(padding: EdgeInsets.all(10)),
+
+                //Check Box Logic
                 Column(
                     children: checklist.map((task) {
                       return CheckboxListTile(
@@ -63,19 +74,26 @@ class _HomePageState extends State<HomePage> {
                             });
                           });
                     }).toList()),
+
+                //Button Formatting
                 const Padding(padding: EdgeInsets.all(60)),
                 Container(alignment: Alignment.center,height:60, width: 400, child:
                 SizedBox(
                     height: 60,
                     width: 300,
+
+                    //Button
                     child:ElevatedButton(
                     style:ElevatedButton.styleFrom(
                       primary: const Color(0xFF015486),
                       onPrimary: Colors.white,
                       elevation: 4,
                     ),
+
+                    //Button Action
                     onPressed: (){},
 
+                      //Button Text
                       child:
                       Text(
                           "Submit",
@@ -88,6 +106,8 @@ class _HomePageState extends State<HomePage> {
               ],
             )
         ),
+
+      //Bottom Navigation Bar
       bottomNavigationBar: NavBar(),
     );
   }

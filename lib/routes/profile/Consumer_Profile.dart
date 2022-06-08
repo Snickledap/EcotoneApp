@@ -39,6 +39,8 @@ class _ConsumerProfileState extends State<_ConsumerProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      //Header
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Profile'),
@@ -47,31 +49,49 @@ class _ConsumerProfileState extends State<_ConsumerProfile> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+
+                //Username Text Formatting
                 const Padding(padding: EdgeInsets.all(10)),
+
+              //Username Text
               Text(
               "Hello, $username",
               style: TextStyle(fontSize: 24),
               ),
+
+                //Point # Text Formatting
                 const Padding(padding: EdgeInsets.all(10)),
+
+                //Point # Text
                 const Text(
                   "Your Soil Sauce Points",
                   style: TextStyle(fontSize: 30),
                 ),
+
+                //Points Variable
                 Text(
                 "$points",
                 style: TextStyle(fontSize: 30),
             ),
+
+                //Scan Button Formatting
                 const Padding(padding: EdgeInsets.all(35)),
                 SizedBox(
                     height:60,
                     width: 350,
+
+                    //Scan Button
                     child: ElevatedButton(
                     style:ElevatedButton.styleFrom(
                       primary: Color(0xFF3B7621),
                       onPrimary: Colors.white,
                       elevation: 4,
                     ),
+
+                    //Scan Button Action
                     onPressed: (){},
+
+                      //Scan Button Text
                       child: Text(
                         "Scan",
                         style: TextStyle(fontSize: 24.0),
@@ -79,17 +99,25 @@ class _ConsumerProfileState extends State<_ConsumerProfile> {
                       ),
               )
               ),
+
+                //Shop Button Formatting
                 const Padding(padding: EdgeInsets.all(20)),
                 SizedBox(
                   height:55,
                   width:350,
+
+                  //Shop Button
                   child: ElevatedButton(
                       style:ElevatedButton.styleFrom(
                         primary: Color(0xFF015486),
                         onPrimary: Colors.white,
                         elevation: 4,
                     ),
+
+                  //Shop Button Action
                   onPressed: (){},
+
+                    //Shop Button Text
                     child: Text(
                       "Shop",
                       style: TextStyle(fontSize: 24.0),
@@ -97,17 +125,25 @@ class _ConsumerProfileState extends State<_ConsumerProfile> {
                     ),
                   )
               ),
+
+                //Sign Out Button Formatting
                 const Padding(padding: EdgeInsets.all(45)),
                 SizedBox(
                     height:55,
                     width:350,
+
+                    //Sign Out Button
                     child: ElevatedButton(
                       style:ElevatedButton.styleFrom(
                         primary: Color(0xFF860101),
                         onPrimary: Colors.white,
                         elevation: 4,
                       ),
+
+                    //Sign Out Button Action
                     onPressed: (){},
+
+                      //Sign Out Button Text
                       child: Text(
                         "Sign Out",
                         style: TextStyle(fontSize: 24.0),
@@ -118,6 +154,8 @@ class _ConsumerProfileState extends State<_ConsumerProfile> {
             ],
         )
     ),
+
+      //Bottom Navigation Bar
       bottomNavigationBar: NavBar(),
     );
 

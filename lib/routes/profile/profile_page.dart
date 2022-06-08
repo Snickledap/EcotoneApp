@@ -13,11 +13,15 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
+
+          //Header
           appBar:
           AppBar(
             title: const Text(
               'Profile',
             ),
+
+            //Header Format
             titleTextStyle:
             const TextStyle(
               color: Colors.white,
@@ -27,8 +31,11 @@ class ProfilePage extends StatelessWidget {
             backgroundColor: const Color(0xFF309BE9), //Ecotone Colors
           ),
           body:
+
+          //Top Text Container
           Container(
 
+              //Top Text Format
               alignment: Alignment.bottomCenter,
               margin: EdgeInsets.all(5),
               child: Column(
@@ -36,6 +43,8 @@ class ProfilePage extends StatelessWidget {
                   Padding(padding: EdgeInsets.all(10)),
                   Title(
                     color: Colors.black,
+
+                    //Top Text
                     child: Column(
                       children: <Widget>[
                         Text('Hi Employee 1'),
@@ -45,6 +54,8 @@ class ProfilePage extends StatelessWidget {
                       ],
                     ),
                   ),
+
+                  //Card Formatting
                   Padding(padding: EdgeInsets.all(10)),
                   Text('Today'),
                   Padding(padding: EdgeInsets.all(10)),
@@ -53,6 +64,8 @@ class ProfilePage extends StatelessWidget {
                     width: 500,
                     child: _CardList(),
                   ),
+
+                  //Card Formatting
                   Padding(padding: EdgeInsets.all(10)),
                   Text('This Week'),
                   Padding(padding: EdgeInsets.all(10)),
@@ -61,29 +74,47 @@ class ProfilePage extends StatelessWidget {
                     width: 500,
                     child: _CardList(),
                   ),
+
+                  //Button Formatting
                   const Padding(padding: EdgeInsets.all(20)),
+
+                  //Button
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Colors.blue,
                         onPrimary: Colors.white,
                         elevation: 4,
                       ),
+
+                      //Button Action
                       onPressed: () {},
+
+                      //Button Text
                       child: const Text('Involvement')
                   ),
+
+                  //Button Formatting
                   const Padding(padding: EdgeInsets.all(10)),
+
+                  //Button
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Colors.red,
                         onPrimary: Colors.white,
                         elevation: 4,
                       ),
+
+                      //Button Action
                       onPressed: () {},
+
+                      //Button Text
                       child: const Text('Sign Out')
                   ),
                 ],
               )
           ),
+
+          //Bottom Nav Bar
           bottomNavigationBar: NavBar(),
         )
     );

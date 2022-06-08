@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
+//Header
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 // Create a Form widget.
 class Sign_Up extends StatefulWidget {
   @override
@@ -24,20 +26,24 @@ class Sign_Up extends StatefulWidget {
     return Sign_UpState();
   }
 }
+
 // Create a corresponding State class. This class holds data related to the form.
 class Sign_UpState extends State<Sign_Up> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
+
+  // Create a global key that uniquely identifies the Form widget and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+
     // Build a Form widget using the _formKey created above.
     return Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+
+            //First Name Field
             Padding(
               padding: EdgeInsets.only(top: 50.0),
               child: new TextFormField(
@@ -48,6 +54,8 @@ class Sign_UpState extends State<Sign_Up> {
                 ),
               ),
             ),
+
+            //Last Name Field
             Padding(
               padding: EdgeInsets.only(top: 50.0),
               child: new TextFormField(
@@ -58,6 +66,8 @@ class Sign_UpState extends State<Sign_Up> {
                 ),
               ),
             ),
+
+            //Email Field
             Padding(
               padding: EdgeInsets.only(top: 50.0),
               child: new TextFormField(
@@ -68,6 +78,8 @@ class Sign_UpState extends State<Sign_Up> {
                 ),
               ),
             ),
+
+            //Password Field
             Padding(
               padding: EdgeInsets.only(top: 50.0),
               child: new TextFormField(
@@ -78,16 +90,20 @@ class Sign_UpState extends State<Sign_Up> {
                 ),
               ),
             ),
+
+            //Password Re-entry Field
             Padding(
               padding: EdgeInsets.only(top: 50.0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.password),
-                  hintText: 'Renter Your Password',
+                  hintText: 'Re-enter Your Password',
                   labelText: 'Password Confirm',
                 ),
               ),
             ),
+
+            //Address Field
             Padding(
               padding: EdgeInsets.only(top: 50.0),
               child: new TextFormField(
@@ -98,6 +114,8 @@ class Sign_UpState extends State<Sign_Up> {
                 ),
               ),
             ),
+
+            //Phone Number Field
             Padding(
               padding: EdgeInsets.only(top: 40.0),
               child: new TextFormField(
@@ -108,15 +126,23 @@ class Sign_UpState extends State<Sign_Up> {
                 ),
               ),
             ),
+
+            //Button Format
             const Padding(padding: EdgeInsets.all(30)),
-            Container(alignment: Alignment.center,height:60, width: 600, child:
+          Container(alignment: Alignment.center,height:60, width: 600, child:
+
+            //Button
             ElevatedButton(
                 style:ElevatedButton.styleFrom(
                   primary: Color(0xFF015486),
                   onPrimary: Colors.white,
                   elevation: 4,
                 ),
+
+                //Button Action
                 onPressed: (){},
+
+                //Button Text
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(

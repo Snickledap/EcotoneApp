@@ -8,12 +8,15 @@ void main(){
   runApp(MyApp());
 }
 
+//Stored Questions
 class Questions {
 
   String formQuestions;
 
  Questions({ required this.formQuestions});
 }
+
+//Question Entry
   List<Questions> questions=[
   Questions(formQuestions: 'Name'),
   Questions(formQuestions: 'Date'),
@@ -48,10 +51,14 @@ class SeaHorseDataForm extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+
+        //Header
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Sea Horse Data Input Form'),
         ),
+
+        //Formatting Text Fields
         body:SingleChildScrollView(
           reverse: true,
           child:Padding(
@@ -88,6 +95,7 @@ class _TextBoxes extends StatelessWidget {
   int index = 0;
   _TextBoxes(this.index);
 
+  //Text Field Fonts
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -111,11 +119,19 @@ class _TextBoxes extends StatelessWidget {
 class _SubmitButton extends StatelessWidget {
   @override
   Widget build (BuildContext context) {
+
+    //Button Format
     return SizedBox(
       height: 55,
         width: 300,
+
+        //Button
         child: ElevatedButton(
+
+          //Button Action
           onPressed: (){},
+
+          //Button Text
           child: const Text('Submit',
             style: TextStyle(
               fontSize: 26

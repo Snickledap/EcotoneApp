@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
+//Header
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -26,20 +27,23 @@ class Drop_Off extends StatefulWidget {
 }
 // Create a corresponding State class. This class holds data related to the form.
 class Drop_OffState extends State<Drop_Off> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
+
+  // Create a global key that uniquely identifies the Form widget and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+
     // Build a Form widget using the _formKey created above.
     return Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+
+            //Text Box 1
             Padding(
-              padding: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.all(25.0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.person),
@@ -48,8 +52,10 @@ class Drop_OffState extends State<Drop_Off> {
                 ),
               ),
             ),
+
+            //Text Box 2
             Padding(
-              padding: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.all(25.0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.location_on),
@@ -58,8 +64,10 @@ class Drop_OffState extends State<Drop_Off> {
                 ),
               ),
             ),
+
+            //Text Box 3
             Padding(
-              padding: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.all(25.0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.calendar_today),
@@ -68,8 +76,10 @@ class Drop_OffState extends State<Drop_Off> {
                 ),
               ),
             ),
+
+            //Text Box 4
             Padding(
-              padding: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.all(25.0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.scale),
@@ -78,8 +88,10 @@ class Drop_OffState extends State<Drop_Off> {
                 ),
               ),
             ),
+
+            //Text Box 5
             Padding(
-              padding: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.all(25.0),
               child: new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.description),
@@ -88,15 +100,23 @@ class Drop_OffState extends State<Drop_Off> {
                 ),
               ),
             ),
+
+            //Button Format
             const Padding(padding: EdgeInsets.all(30)),
             Container(alignment: Alignment.center,height:60, width: 600, child:
+
+            //Button
             ElevatedButton(
                 style:ElevatedButton.styleFrom(
                   primary: Color(0xFF015486),
                   onPrimary: Colors.white,
                   elevation: 4,
                 ),
+
+                //Button Action
                 onPressed: (){},
+
+                //Button Text
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
