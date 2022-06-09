@@ -38,6 +38,7 @@ dependencies:
   sizer: ^2.0.15
   youtube_player_flutter: ^8.0.0
   cloud_firestore: ^3.1.17
+  intl: ^0.17.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
