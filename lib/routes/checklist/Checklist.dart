@@ -66,24 +66,28 @@ class _HomePageState extends State<HomePage> {
                 const Padding(padding: EdgeInsets.all(10)),
                 Column(
                     children: checklist.map((task) {
-                      return Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Center(
-                          child: CheckboxListTile(
-                              value: task["isChecked"],
-                              title: Text(task["name"],
-                                   style: TextStyle(
-                                     color: Color(0xFF015486),
-                                   ),
-                              ),
-                              activeColor: Color(0xFF015486),
-                              checkColor: Colors.white,
-                              tileColor: Colors.white30,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  task["isChecked"] = newValue;
-                                });
-                              }),
+                      return Container(
+                        color: Colors.grey[300],
+                        margin: EdgeInsets.all(20.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Center(
+                            child: CheckboxListTile(
+                                value: task["isChecked"],
+                                title: Text(task["name"],
+                                     style: TextStyle(
+                                       color: Color(0xFF015486),
+                                     ),
+                                ),
+                                activeColor: Color(0xFF015486),
+                                checkColor: Colors.white,
+                                tileColor: Colors.white30,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    task["isChecked"] = newValue;
+                                  });
+                                }),
+                          ),
                         ),
                       );
                     }).toList()),
