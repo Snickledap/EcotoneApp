@@ -50,16 +50,23 @@ class _ConsumerProfileState extends State<_ConsumerProfile> {
                 const Padding(padding: EdgeInsets.all(10)),
               Text(
               "Hello, $username",
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(
+                  fontSize: 24,
+                  color: Color(0xFF015486)),
               ),
                 const Padding(padding: EdgeInsets.all(10)),
                 const Text(
                   "Your Soil Sauce Points",
-                  style: TextStyle(fontSize: 30),
+                  style: TextStyle(
+                      fontSize: 30,
+                      color: Color(0xFF015486)
+                        ),
                 ),
                 Text(
                 "$points",
-                style: TextStyle(fontSize: 30),
+                style: TextStyle(
+                    fontSize: 30,
+                    color: Color(0xFF3B7621),),
             ),
                 const Padding(padding: EdgeInsets.all(35)),
                 SizedBox(
