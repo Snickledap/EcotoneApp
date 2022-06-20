@@ -5,14 +5,13 @@ import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
 
 
-void main() => runApp(ProfilePage());
+//void main() => runApp(ProfilePage());
 
 class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
 
           //Header
           appBar:
@@ -116,8 +115,8 @@ class ProfilePage extends StatelessWidget {
 
           //Bottom Nav Bar
           bottomNavigationBar: NavBar(),
-        )
-    );
+        );
+
   }
 }
 
