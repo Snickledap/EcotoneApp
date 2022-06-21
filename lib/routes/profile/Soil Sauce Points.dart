@@ -44,7 +44,10 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               Text(
                 "You have earned $points Soil Sauce Points!",
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 24,
+                      color: Color(0xFF015486),
+                      fontWeight: FontWeight.bold),
+
                 textAlign: TextAlign.center,
               ),
               const Padding(padding: EdgeInsets.all(35)),
