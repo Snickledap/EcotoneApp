@@ -156,7 +156,7 @@ class _TemperatureCard extends StatelessWidget{
               textAlign: TextAlign.left,
                 style: TextStyle(
                   color: Color(0xFF015486),
-                  fontSize: 12,
+                  fontSize: 14,
                 ),
               ),
              Expanded(
@@ -193,7 +193,7 @@ class _pHCard extends StatelessWidget{
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: Color(0xFF015486),
-                fontSize: 12,
+                fontSize: 14,
               ),
             ),
             Expanded(
@@ -230,7 +230,7 @@ class _ConductivityCard extends StatelessWidget{
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: Color(0xFF015486),
-                fontSize: 12,
+                fontSize: 14,
               ),
             ),
             Expanded(
@@ -267,7 +267,7 @@ class _DateCard extends StatelessWidget{
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: Color(0xFF015486),
-                fontSize: 12,
+                fontSize: 14,
               ),
             ),
             Expanded(
@@ -304,7 +304,7 @@ class _StockCard extends StatelessWidget{
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: Color(0xFF015486),
-                fontSize: 12,
+                fontSize: 14,
               ),
             ),
             Expanded(
@@ -341,7 +341,7 @@ class _VolumeCard extends StatelessWidget{
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: Color(0xFF015486),
-                fontSize: 12,
+                fontSize: 14,
               ),
             ),
             Expanded(
