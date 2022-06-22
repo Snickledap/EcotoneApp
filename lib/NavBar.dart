@@ -16,6 +16,8 @@ class NavBarState extends State<NavBar> {
   static int selectedIndex = 3;
 
   void onItemTapped(int index) {
+    Navigator.pushReplacementNamed(context, routeNames[index]);
+
     setState(() {
       selectedIndex = index;
     });
@@ -48,8 +50,8 @@ class NavBarState extends State<NavBar> {
         ),
       ],
     onTap: (int index) {
-        Navigator.pushReplacementNamed(context, routeNames[index]);
-    },
+      onItemTapped(index);
+      },
     );
   }
 }
