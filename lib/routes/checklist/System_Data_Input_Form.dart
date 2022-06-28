@@ -68,28 +68,37 @@ class FormList extends StatefulWidget{
 }
 
 class FormListState extends State<FormList>{
-  final Stream<QuerySnapshot> System_Data_Input_Form = FirebaseFirestore
+  final Stream<QuerySnapshot> System_Data_input_Form = FirebaseFirestore
       .instance
-      .collection('System_Data_Input_Form')
+      .collection('System_Data_input_Form')
       .snapshots();
   final _formKey = GlobalKey<FormState>();
-  var Name = Text("Place Holder Name"); // replace Text with the account holder's name from back end
-  var Food_Type = '';
-  var Food_Waste_Weight= 0 ;
-  var Water_Weight = 0;
-  var Gallon_Fertilizer = 0;
-  var Oz_Fertilizer = 0;
-  var Temperature = 0;
-  final List <String> _FoodTypes = [
-      'Vegetables',
-      'Meat',
-      'Grains',
+  var Name, Food_Type,Food_Waste_Weight,Water_Weight,Gallon_Fertilizer,Oz_Fertilizer,Temperature;
+  List <String>_FoodTypes = [
+    'Vegetables',
+    'Meat',
+    'Grains',
   ];
+  String _currentlySelectedValue='';
+
+  FormListState(){
+
+    Name = Text("Any Name"); // replace Text with the account holder's name from back end
+    Food_Type = '';
+    Food_Waste_Weight= 0 ;
+    Water_Weight = 0;
+    Gallon_Fertilizer = 0;
+    Oz_Fertilizer = 0;
+    Temperature = 0;
+    _currentlySelectedValue = _FoodTypes.last;
+  }
+
 
 
   @override
   Widget build (BuildContext context){
-    CollectionReference SystemDataInputForm = FirebaseFirestore.instance.collection('System_Data_Input_Form');
+
+    CollectionReference SystemDataInputForm = FirebaseFirestore.instance.collection('System_Data_input_Form');
     return Column(
       children:<Widget>[
        Container(
@@ -104,7 +113,7 @@ class FormListState extends State<FormList>{
             key: _formKey,
               child: Column(
               children: <Widget>[
-                FormField(
+                FormField<String>(
                   builder: (FormFieldState<String> state) {
                     return InputDecorator(
                       decoration: InputDecoration(
@@ -113,12 +122,17 @@ class FormListState extends State<FormList>{
                           hintText: 'Please select a Food Type/s',
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0))),
-                      isEmpty: _FoodTypes == '',
+                      isEmpty: _currentlySelectedValue == '',
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
-                          value: _FoodTypes.last,// change to depend on the selected item + other items if needed
+                          value: _currentlySelectedValue,// change to depend on the selected item + other items if needed
                           isDense: true,
-                          onChanged: null, // add a functionality to onChanged
+                          onChanged:(newValue) {
+                            setState(() {
+                              _currentlySelectedValue = newValue as String;
+                              state.didChange(newValue);
+                            });
+                          }, // add a functionality to onChanged
                           items: _FoodTypes.map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -268,7 +282,7 @@ class FormListState extends State<FormList>{
                     )
                 );
                 SystemDataInputForm.add({'Name': Name.data,
-                  'Food_Type': _FoodTypes.last, //take the value of the text field
+                  'Food_Type': _currentlySelectedValue, //take the value of the text field
                   'Food_Waste_Weight': Food_Waste_Weight,
                   'Water_Weight': Water_Weight,
                   'Gallon_Fertilizer': Gallon_Fertilizer,
@@ -291,6 +305,9 @@ class FormListState extends State<FormList>{
     );
       }
   }
+
+
+
 
 
 
