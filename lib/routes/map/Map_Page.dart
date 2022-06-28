@@ -1,3 +1,4 @@
+import 'package:ecotone_app/NavBar.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(Map());
@@ -30,6 +31,7 @@ class MapingState extends State<Maping> {
       body: SizedBox(
           width:double.infinity,
           height:double.infinity),
+      bottomNavigationBar: NavBar(),
     );
   }
   }
