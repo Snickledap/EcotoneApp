@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget{
             return PageTransition(child: ProfilePage(), type: PageTransitionType.fade);
           break;
           case '/map':
-            return PageTransition(child: Maping(), type: PageTransitionType.fade);
+            return PageTransition(child: Map(), type: PageTransitionType.fade);
           break;
           case '/checklist':
             return PageTransition(child: HomePage(), type: PageTransitionType.fade);
