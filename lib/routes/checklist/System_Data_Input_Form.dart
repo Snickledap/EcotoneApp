@@ -9,13 +9,9 @@ import 'package:sizer/sizer.dart';
 
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: FirebaseOptions(
-      apiKey: 'apiKey',
-      appId: 'appId',
-      messagingSenderId: 'messagingSenderId',
-      projectId: 'projectId'));
+  await Firebase.initializeApp();
   runApp(SystemInputFormPage());
-}
+}// only available to Team side
 
 
 class SystemInputFormPage extends StatelessWidget{
@@ -39,16 +35,19 @@ class DataForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      //Header
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Zeus Data Input Form'),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        //Header
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Zeus Data Input Form'),
+        ),
+        //Formatting Text Fields
+        body:FormList(),
+        bottomNavigationBar: NavBar(),
       ),
-      //Formatting Text Fields
-      body:FormList(),
-      bottomNavigationBar: NavBar(),
     );
   }
 }
@@ -105,178 +104,198 @@ class FormListState extends State<FormList>{
     CollectionReference SystemDataInputForm = FirebaseFirestore.instance.collection('System_Data_input_Form');
     return Column(
       children:<Widget>[
-       Container(
+       SizedBox(
          height: 5.h,
            child: Center(child: Name),
        ), // replace after back end is connected for further customization
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 2.w),
-          child: SizedBox(
-           height:45.h,
+        SizedBox(
+          height: 50.h,
+          child: Container(
+           padding: EdgeInsets.symmetric(horizontal: 2.w),
            child: Form(
             key: _formKey,
-              child: Column(
-              children: <Widget>[
-                FormField<String>(
-                  builder: (FormFieldState<String> state) {
-                    return InputDecorator(
-                      decoration: InputDecoration(
-                          errorStyle: const TextStyle(
-                              color: Colors.redAccent, fontSize: 16.0),
-                          hintText: 'Please select a Food Type/s',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0))),
-                      isEmpty: _currentlySelectedValue == '',
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: _currentlySelectedValue,// change to depend on the selected item + other items if needed
-                          isDense: true,
-                          onChanged:(newValue) {
-                            setState(() {
-                              _currentlySelectedValue = newValue as String;
-                              state.didChange(newValue);
-                            });
-                          }, // add a functionality to onChanged
-                          items: _FoodTypes.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
+              child: ListView.builder(
+                itemCount: 1,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 8.h,
+                          width: 80.w,
+                          child: FormField<String>(
+                          builder: (FormFieldState<String> state) {
+                            return InputDecorator(
+                              decoration: InputDecoration(
+                                  errorStyle: const TextStyle(
+                                      color: Colors.redAccent, fontSize: 16.0),
+                                  hintText: 'Please select a Food Type/s',
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5.0))),
+                              isEmpty: _currentlySelectedValue == '',
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: _currentlySelectedValue,// change to depend on the selected item + other items if needed
+                                  isDense: true,
+                                  onChanged:(newValue) {
+                                    setState(() {
+                                      _currentlySelectedValue = newValue as String;
+                                      state.didChange(newValue);
+                                    });
+                                  }, // add a functionality to onChanged
+                                  items: _FoodTypes.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             );
-                          }).toList(),
-                        ),
+                          },
                       ),
-                    );
-                  },
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 10)),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'OpenSans',
-                  ),
-                  decoration: const InputDecoration(
-                    label: Text('Food Waste Weight'),
-                    border: const OutlineInputBorder(),
-                    hintText: 'Your Answer',
-                    contentPadding: EdgeInsets.all(10.0),
-                  ),
-                  onChanged: (value){
-                    Food_Waste_Weight = int.parse(value);
-                  },
-                  validator: (value){
-                    if (value == null || value.isEmpty){
-                      return 'Please Enter the Weight of the Food Waste';
-                    }
-                    return null;
-                  },
-                  onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 10)),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'OpenSans',
-                  ),
-                  decoration: const InputDecoration(
-                    label: Text('Water Weight'),
-                    border: OutlineInputBorder(),
-                    hintText: 'Your Answer',
-                    contentPadding: EdgeInsets.all(10.0),
-                  ),
-                  onChanged: (value){
-                    Water_Weight = int.parse(value);
-                  },
-                  validator: (value){
-                    if (value == null || value.isEmpty){
-                      return 'Please enter the Weight of the Water';
-                    }
-                    return null;
-                  },
-                  onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 10)),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'OpenSans',
-                  ),
-                  decoration: const InputDecoration(
-                    label: Text('Gallon Size Fertilizer You Drained'),
-                    border: OutlineInputBorder(),
-                    hintText: 'Your Answer',
-                    contentPadding: EdgeInsets.all(10.0),
-                  ),
-                  onChanged: (value){
-                    Gallon_Fertilizer = int.parse(value);
-                  },
-                  validator: (value){
-                    if (value == null || value.isEmpty){
-                      return 'Please enter the number of Gallon Size Fertilizer You Drained';
-                    }
-                    return null;
-                  },
-                  onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 10)),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'OpenSans',
-                  ),
-                  decoration: const InputDecoration(
-                    label: Text('16-Oz Size Fertilizer You Drained'),
-                    border: OutlineInputBorder(),
-                    hintText: 'Your Answer',
-                    contentPadding: EdgeInsets.all(10.0),
-                  ),
-                  onChanged: (value){
-                    Oz_Fertilizer = int.parse(value);
-                  },
-                  validator: (value){
-                    if (value == null || value.isEmpty){
-                      return 'Please enter the number of 16-Oz Size Fertilizer You Drained';
-                    }
-                    return null;
-                  },
-                  onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 10)),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'OpenSans',
-                  ),
-                  decoration: const InputDecoration(
-                    label: Text('Temperature (Fahrenheit)'),
-                    border: const OutlineInputBorder(),
-                    hintText: 'Your Answer',
-                    contentPadding: EdgeInsets.all(10.0),
-                  ),
-                  onChanged: (value){
-                    Temperature = int.parse(value);
-                  },
-                  validator: (value){
-                    if (value == null || value.isEmpty){
-                      return 'Please enter the Guts' 'Temperature';
-                    }
-                    return null;
-                  },
-                  onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                ),
-              ],
+                        ),
+                        Padding(padding: EdgeInsets.symmetric(horizontal: 1.w)),
+                        Center(
+                          child: SizedBox(
+                            height: 8.h,
+                            width: 14.w,
+                            child: ElevatedButton(onPressed: (){}, child: Icon(Icons.add))
+                          ),
+                        )
+                    ],),
+                    Padding(padding: EdgeInsets.only(bottom: 10)),
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'OpenSans',
+                      ),
+                      decoration: const InputDecoration(
+                        label: Text('Food Waste Weight'),
+                        border: const OutlineInputBorder(),
+                        hintText: 'Your Answer',
+                        contentPadding: EdgeInsets.all(10.0),
+                      ),
+                      onChanged: (value){
+                        Food_Waste_Weight = int.parse(value);
+                      },
+                      validator: (value){
+                        if (value == null || value.isEmpty){
+                          return 'Please Enter the Weight of the Food Waste';
+                        }
+                        return null;
+                      },
+                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 10)),
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'OpenSans',
+                      ),
+                      decoration: const InputDecoration(
+                        label: Text('Water Weight'),
+                        border: OutlineInputBorder(),
+                        hintText: 'Your Answer',
+                        contentPadding: EdgeInsets.all(10.0),
+                      ),
+                      onChanged: (value){
+                        Water_Weight = int.parse(value);
+                      },
+                      validator: (value){
+                        if (value == null || value.isEmpty){
+                          return 'Please enter the Weight of the Water';
+                        }
+                        return null;
+                      },
+                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 10)),
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'OpenSans',
+                      ),
+                      decoration: const InputDecoration(
+                        label: Text('Gallon Size Fertilizer You Drained'),
+                        border: OutlineInputBorder(),
+                        hintText: 'Your Answer',
+                        contentPadding: EdgeInsets.all(10.0),
+                      ),
+                      onChanged: (value){
+                        Gallon_Fertilizer = int.parse(value);
+                      },
+                      validator: (value){
+                        if (value == null || value.isEmpty){
+                          return 'Please enter the number of Gallon Size Fertilizer You Drained';
+                        }
+                        return null;
+                      },
+                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 10)),
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'OpenSans',
+                      ),
+                      decoration: const InputDecoration(
+                        label: Text('16-Oz Size Fertilizer You Drained'),
+                        border: OutlineInputBorder(),
+                        hintText: 'Your Answer',
+                        contentPadding: EdgeInsets.all(10.0),
+                      ),
+                      onChanged: (value){
+                        Oz_Fertilizer = int.parse(value);
+                      },
+                      validator: (value){
+                        if (value == null || value.isEmpty){
+                          return 'Please enter the number of 16-Oz Size Fertilizer You Drained';
+                        }
+                        return null;
+                      },
+                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 10)),
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'OpenSans',
+                      ),
+                      decoration: const InputDecoration(
+                        label: Text('Temperature (Fahrenheit)'),
+                        border: const OutlineInputBorder(),
+                        hintText: 'Your Answer',
+                        contentPadding: EdgeInsets.all(10.0),
+                      ),
+                      onChanged: (value){
+                        Temperature = int.parse(value);
+                      },
+                      validator: (value){
+                        if (value == null || value.isEmpty){
+                          return "Please enter the Gut's Temperature";
+                        }
+                        return null;
+                      },
+                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                    ),
+                  ],
+                );
+              },
             ),
             ),
        ),
         ),
         Padding(padding: EdgeInsets.only(top: 3.h, bottom: 3.h)),
         SizedBox(
-            height: 55,
-            width: 300,
+            height: 7.h,
+            width: 75.w,
             //Button
             child: ElevatedButton(
               //Button Action
@@ -308,6 +327,60 @@ class FormListState extends State<FormList>{
     ],
     );
       }
+  }
+
+  class DropDownFT extends StatefulWidget {
+    const DropDownFT({Key? key}) : super(key: key);
+
+    @override
+    State<DropDownFT> createState() => _DropDownFTState();
+  }
+List <String>_FoodTypes = [
+  'Vegetables',
+  'Meat',
+  'Grains',
+];
+String _currentlySelectedValue='';
+
+  class _DropDownFTState extends State<DropDownFT> {
+    @override
+    Widget build(BuildContext context) {
+      return SizedBox(
+        height: 8.h,
+        width: 80.w,
+        child: FormField<String>(
+          builder: (FormFieldState<String> state) {
+            return InputDecorator(
+              decoration: InputDecoration(
+                  errorStyle: const TextStyle(
+                      color: Colors.redAccent, fontSize: 16.0),
+                  hintText: 'Please select a Food Type/s',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0))),
+              isEmpty: _currentlySelectedValue == '',
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: _currentlySelectedValue,// change to depend on the selected item + other items if needed
+                  isDense: true,
+                  onChanged:(newValue) {
+                    setState(() {
+                      _currentlySelectedValue = newValue as String;
+                      state.didChange(newValue);
+                    });
+                  }, // add a functionality to onChanged
+                  items: _FoodTypes.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    }
   }
 
 
