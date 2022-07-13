@@ -26,7 +26,7 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
   late Completer<GoogleMapController> _controller = Completer();
   static final CameraPosition _kZeus = CameraPosition(
-    target: LatLng(40.437315, -79.992711),
+    target: LatLng(40.451565,-80.1770931),
     zoom: 19,
   );
   LocationData? currentLocation;
@@ -36,6 +36,7 @@ class _MapState extends State<Map> {
     location.getLocation().then((location){
       setState(() {
         currentLocation = location;
+
       });
       print(location);
       print("this is the current location");
@@ -64,6 +65,7 @@ class _MapState extends State<Map> {
     getCurrentLocation();
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +101,7 @@ class _MapState extends State<Map> {
                                 ListTile(
                                   title: Text('Zeus Container'),
                                   subtitle: Text('140 Andrew Dr, Pittsburgh, PA 15275'),
-                                  trailing: IconButton(onPressed: (){_kZeus;}, icon: Icon(Icons.place)),
+                                  trailing: IconButton(onPressed: _goToZeus, icon: Icon(Icons.place)),
                                 ),
 
                               ],
@@ -115,7 +117,12 @@ class _MapState extends State<Map> {
       bottomNavigationBar:NavBar() ,
     );
   }
+  Future<void> _goToZeus() async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(_kZeus));
+  }
 }
+
 
 
 class MyBehavior extends ScrollBehavior{
