@@ -14,8 +14,6 @@ class MyApp extends StatelessWidget {
     //Header
     return const MaterialApp(
 
-      // Hide the debug banner
-      debugShowCheckedModeBanner: false,
       title: 'Checklist',
       home: HomePage(),
     );

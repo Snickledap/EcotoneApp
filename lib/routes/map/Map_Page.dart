@@ -9,6 +9,8 @@ class MapPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // Hide the debug banner
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Google Maps Demo',
       home: Map(),
     );
