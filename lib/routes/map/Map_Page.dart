@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -26,14 +25,39 @@ class Map extends StatefulWidget {
 
 class _MapState extends State<Map> {
   late Completer<GoogleMapController> _controller = Completer();
+  static final CameraPosition _kZeus = CameraPosition(
+    target: LatLng(40.437315, -79.992711),
+    zoom: 19,
+  );
   LocationData? currentLocation;
 
   void getCurrentLocation(){
     Location location = Location();
     location.getLocation().then((location){
-      currentLocation = location;
-    },
+      setState(() {
+        currentLocation = location;
+      });
+      print(location);
+      print("this is the current location");
+      },
     );
+  }
+
+  Widget getMapBody (){
+    if (currentLocation == null){
+      return Center(child: Text("Loading"),);
+    }
+    else {
+      return GoogleMap(
+        myLocationButtonEnabled: true,
+        mapType: MapType.hybrid,
+        initialCameraPosition: CameraPosition(
+            target:LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+            zoom: 19) ,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },);
+    }
   }
   @override
   void initState(){
@@ -53,15 +77,7 @@ class _MapState extends State<Map> {
             SizedBox(
               height: 400,
               width: 500,
-              child: GoogleMap(
-                myLocationButtonEnabled: true,
-                mapType: MapType.hybrid,
-                initialCameraPosition: CameraPosition(
-                    target:LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-                    zoom: 19) ,
-                onMapCreated: (GoogleMapController controller) {
-                  _controller.complete(controller);
-                },),
+              child: getMapBody(),
             ),
             SizedBox(
                 height: 200,
