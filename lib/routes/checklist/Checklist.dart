@@ -3,37 +3,34 @@ import 'package:flutter/material.dart';
 import '../../NavBar.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(CheckList());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+class CheckList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Header
     return const MaterialApp(
-
       // Hide the debug banner
       debugShowCheckedModeBanner: false,
       title: 'Checklist',
-      home: HomePage(),
+      home: ChecklistPage(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class ChecklistPage extends StatefulWidget {
+  const ChecklistPage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _ChecklistPageState createState() => _ChecklistPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ChecklistPageState extends State<ChecklistPage> {
 
   // Generate checklist here
   List<Map> checklist= [
-    {"name": "Feed system 1:2 ratio of Food to Water ", "isChecked": false},
+    {"name": "Feed system 1:2 ratio of Food to Water", "isChecked": false},
     {"name": "Drain Soil Sauce", "isChecked": false},
     {"name": "Check dosing and holding tank levels", "isChecked": false},
     {"name": "Input Data Into QR Form", "isChecked": false,},
@@ -51,17 +48,14 @@ class _HomePageState extends State<HomePage> {
           title: const Text('Checklist'),
           centerTitle: true,
         ),
-
         //Check Box Containers
         body:Container(
           alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-
                 //Check Box Format
                 const Padding(padding: EdgeInsets.all(10)),
-
                 //Check Box Logic
                 Column(
                     children: checklist.map((task) {
@@ -74,7 +68,6 @@ class _HomePageState extends State<HomePage> {
                             });
                           });
                     }).toList()),
-
                 //Button Formatting
                 const Padding(padding: EdgeInsets.all(60)),
                 Container(alignment: Alignment.center,height:60, width: 400, child:
@@ -106,7 +99,6 @@ class _HomePageState extends State<HomePage> {
               ],
             )
         ),
-
       //Bottom Navigation Bar
       bottomNavigationBar: NavBar(),
     );
