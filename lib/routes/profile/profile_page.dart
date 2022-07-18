@@ -41,16 +41,18 @@ class ProfilePage extends StatelessWidget {
                 children: <Widget>[
                   Padding(padding: EdgeInsets.all(10)),
                   Title(
-                    color: Colors.black,
-
+                    color: Color(0xFF166390),
                     //Top Text
-                    child: Column(
-                      children: <Widget>[
-                        Text('Hi Employee 1'),
-                        Padding(padding: EdgeInsets.all(15)),
-                        Text('Reminder'),
-                        Text('You have some tasks to complete')
-                      ],
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('Hi Employee 1', style: TextStyle(color: Color(0xFF166390))),
+                          Padding(padding: EdgeInsets.all(15)),
+                          Text('Reminder',  style: TextStyle(color: Color(0xFF166390))),
+                          Text('You have some tasks to complete', style: TextStyle(color: Color(0xFF166390))),
+                        ]
+                      ),
                     ),
                   ),
 
@@ -127,7 +129,9 @@ class _customcards extends StatelessWidget{
   Widget build (BuildContext context) {
     return CustomCard(
       borderRadius: 15,
-      color: Color(0x10FFFFF),
+        borderColor: Colors.blue,
+        width: 30,
+      color: Color(0xffe6eef3),
       child: ListTile(
         title: Text('time of the event'),
         subtitle: Text('name of the event'),
@@ -165,8 +169,6 @@ class _CardList extends StatelessWidget{
                   ],
                 ),
               )
-
-
           );
         }
     );
