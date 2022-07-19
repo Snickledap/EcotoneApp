@@ -11,129 +11,133 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Sizer(
+      builder: (BuildContext context, Orientation orientation, DeviceType deviceType) {
     return Scaffold(
-          //Header
-          appBar:
-          AppBar(
-            title: const Text(
-              'Profile',
-            ),
-            //Header Format
-            titleTextStyle:
-            const TextStyle(
-              color: Colors.white,
-              fontSize: 28,
-            ),
-            centerTitle: true,
-            backgroundColor: const Color(0xFF309BE9), //Ecotone Colors
-          ),
-          body:
-          //Top Text Container
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 15,
-                  left: 10
-                ),
-                child: Container(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(padding: EdgeInsets.only(left: 5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Hi Employee 1',
-                              style: TextStyle(
-                                fontSize: 17,
-                                  color: Color(0xFF166390),
-                              )
-                          ),
-                          Text('Reminder',
-                              style: TextStyle(
-                                fontSize: 30,
-                                  color: Color(0xFF166390),
-                              )
-                          ),
-
-                          Text('You have some tasks to complete',
-                              style: TextStyle(
-                                fontSize: 15,
-                                  color: Color(0xFF166390),
-                              )
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ),
+            //Header
+            appBar:
+            AppBar(
+              title: const Text(
+                'Profile',
               ),
-              Container(
-                  //Top Text Format
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.all(5),
-                  child: Column(
-                    children: <Widget>[
-                      //Card Formatting
-                      Padding(padding: EdgeInsets.all(10)),
-                      Text('Today'),
-                      Padding(padding: EdgeInsets.all(10)),
-                      Container(
-                        height: 100,
-                        width: 500,
-                        child: _CardList(),
-                      ),
-                      //Card Formatting
-                      Padding(padding: EdgeInsets.all(10)),
-                      Text('This Week'),
-                      Padding(padding: EdgeInsets.all(10)),
-                      Container(
-                        height: 100,
-                        width: 500,
-                        child: _CardList(),
-                      ),
-
-                      //Button Formatting
-                      const Padding(padding: EdgeInsets.all(20)),
-
-                      //Button
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.blue,
-                            onPrimary: Colors.white,
-                            elevation: 4,
-                          ),
-                          //Button Action
-                          onPressed: () {},
-                          //Button Text
-                          child: const Text("InvolveMINT")
-                      ),
-
-                      //Button Formatting
-                      const Padding(padding: EdgeInsets.all(10)),
-
-                      //Button
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
-                            onPrimary: Colors.white,
-                            elevation: 4,
-                          ),
-
-                          //Button Action
-                          onPressed: () {},
-
-                          //Button Text
-                          child: const Text('Sign Out')
-                      ),
-                    ],
-                  )
+              //Header Format
+              titleTextStyle:
+              const TextStyle(
+                color: Colors.white,
+                fontSize: 28,
               ),
-          ],
-          ),
+              centerTitle: true,
+              backgroundColor: const Color(0xFF309BE9), //Ecotone Colors
+            ),
+            body:
+            //Top Text Container
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 15,
+                    left: 10
+                  ),
+                  child: Container(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(padding: EdgeInsets.only(left: 5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('Hi Employee 1',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                    color: Color(0xFF166390),
+                                )
+                            ),
+                            Text('Reminder',
+                                style: TextStyle(
+                                  fontSize: 30,
+                                    color: Color(0xFF166390),
+                                )
+                            ),
 
-          //Bottom Nav Bar
-          bottomNavigationBar: NavBar(),
-        );
+                            Text('You have some tasks to complete',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                    color: Color(0xFF166390),
+                                )
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ),
+                ),
+                Container(
+                    //Top Text Format
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.all(5),
+                    child: Column(
+                      children: <Widget>[
+                        //Card Formatting
+                        Padding(padding: EdgeInsets.all(10)),
+                        Text('Today'),
+                        Padding(padding: EdgeInsets.all(10)),
+                        Container(
+                          height: 100,
+                          width: 500,
+                          child: _CardList(),
+                        ),
+                        //Card Formatting
+                        Padding(padding: EdgeInsets.all(10)),
+                        Text('This Week'),
+                        Padding(padding: EdgeInsets.all(10)),
+                        Container(
+                          height: 100,
+                          width: 500,
+                          child: _CardList(),
+                        ),
+
+                        //Button Formatting
+                        const Padding(padding: EdgeInsets.all(20)),
+
+                        //Button
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.blue,
+                              onPrimary: Colors.white,
+                              elevation: 4,
+                            ),
+                            //Button Action
+                            onPressed: () {},
+                            //Button Text
+                            child: const Text("InvolveMINT")
+                        ),
+
+                        //Button Formatting
+                        const Padding(padding: EdgeInsets.all(10)),
+
+                        //Button
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.red,
+                              onPrimary: Colors.white,
+                              elevation: 4,
+                            ),
+
+                            //Button Action
+                            onPressed: () {},
+
+                            //Button Text
+                            child: const Text('Sign Out')
+                        ),
+                      ],
+                    )
+                ),
+            ],
+            ),
+
+            //Bottom Nav Bar
+            bottomNavigationBar: NavBar(),
+          );
+      },
+    );
 
   }
 }
