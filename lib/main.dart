@@ -4,6 +4,7 @@ import 'package:ecotone_app/routes/map/Map_Page.dart';
 import 'package:ecotone_app/routes/checklist/Checklist.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:ecotone_app/routes/information/Information.dart';
+import 'package:ecotone_app/routes/map/Data_Analytics.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget{
         switch(settings.name) {
           case '/profile':
             return PageTransition(child: ProfilePage(), type: PageTransitionType.fade);
+          break;
+          case '/data_analytics':
+            return PageTransition(child: AnalyticsPage(), type: PageTransitionType.fade);
           break;
           case '/map':
             return PageTransition(child: Map(), type: PageTransitionType.fade);

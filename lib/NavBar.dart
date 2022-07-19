@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-List<String> routeNames = ['/map', '/checklist', "/info", "/profile"];
+List<String> routeNames = ['/map', '/data_analytics', '/checklist', "/info", "/profile"];
 
 
 class NavBar extends StatefulWidget {
@@ -13,7 +13,7 @@ class NavBar extends StatefulWidget {
 }
 
 class NavBarState extends State<NavBar> {
-  static int selectedIndex = 3;
+  static int selectedIndex = 4;
 
   void onItemTapped(int index) {
     Navigator.pushReplacementNamed(context, routeNames[index]);
@@ -36,6 +36,11 @@ class NavBarState extends State<NavBar> {
           activeIcon: Icon(Icons.location_on, color: Colors.lightBlue),
           label: 'Map',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.analytics, color: Colors.white),
+          activeIcon: Icon(Icons.analytics, color: Colors.lightBlue),
+          label: 'Analytics',
+    ),
         BottomNavigationBarItem(
           icon: Icon(Icons.checklist, color: Colors.white),
           activeIcon: Icon(Icons.checklist, color: Colors.lightBlue),
