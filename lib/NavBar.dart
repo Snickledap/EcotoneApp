@@ -29,23 +29,26 @@ class NavBarState extends State<NavBar> {
       currentIndex: selectedIndex,
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.black,
-      unselectedItemColor: Colors.grey,
+      unselectedItemColor: Colors.white,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.location_on, color: Colors.black),
+          icon: Icon(Icons.location_on, color: Colors.white),
+          activeIcon: Icon(Icons.location_on, color: Colors.lightBlue),
           label: 'Map',
-
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.checklist, color: Colors.black),
+          icon: Icon(Icons.checklist, color: Colors.white),
+          activeIcon: Icon(Icons.checklist, color: Colors.lightBlue),
           label: 'Checklist',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.help_outline, color: Colors.black),
+          icon: Icon(Icons.help_outline, color: Colors.white),
+          activeIcon: Icon(Icons.help_outline, color: Colors.lightBlue),
           label: 'Info',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline, color: Colors.black),
+          icon: Icon(Icons.person_outline, color: Colors.white),
+          activeIcon: Icon(Icons.person_outline, color: Colors.lightBlue),
           label: 'Profile',
         ),
       ],
