@@ -11,8 +11,7 @@ class CheckList extends StatelessWidget {
   Widget build(BuildContext context) {
     //Header
     return const MaterialApp(
-      // Hide the debug banner
-      debugShowCheckedModeBanner: false,
+
       title: 'Checklist',
       home: ChecklistPage(),
     );
@@ -48,14 +47,17 @@ class _ChecklistPageState extends State<ChecklistPage> {
           title: const Text('Checklist'),
           centerTitle: true,
         ),
+
         //Check Box Containers
         body:Container(
           alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+
                 //Check Box Format
                 const Padding(padding: EdgeInsets.all(10)),
+
                 //Check Box Logic
                 Column(
                     children: checklist.map((task) {
@@ -68,6 +70,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                             });
                           });
                     }).toList()),
+
                 //Button Formatting
                 const Padding(padding: EdgeInsets.all(60)),
                 Container(alignment: Alignment.center,height:60, width: 400, child:
@@ -99,6 +102,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
               ],
             )
         ),
+
       //Bottom Navigation Bar
       bottomNavigationBar: NavBar(),
     );

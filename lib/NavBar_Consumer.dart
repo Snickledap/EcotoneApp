@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-List<String> routeNames = ['/map', '/data_analytics', '/checklist', "/info", "/profile"];
+List<String> routeNames = ['/map', "/info", "/consumer_profile"];
 
 
 class NavBar extends StatefulWidget {
@@ -13,7 +13,7 @@ class NavBar extends StatefulWidget {
 }
 
 class NavBarState extends State<NavBar> {
-  static int selectedIndex = 4;
+  static int selectedIndex = 3;
 
   void onItemTapped(int index) {
     Navigator.pushReplacementNamed(context, routeNames[index]);
@@ -32,23 +32,13 @@ class NavBarState extends State<NavBar> {
       unselectedItemColor: Colors.white,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.location_on, color: Colors.white),
-          activeIcon: Icon(Icons.location_on, color: Colors.lightBlue),
+          icon: Icon(Icons.map, color: Colors.white),
+          activeIcon: Icon(Icons.map, color: Colors.lightBlue),
           label: 'Map',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.analytics, color: Colors.white),
-          activeIcon: Icon(Icons.analytics, color: Colors.lightBlue),
-          label: 'Analytics',
-    ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.checklist, color: Colors.white),
-          activeIcon: Icon(Icons.checklist, color: Colors.lightBlue),
-          label: 'Checklist',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.help_outline, color: Colors.white),
-          activeIcon: Icon(Icons.help_outline, color: Colors.lightBlue),
+          icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
+          activeIcon: Icon(Icons.shopping_cart_outlined, color: Colors.lightBlue),
           label: 'Info',
         ),
         BottomNavigationBarItem(
