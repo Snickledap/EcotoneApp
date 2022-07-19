@@ -120,7 +120,6 @@ class ProfilePage extends StatelessWidget {
                               onPrimary: Colors.white,
                               elevation: 4,
                             ),
-
                             //Button Action
                             onPressed: () {},
 
@@ -150,7 +149,7 @@ class _customcards extends StatelessWidget{
     return CustomCard(
       borderRadius: 15,
         borderColor: Colors.blue,
-        width: 30,
+        width: 25,
       color: Color(0xffe6eef3),
       child: ListTile(
         title: Text('time of the event'),
@@ -180,7 +179,7 @@ class _CardList extends StatelessWidget{
         itemBuilder:(context,index){
           return Container(
               height: 100,
-              width: 200,
+              width: 190,
               child:ScrollConfiguration(
                 behavior: MyBehavior(),
                 child: ListView(
