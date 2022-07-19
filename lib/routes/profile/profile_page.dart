@@ -1,14 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecotone_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
-//void main() => runApp(ProfilePage());
+Future <void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(ProfilePage());
+}
 
 class ProfilePage extends StatelessWidget {
-
+  final Stream<QuerySnapshot> Reminder = FirebaseFirestore
+      .instance
+      .collection("Reminder")
+      .snapshots();
   @override
   Widget build(BuildContext context) {
     return Sizer(
@@ -82,7 +91,61 @@ class ProfilePage extends StatelessWidget {
                         Container(
                           height: 100,
                           width: 500,
-                          child: _CardList(),
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: Reminder,
+                            builder: (
+                            BuildContext context,
+                                AsyncSnapshot<QuerySnapshot> snapshot,
+                            ) {
+                              if(snapshot.hasError){
+                                return Text("Soemthing Went Wrong with Snapshot of the Remidner Data");
+                              }
+                              if(snapshot.connectionState == ConnectionState.waiting){
+                                return Text("Reminder Data is Loading");
+                              }
+                              final data = snapshot.requireData;
+                              return
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: data.size,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder:(context,index){
+                                      return Container(
+                                          height: 100,
+                                          width: 191,
+                                          child:ScrollConfiguration(
+                                            behavior: MyBehavior(),
+                                            child: ListView(
+                                              children: <Widget>[
+                                                CustomCard(
+                                                  borderRadius: 15,
+                                                  borderColor: Colors.blue,
+                                                  width: 25,
+                                                  color: Color(0xffe6eef3),
+                                                  child: ListTile(
+                                                    title: Text('${data.docs[index]['Time_Of_Event']}'),
+                                                    subtitle: Text('${data.docs[index]['Name_Of_Event']}'),
+                                                    trailing:
+                                                    IconButton(
+                                                      alignment: Alignment.centerRight,
+                                                      icon: Icon(
+                                                        Icons.alarm_add_outlined,
+                                                        size: 17.0,
+                                                        color: Colors.brown[900],
+                                                      ),
+                                                      onPressed: () {},
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                      );
+                                    }
+                                );
+                              },
+
+                          ),
                         ),
                         //Card Formatting
                         Padding(padding: EdgeInsets.all(10)),
@@ -91,12 +154,47 @@ class ProfilePage extends StatelessWidget {
                         Container(
                           height: 100,
                           width: 500,
-                          child: _CardList(),
+                          child:ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: 5,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder:(context,index){
+                                return Container(
+                                    height: 100,
+                                    width: 191,
+                                    child:ScrollConfiguration(
+                                      behavior: MyBehavior(),
+                                      child: ListView(
+                                        children: <Widget>[
+                                          CustomCard(
+                                            borderRadius: 15,
+                                            borderColor: Colors.blue,
+                                            width: 25,
+                                            color: Color(0xffe6eef3),
+                                            child: ListTile(
+                                              title: Text('time of the event'),
+                                              subtitle: Text('name of the event'),
+                                              trailing:
+                                              IconButton(
+                                                alignment: Alignment.centerRight,
+                                                icon: Icon(
+                                                  Icons.alarm_add_outlined,
+                                                  size: 17.0,
+                                                  color: Colors.brown[900],
+                                                ),
+                                                onPressed: () {},
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                );
+                              }
+                          ),
                         ),
 
                         //Button Formatting
-                        const Padding(padding: EdgeInsets.all(20)),
-
                         //Button
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -111,8 +209,7 @@ class ProfilePage extends StatelessWidget {
                         ),
 
                         //Button Formatting
-                        const Padding(padding: EdgeInsets.all(10)),
-
+                        const Padding(padding: EdgeInsets.all(5)),
                         //Button
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -122,16 +219,26 @@ class ProfilePage extends StatelessWidget {
                             ),
                             //Button Action
                             onPressed: () {},
-
                             //Button Text
                             child: const Text('Sign Out')
                         ),
+
                       ],
+                    )
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                    child: Container(
+                      padding: EdgeInsets.only(right: 10),
+                      child: FloatingActionButton(
+                        tooltip:"Add Reminders",
+                          child: Icon(Icons.add,
+                          color: Colors.white,),
+                          onPressed: (){}),
                     )
                 ),
             ],
             ),
-
             //Bottom Nav Bar
             bottomNavigationBar: NavBar(),
           );
@@ -142,58 +249,7 @@ class ProfilePage extends StatelessWidget {
 }
 
 
-@override
-class _customcards extends StatelessWidget{
-  @override
-  Widget build (BuildContext context) {
-    return CustomCard(
-      borderRadius: 15,
-        borderColor: Colors.blue,
-        width: 25,
-      color: Color(0xffe6eef3),
-      child: ListTile(
-        title: Text('time of the event'),
-        subtitle: Text('name of the event'),
-        trailing:
-        IconButton(
-          alignment: Alignment.centerRight,
-          icon: Icon(
-            Icons.alarm_add_outlined,
-            size: 17.0,
-            color: Colors.brown[900],
-          ),
-          onPressed: () {},
-        ),
-      ),
-    );
-  }
-}
 
-class _CardList extends StatelessWidget{
-  @override
-  Widget build (BuildContext context){
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: 5,
-        scrollDirection: Axis.horizontal,
-        itemBuilder:(context,index){
-          return Container(
-              height: 100,
-              width: 190,
-              child:ScrollConfiguration(
-                behavior: MyBehavior(),
-                child: ListView(
-                  children: <Widget>[
-                    _customcards()
-                  ],
-                ),
-              )
-          );
-        }
-    );
-  }
-
-}
 
 class MyBehavior extends ScrollBehavior{
   @override

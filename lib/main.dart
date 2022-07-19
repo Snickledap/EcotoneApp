@@ -4,8 +4,14 @@ import 'package:ecotone_app/routes/map/Map_Page.dart';
 import 'package:ecotone_app/routes/checklist/Checklist.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:ecotone_app/routes/information/Information.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() => runApp(MyApp());
+
+Future <void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget{
 

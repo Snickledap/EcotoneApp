@@ -9,11 +9,7 @@ import 'package:sizer/sizer.dart';
 
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: FirebaseOptions(
-      apiKey: 'apiKey',
-      appId: 'appId',
-      messagingSenderId: 'messagingSenderId',
-      projectId: 'projectId'));
+  await Firebase.initializeApp();
   runApp(SystemInputFormPage());
 }
 
