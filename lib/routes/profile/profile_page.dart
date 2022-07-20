@@ -86,10 +86,9 @@ class ProfilePage extends StatelessWidget {
                     ),
                     child: Column(
                       children: <Widget>[
-                        Padding(padding: EdgeInsets.all(10)),
                         Container(
-                          height: 100,
-                          width: 500,
+                          height: 19.h,
+                          width: 95.w,
                           child: StreamBuilder<QuerySnapshot>(
                             stream: Reminder,
                             builder: (
@@ -112,7 +111,7 @@ class ProfilePage extends StatelessWidget {
                                       return CustomCard(
                                         borderRadius: 15,
                                         borderColor: Colors.blue,
-                                        width: 200,
+                                        width: 55.w,
                                         color: Color(0xffe6eef3),
                                         child: ListTile(
                                           title: Text(
@@ -127,7 +126,7 @@ class ProfilePage extends StatelessWidget {
                                             alignment: Alignment.centerRight,
                                             icon: Icon(
                                               Icons.alarm_add_outlined,
-                                              size: 17.0,
+                                              size: 25.sp,
                                               color: Colors.brown[900],
                                             ),
                                             onPressed: () {},
@@ -143,9 +142,9 @@ class ProfilePage extends StatelessWidget {
                       ],
                     )
                 ),
-                Padding(padding: EdgeInsets.only(top:13.h)),
+                Padding(padding: EdgeInsets.only(top:7.h)),
                 SizedBox(
-                  height: 7.h,
+                  height: 6.h,
                   width: 45.w,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -159,9 +158,9 @@ class ProfilePage extends StatelessWidget {
                       child: const Text("InvolveMINT")
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(3.h)),
+                Padding(padding: EdgeInsets.all(2.h)),
                 SizedBox(
-                  height: 7.h,
+                  height: 6.h,
                   width: 45.w,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
