@@ -46,8 +46,8 @@ class ProfilePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 2.h,
-                    left: 3.w
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01,
+                    left: MediaQuery.of(context).size.width * 0.05
                   ),
                   child: Container(
                     child: Align(
@@ -57,20 +57,20 @@ class ProfilePage extends StatelessWidget {
                         children: <Widget>[
                           Text('Hi Employee 1',
                               style: TextStyle(
-                                fontSize: 12.sp,
+                                fontSize: MediaQuery.of(context).textScaleFactor * 18,
                                   color: Color(0xFF166390),
                               )
                           ),
                           Text('Reminder',
                               style: TextStyle(
-                                fontSize: 20.sp,
+                                fontSize: MediaQuery.of(context).textScaleFactor * 30,
                                   color: Color(0xFF166390),
                               )
                           ),
 
                           Text('You have some tasks to complete',
                               style: TextStyle(
-                                fontSize: 12.sp,
+                                fontSize: MediaQuery.of(context).textScaleFactor * 18,
                                   color: Color(0xFF166390),
                               )
                           ),
@@ -80,15 +80,15 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                    margin: EdgeInsets.only(top:13.h,
-                    left: 1.w,
-                      right: 2.w,
+                    margin: EdgeInsets.only(top:MediaQuery.of(context).size.height * 0.13,
+                    left: MediaQuery.of(context).size.width*0.02,
+                      right: 2.h,
                     ),
                     child: Column(
                       children: <Widget>[
                         Container(
-                          height: 19.h,
-                          width: 95.w,
+                          height: MediaQuery.of(context).size.height * 0.17 ,
+                          width: MediaQuery.of(context).size.width * 1,
                           child: StreamBuilder<QuerySnapshot>(
                             stream: Reminder,
                             builder: (
@@ -109,9 +109,9 @@ class ProfilePage extends StatelessWidget {
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder:(context,index){
                                       return CustomCard(
-                                        borderRadius: 15,
+                                        borderRadius: 15.sp,
                                         borderColor: Colors.blue,
-                                        width: 55.w,
+                                        width: MediaQuery.of(context).size.width *0.6,
                                         color: Color(0xffe6eef3),
                                         child: ListTile(
                                           title: Text(
@@ -142,10 +142,10 @@ class ProfilePage extends StatelessWidget {
                       ],
                     )
                 ),
-                Padding(padding: EdgeInsets.only(top:7.h)),
+                Padding(padding: EdgeInsets.only(top:5.h)),
                 SizedBox(
-                  height: 6.h,
-                  width: 45.w,
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  width: MediaQuery.of(context).size.width * 0.65,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Colors.blue,
@@ -158,10 +158,10 @@ class ProfilePage extends StatelessWidget {
                       child: const Text("InvolveMINT")
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(2.h)),
+                Padding(padding: EdgeInsets.all(MediaQuery.of(context).size.height * 22,)),
                 SizedBox(
-                  height: 6.h,
-                  width: 45.w,
+                  height: 35.sp,
+                  width: 150.sp,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Colors.red,
@@ -174,10 +174,11 @@ class ProfilePage extends StatelessWidget {
                       child: const Text('Sign Out')
                   ),
                 ),
+                Padding(padding: EdgeInsets.only(bottom: 10.sp)),
                 Align(
                   alignment: Alignment.bottomRight,
                     child: Container(
-                      padding: EdgeInsets.only(right: 5.w),
+                      padding: EdgeInsets.only(right: 10.sp),
                       child: FloatingActionButton(
                         tooltip:"Add Reminders",
                           child: Icon(Icons.add,
