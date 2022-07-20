@@ -5,6 +5,7 @@ import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 Future <void> main() async{
@@ -13,15 +14,23 @@ Future <void> main() async{
   runApp(ProfilePage());
 }
 
+
 class ProfilePage extends StatelessWidget {
   final Stream<QuerySnapshot> Reminder = FirebaseFirestore
       .instance
       .collection("Reminder")
       .snapshots();
+  Future<void> _launchUrl() async {
+    final Uri _url = Uri.parse('https://flutter.dev');
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
 
 
   @override
   Widget build(BuildContext context) {
+
     return Sizer(
       builder: (BuildContext context, Orientation orientation, DeviceType deviceType) {
       return Scaffold(
@@ -153,7 +162,7 @@ class ProfilePage extends StatelessWidget {
                         elevation: 4,
                       ),
                       //Button Action
-                      onPressed: () {},
+                      onPressed: _launchUrl,
                       //Button Text
                       child: const Text("InvolveMINT")
                   ),
@@ -207,6 +216,8 @@ class MyBehavior extends ScrollBehavior{
     return child;
   }
 }
+
+
 
 
 
