@@ -80,14 +80,14 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                    margin: EdgeInsets.only(top:MediaQuery.of(context).size.height * 0.13,
+                    margin: EdgeInsets.only(top:MediaQuery.of(context).size.height * 0.12,
                     left: MediaQuery.of(context).size.width*0.02,
-                      right: 2.h,
+                      right: MediaQuery.of(context).size.width * 0.02,
                     ),
                     child: Column(
                       children: <Widget>[
                         Container(
-                          height: MediaQuery.of(context).size.height * 0.17 ,
+                          height: MediaQuery.of(context).size.height * 0.16 ,
                           width: MediaQuery.of(context).size.width * 1,
                           child: StreamBuilder<QuerySnapshot>(
                             stream: Reminder,
@@ -142,7 +142,7 @@ class ProfilePage extends StatelessWidget {
                       ],
                     )
                 ),
-                Padding(padding: EdgeInsets.only(top:5.h)),
+                Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height * 0.05,)),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.06,
                   width: MediaQuery.of(context).size.width * 0.65,
@@ -158,10 +158,10 @@ class ProfilePage extends StatelessWidget {
                       child: const Text("InvolveMINT")
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(MediaQuery.of(context).size.height * 22,)),
+                Padding(padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02,)),
                 SizedBox(
-                  height: 35.sp,
-                  width: 150.sp,
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  width: MediaQuery.of(context).size.width * 0.65,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Colors.red,
@@ -174,11 +174,11 @@ class ProfilePage extends StatelessWidget {
                       child: const Text('Sign Out')
                   ),
                 ),
-                Padding(padding: EdgeInsets.only(bottom: 10.sp)),
+                Padding(padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.07,)),
                 Align(
                   alignment: Alignment.bottomRight,
                     child: Container(
-                      padding: EdgeInsets.only(right: 10.sp),
+                      padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.03,),
                       child: FloatingActionButton(
                         tooltip:"Add Reminders",
                           child: Icon(Icons.add,
