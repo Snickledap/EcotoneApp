@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ecotone_app/NavBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp( Map_Page(),);
+Future <void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(Map_Page());
 }
-
 
 class Map_Page extends StatelessWidget {
   @override
@@ -68,6 +71,12 @@ class _MapState extends State<Map> {
 
 
   @override
+
+  final Stream<QuerySnapshot> Container_Location = FirebaseFirestore
+      .instance
+      .collection('Container_Location')
+      .snapshots();
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -77,41 +86,58 @@ class _MapState extends State<Map> {
       body: Column(
           children:<Widget>[
             SizedBox(
-              height: 400,
-              width: 500,
+              height: MediaQuery.of(context).size.height * 0.5,
+              width: MediaQuery.of(context).size.width * 1,
               child: getMapBody(),
             ),
             SizedBox(
-                height: 200,
-                width: 400,
-                child:ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 1,
-                  scrollDirection: Axis.vertical,
-                  padding: EdgeInsets.all(5),
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                        height: 75,
-                        width: 200,
+                height: MediaQuery.of(context).size.height * 0.3,
+                width: MediaQuery.of(context).size.width * 1,
+                child:StreamBuilder<QuerySnapshot>(stream: Container_Location,
+                  builder:
+                    (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                  if (snapshot.hasError){
+                    return Text("Something Went wrong with the snapshot of the Container Location");
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting){
+                    return Text("Loading");
+
+                  }
+                  final data = snapshot.requireData;
+                    return ListView.builder(shrinkWrap: true,
+                      itemCount: data.size,
+                      scrollDirection: Axis.vertical,
+                      padding: EdgeInsets.all(5),
+                      itemBuilder: (context, index) {
+                      return SizedBox(
+                      height: 75,
+                      width: 200,
                         child:ScrollConfiguration(
-                            behavior: MyBehavior(),
-                            child:ListView(
-                              physics: BouncingScrollPhysics(),
-                              children: <Widget>[
-                                ListTile(
-                                  title: Text('Zeus Container'),
-                                  subtitle: Text('140 Andrew Dr, Pittsburgh, PA 15275'),
-                                  trailing: IconButton(onPressed: _goToZeus, icon: Icon(Icons.place)),
-                                ),
+                          behavior: MyBehavior(),
+                          child:ListView(
+                            physics: BouncingScrollPhysics(),
+                            children: <Widget>[
+                            ListTile(
+                              title: Text('${data.docs[index]['Name']}'),
+                              subtitle: Text('${data.docs[index]['Address']}'),
+                              trailing: IconButton(onPressed: (){
+                                    CameraPosition(
+                                    target: LatLng(data.docs[index]['LatLng'].latitude,data.docs[index]['LatLng'].longitude),
+                                    zoom: 19,
+                                  );
+                              },
+                                  icon: Icon(Icons.place)),
+                        ),
 
-                              ],
-                            )
-                        )
+                    ],
+                    )
+                    )
                     );
-                  },
-                )
+                    },
+                    );
+                }
             ),
-
+            ),
           ]
       ),
       bottomNavigationBar:NavBar() ,
