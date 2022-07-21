@@ -27,11 +27,7 @@ class Map extends StatefulWidget {
 }
 
 class _MapState extends State<Map> {
-  late Completer<GoogleMapController> _controller = Completer();
-  static final CameraPosition _kZeus = CameraPosition(
-    target: LatLng(40.451565,-80.1770931),
-    zoom: 19,
-  );
+  late final Completer<GoogleMapController> _controller = Completer();
   LocationData? currentLocation;
 
   void getCurrentLocation(){
@@ -120,12 +116,8 @@ class _MapState extends State<Map> {
                             ListTile(
                               title: Text('${data.docs[index]['Name']}'),
                               subtitle: Text('${data.docs[index]['Address']}'),
-                              trailing: IconButton(onPressed: (){
-                                    CameraPosition(
-                                    target: LatLng(data.docs[index]['LatLng'].latitude,data.docs[index]['LatLng'].longitude),
-                                    zoom: 19,
-                                  );
-                              },
+                              trailing: IconButton(
+                                  onPressed:_goToZeus,
                                   icon: Icon(Icons.place)),
                         ),
 
@@ -143,9 +135,14 @@ class _MapState extends State<Map> {
       bottomNavigationBar:NavBar() ,
     );
   }
+
+@override
   Future<void> _goToZeus() async {
+  final data = snapshot.requireData; // need fix
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kZeus));
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(target: LatLng(data.docs[index]['LatLng'].Latitude,data.docs[index]['LatLng'].Longitude))
+    ));
   }
 }
 
