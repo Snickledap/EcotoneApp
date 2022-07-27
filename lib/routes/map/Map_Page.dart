@@ -30,21 +30,20 @@ class _MapState extends State<Map> {
   late final Completer<GoogleMapController> _controller = Completer();
   LocationData? currentLocation;
 
-  void getCurrentLocation(){
+  void getCurrentLocation() {
     Location location = Location();
-    location.getLocation().then((location){
+    location.getLocation().then((location) {
       setState(() {
         currentLocation = location;
-
       });
       print(location);
       print("this is the current location");
-      },
+    },
     );
   }
 
-  Widget getMapBody (){
-    if (currentLocation == null){
+  Widget getMapBody() {
+    if (currentLocation == null) {
       return Center(child: Text("Loading"),);
     }
     else {
@@ -52,22 +51,23 @@ class _MapState extends State<Map> {
         myLocationButtonEnabled: true,
         mapType: MapType.hybrid,
         initialCameraPosition: CameraPosition(
-            target:LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-            zoom: 19) ,
+            target: LatLng(
+                currentLocation!.latitude!, currentLocation!.longitude!),
+            zoom: 19),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },);
     }
   }
+
   @override
-  void initState(){
+  void initState() {
     getCurrentLocation();
     super.initState();
   }
 
 
   @override
-
   final Stream<QuerySnapshot> Container_Location = FirebaseFirestore
       .instance
       .collection('Container_Location')
@@ -80,72 +80,85 @@ class _MapState extends State<Map> {
         centerTitle: true,
       ),
       body: Column(
-          children:<Widget>[
+          children: <Widget>[
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
-              width: MediaQuery.of(context).size.width * 1,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.5,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 1,
               child: getMapBody(),
             ),
             SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
-                width: MediaQuery.of(context).size.width * 1,
-                child:StreamBuilder<QuerySnapshot>(stream: Container_Location,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.3,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 1,
+              child: StreamBuilder<QuerySnapshot>(stream: Container_Location,
                   builder:
-                    (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-                  if (snapshot.hasError){
-                    return Text("Something Went wrong with the snapshot of the Container Location");
-                  }
-                  if (snapshot.connectionState == ConnectionState.waiting){
-                    return Text("Loading");
-
-                  }
-                  final data = snapshot.requireData;
+                      (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text(
+                          "Something Went wrong with the snapshot of the Container Location");
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Text("Loading");
+                    }
+                    final data = snapshot.requireData;
                     return ListView.builder(shrinkWrap: true,
                       itemCount: data.size,
                       scrollDirection: Axis.vertical,
                       padding: EdgeInsets.all(5),
                       itemBuilder: (context, index) {
-                      return SizedBox(
-                      height: 75,
-                      width: 200,
-                        child:ScrollConfiguration(
-                          behavior: MyBehavior(),
-                          child:ListView(
-                            physics: BouncingScrollPhysics(),
-                            children: <Widget>[
-                            ListTile(
-                              title: Text('${data.docs[index]['Name']}'),
-                              subtitle: Text('${data.docs[index]['Address']}'),
-                              trailing: IconButton(
-                                  onPressed:_goToZeus,
-                                  icon: Icon(Icons.place)),
-                        ),
+                        return SizedBox(
+                            height: 75,
+                            width: 200,
+                            child: ScrollConfiguration(
+                                behavior: MyBehavior(),
+                                child: ListView(
+                                  physics: BouncingScrollPhysics(),
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: Text(
+                                          '${data.docs[index]['Name']}'),
+                                      subtitle: Text(
+                                          '${data.docs[index]['Address']}'),
+                                      trailing: IconButton(
+                                          onPressed: () async {
+                                            GoogleMapController controller = await _controller
+                                                .future;
+                                            controller.animateCamera(
+                                                CameraUpdate.newCameraPosition(
+                                                    CameraPosition(target: LatLng(data.docs[index]["LatLng"].latitude, data.docs[index]["LatLng"].longitude),
+                                                    zoom: 19)
+                                                ));
+                                          },
+                                          icon: Icon(Icons.place)),
+                                    ),
 
-                    ],
-                    )
-                    )
+                                  ],
+                                )
+                            )
+                        );
+                      },
                     );
-                    },
-                    );
-                }
-            ),
+                  }
+              ),
             ),
           ]
       ),
-      bottomNavigationBar:NavBar() ,
+      bottomNavigationBar: NavBar(),
     );
   }
-
-@override
-  Future<void> _goToZeus() async {
-  final data = snapshot.requireData; // need fix
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(target: LatLng(data.docs[index]['LatLng'].Latitude,data.docs[index]['LatLng'].Longitude))
-    ));
-  }
 }
-
 
 
 class MyBehavior extends ScrollBehavior{
