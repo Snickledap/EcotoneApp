@@ -1,11 +1,18 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ecotone_app/NavBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() => runApp(MapPage());
+Future <void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(Map_Page());
+}
 
-class MapPage extends StatelessWidget {
+class Map_Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,24 +26,56 @@ class MapPage extends StatelessWidget {
 
 class Map extends StatefulWidget {
   @override
-  State<Map> createState() => MapState();
+  State<Map> createState() => _MapState();
 }
 
-class MapState extends State<Map> {
-  Completer<GoogleMapController> _controller = Completer();
+class _MapState extends State<Map> {
+  late final Completer<GoogleMapController> _controller = Completer();
+  LocationData? currentLocation;
 
-  static final CameraPosition _kBrottier = CameraPosition(
-    target: LatLng(40.437315, -79.992711),
-    zoom: 19,
-  );
+  void getCurrentLocation() {
+    Location location = Location();
+    location.getLocation().then((location) {
+      setState(() {
+        currentLocation = location;
+      });
+      print(location);
+      print("this is the current location");
+    },
+    );
+  }
 
-  static final CameraPosition _kHome = CameraPosition(
-      bearing: 0,
-      target: LatLng(40.642213, -79.936522),
-      tilt: 0,
-      zoom: 19);
+  Widget getMapBody() {
+    if (currentLocation == null) {
+      return Center(child: Text("Loading"),);
+    }
+    else {
+      return GoogleMap(
+        myLocationButtonEnabled: true,
+        mapType: MapType.hybrid,
+        initialCameraPosition: CameraPosition(
+            target: LatLng(
+                currentLocation!.latitude!, currentLocation!.longitude!),
+            zoom: 19),
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },);
+    }
+  }
 
   @override
+  void initState() {
+    getCurrentLocation();
+    super.initState();
+  }
+
+
+  @override
+  final Stream<QuerySnapshot> Container_Location = FirebaseFirestore
+      .instance
+      .collection('Container_Location')
+      .snapshots();
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -44,65 +83,89 @@ class MapState extends State<Map> {
         centerTitle: true,
       ),
       body: Column(
-        children:<Widget>[
-         SizedBox(
-           height: 400,
-          width: 500,
-          child:GoogleMap(
-            mapType: MapType.hybrid,
-            initialCameraPosition: _kBrottier,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-          ),
-         ),
-          SizedBox(
-            height: 200,
-            width: 400,
-            child:ListView.builder(
-              shrinkWrap: true,
-              itemCount: 10,
-              scrollDirection: Axis.vertical,
-              padding: EdgeInsets.all(5),
-              itemBuilder: (context, index) {
-                return SizedBox(
-                    height: 75,
-                    width: 200,
-                    child:ScrollConfiguration(
-                        behavior: MyBehavior(),
-                        child:ListView(
-                          physics: BouncingScrollPhysics(),
-                          children: <Widget>[
-                            ListTile(
-                              title: Text('Container'),
-                              subtitle: Text('Specific Location of the Container'),
-                              trailing: IconButton(onPressed: _goHome, icon: Icon(Icons.home)),
-                            ),
+          children: <Widget>[
+            SizedBox(
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.5,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 1,
+              child: getMapBody(),
+            ),
+            SizedBox(
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.3,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 1,
+              child: StreamBuilder<QuerySnapshot>(stream: Container_Location,
+                  builder:
+                      (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text(
+                          "Something Went wrong with the snapshot of the Container Location");
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Text("Loading");
+                    }
+                    final data = snapshot.requireData;
+                    return ListView.builder(shrinkWrap: true,
+                      itemCount: data.size,
+                      scrollDirection: Axis.vertical,
+                      padding: EdgeInsets.all(5),
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                            height: 75,
+                            width: 200,
+                            child: ScrollConfiguration(
+                                behavior: MyBehavior(),
+                                child: ListView(
+                                  physics: BouncingScrollPhysics(),
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: Text(
+                                          '${data.docs[index]['Name']}'),
+                                      subtitle: Text(
+                                          '${data.docs[index]['Address']}'),
+                                      trailing: IconButton(
+                                          onPressed: () async {
+                                            GoogleMapController controller = await _controller
+                                                .future;
+                                            controller.animateCamera(
+                                                CameraUpdate.newCameraPosition(
+                                                    CameraPosition(target: LatLng(data.docs[index]["LatLng"].latitude, data.docs[index]["LatLng"].longitude),
+                                                    zoom: 19)
+                                                ));
+                                          },
+                                          icon: Icon(Icons.place)),
+                                    ),
 
-                          ],
-                        )
-                    )
-                );
-              },
-            )
-          ),
-
-        ]
-          ),
-      bottomNavigationBar:NavBar() ,
-
-        );
-  }
-
-  Future<void> _goHome() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kHome));
+                                  ],
+                                )
+                            )
+                        );
+                      },
+                    );
+                  }
+              ),
+            ),
+          ]
+      ),
+      bottomNavigationBar: NavBar(),
+    );
   }
 }
 
 
 class MyBehavior extends ScrollBehavior{
-  @override
+    @override
   Widget buildOverscrollIndicator(
       BuildContext context, Widget child, ScrollableDetails details){
     return child;
