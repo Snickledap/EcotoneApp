@@ -4,6 +4,7 @@ import 'package:ecotone_app/routes/map/Map_Page.dart';
 import 'package:ecotone_app/routes/checklist/Checklist.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:ecotone_app/routes/information/Information.dart';
+import 'package:ecotone_app/routes/map/Data_Analytics.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget{
 
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.amber,
+        primarySwatch: Colors.lightBlue,
       ),
       initialRoute: initialRoute,
       onGenerateRoute: (settings) {
@@ -23,11 +24,14 @@ class MyApp extends StatelessWidget{
           case '/profile':
             return PageTransition(child: ProfilePage(), type: PageTransitionType.fade);
           break;
+          case '/data_analytics':
+            return PageTransition(child: AnalyticsPage(), type: PageTransitionType.fade);
+          break;
           case '/map':
             return PageTransition(child: Map(), type: PageTransitionType.fade);
           break;
           case '/checklist':
-            return PageTransition(child: HomePage(), type: PageTransitionType.fade);
+            return PageTransition(child: CheckList(), type: PageTransitionType.fade);
           break;
           case '/info':
             return PageTransition(child: InformationPage(), type: PageTransitionType.fade);
