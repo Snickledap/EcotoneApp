@@ -2,9 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../NavBar.dart';
 
-void main() {
-  runApp(CheckList());
-}
 
 class CheckList extends StatelessWidget {
   @override

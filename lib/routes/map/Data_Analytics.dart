@@ -1,4 +1,3 @@
-import 'package:ecotone_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:sizer/sizer.dart';
