@@ -79,8 +79,6 @@ class RouteGenerator extends StatelessWidget{
             return PageTransition(child: ChecklistPage(), type: PageTransitionType.fade);
           case '/info':
             return PageTransition(child: InformationPage(), type: PageTransitionType.fade);
-          case '/signin':
-            return PageTransition(child: Sign_In(), type: PageTransitionType.fade);
           default:
             return null;
         }
@@ -110,7 +108,7 @@ class _Sign_InState extends State<Sign_In> {
                 height: MediaQuery.of(context).size.height*0.5,
                 width: MediaQuery.of(context).size.width*0.5,
                 child: Center(
-                  child: Image.asset("lib/assets/images/Loading_Screen.png"),
+                  child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
                 ),
               ),
             ),
@@ -133,7 +131,7 @@ class _Sign_InState extends State<Sign_In> {
                 final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
                 provider.googleLogin();
               },
-              child: Text("Sign In with Google"),
+              child: const Text("Sign In with Google"),
             ),
           ),
         ],
