@@ -42,11 +42,11 @@ class Home extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting)
           return Center(child: CircularProgressIndicator());
       else if (snapshot.hasData) {
-        return Map();
+        return RouteGenerator();
     } else if (snapshot.hasError) {
         return Center(child: Text("Something Went Wrong with the Sign in"));
     } else {
-        return RouteGenerator();
+        return Sign_In();
       }
       },
     ),
