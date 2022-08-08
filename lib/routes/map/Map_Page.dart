@@ -104,8 +104,14 @@ class _MapState extends State<Map> {
                       padding: EdgeInsets.all(5),
                       itemBuilder: (context, index) {
                         return SizedBox(
-                            height: 75,
-                            width: 200,
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height * 0.1,
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.02,
                             child: ScrollConfiguration(
                                 behavior: MyBehavior(),
                                 child: ListView(
