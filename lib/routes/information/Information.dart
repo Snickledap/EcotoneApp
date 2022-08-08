@@ -8,8 +8,6 @@ void main() {
 }
 
   final List<String> videoID=[    //replace video id with training videos
-    'cR6LOX-uo9E',
-    '9MRza3x1_-A',
     '2vNVGZGlUok',
     '_DCsrRmQGTQ',
     '47y41Di7zao',
