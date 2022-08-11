@@ -1,4 +1,3 @@
-import 'package:ecotone_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:sizer/sizer.dart';
@@ -6,19 +5,24 @@ import 'package:ecotone_app/NavBar.dart';
 
 
 String last_date= "5/28/2022";
+class Any extends StatelessWidget {
+  const Any({Key? key}) : super(key: key);
 
-
-void main() {
-  runApp(AnalyticsPage());
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: AnalyticsPage(),
+    );
+  }
 }
+
 
 class AnalyticsPage extends StatelessWidget {
 
 @override
 Widget build(BuildContext context) {
   return Sizer(builder: (context, orientation, deviceType) {
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
           appBar: AppBar(
             leading: _DropDownMenu(),
             leadingWidth: 17.w,
@@ -114,7 +118,6 @@ Widget build(BuildContext context) {
 
           //Bottom Navigation Bar
           bottomNavigationBar: NavBar(),
-    )
     );
   }
   );

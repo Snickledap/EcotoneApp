@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:ecotone_app/routes/login/Google_Login_Setup.dart';
+
 
 
 Future <void> main() async{
@@ -13,7 +16,6 @@ Future <void> main() async{
   await Firebase.initializeApp();
   runApp(ProfilePage());
 }
-
 
 class ProfilePage extends StatelessWidget {
   final Stream<QuerySnapshot> Reminder = FirebaseFirestore
@@ -30,7 +32,6 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Sizer(
       builder: (BuildContext context, Orientation orientation, DeviceType deviceType) {
       return Scaffold(
@@ -178,7 +179,10 @@ class ProfilePage extends StatelessWidget {
                         elevation: 4,
                       ),
                       //Button Action
-                      onPressed: () {},
+                      onPressed: () {
+                        final provider = Provider.of<GoogleSignInProvider>(context,listen:false);
+                        provider.logout();
+                      },
                       //Button Text
                       child: const Text('Sign Out')
                   ),
@@ -192,7 +196,8 @@ class ProfilePage extends StatelessWidget {
                         tooltip:"Add Reminders",
                           child: Icon(Icons.add,
                           color: Colors.white,),
-                          onPressed: (){}),
+                          onPressed: (){}
+                          ),
                     )
                 ),
             ],
