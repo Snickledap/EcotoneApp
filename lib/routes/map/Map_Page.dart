@@ -81,7 +81,7 @@ class _MapState extends State<Map> {
               height: MediaQuery
                   .of(context)
                   .size
-                  .height * 0.3,
+                  .height * 0.29,
               width: MediaQuery
                   .of(context)
                   .size
