@@ -45,3 +45,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+# Android gradle properties (fixing Java home issues)
+/android/gradle.properties
