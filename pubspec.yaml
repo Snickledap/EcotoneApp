@@ -43,7 +43,7 @@ dependencies:
   url_launcher: ^6.1.5
   location: ^4.4.0
   provider: ^6.0.3
-  firebase_auth: ^3.6.2
+  firebase_auth: ^3.7.0
   google_sign_in: ^5.4.0
 dev_dependencies:
   flutter_test:
