@@ -14,6 +14,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "315275309774-b0bq5gji5o25hnbhqoh1dhtsba2k7t17.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ecotone_app",
+            "certificate_hash": "4b0c51b416e49554f321eb5cb65f1855945cd246"
+          }
+        },
+        {
+          "client_id": "315275309774-iup7ckvd4f9i0bcefi9qh1iudrarj02m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ecotone_app",
+            "certificate_hash": "9dd6180dffa57da401c5106984f6db64fed92d2a"
+          }
+        },
+        {
+          "client_id": "315275309774-rtljqfg19lbibkr2ivj0rrdeh3qo76io.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ecotone_app",
+            "certificate_hash": "66d77e9ca22014616d9b83620f9e545d930f193d"
+          }
+        },
+        {
           "client_id": "315275309774-eunb3mtvv3h0mr50pb8s5qplb4336m1m.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +53,13 @@
             {
               "client_id": "315275309774-eunb3mtvv3h0mr50pb8s5qplb4336m1m.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "315275309774-7hlj5cu8n53oe1svjpc5bf60v6a8dlfr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ecotoneApp"
+              }
             }
           ]
         }
