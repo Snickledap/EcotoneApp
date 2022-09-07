@@ -13,11 +13,7 @@ import 'package:provider/provider.dart';
 
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: FirebaseOptions(
-      apiKey: "AIzaSyDqOniWo09m6kiba68ntArwGdc3X6grjrU",
-      appId: "ecotone_app",
-      messagingSenderId: "315275309774",
-      projectId: "ecotone-app"));
+  await Firebase.initializeApp();
   runApp(HomePage());
 }
 

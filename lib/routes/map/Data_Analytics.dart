@@ -2,22 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 String last_date= "5/28/2022";
-class Any extends StatelessWidget {
-  const Any({Key? key}) : super(key: key);
 
+Future <void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(AnalyticsPage());
+}
+
+final Stream<QuerySnapshot> channelfeed = FirebaseFirestore
+    .instance
+    .collection("channelfeed")
+    .snapshots();
+
+class AnalyticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: AnalyticsPage(),
+      debugShowCheckedModeBanner: false,
+      home: Analytics(),
     );
   }
 }
 
 
-class AnalyticsPage extends StatelessWidget {
+class Analytics extends StatelessWidget {
 
 @override
 Widget build(BuildContext context) {
@@ -196,7 +208,26 @@ class _TemperatureCard extends StatelessWidget{
               child: SizedBox(
                 height: double.infinity,
                width: double.infinity,
-               child: Image.asset('lib/assets/images/PlaceHolderPic2.png'),
+               child: StreamBuilder<QuerySnapshot>(
+                 stream: channelfeed,
+                 builder: (
+                 BuildContext context,
+                     AsyncSnapshot<QuerySnapshot>snapshot,
+                 ){
+                   if(snapshot.hasError){
+                     return const Text("Something Went Wrong with Snapshot of Temerature Data");
+                   }
+                   if(snapshot.connectionState == ConnectionState.waiting){
+                     return const Text("Temperature Data is Loading");
+                   }
+                   final data = snapshot.requireData;
+                   return ListView.builder(
+                     itemBuilder:(context, index){
+                       return Text( "${data.docs[index]['swissvale']}");
+                     }
+                      );
+                 },
+               )
              )
              ),
             ],
