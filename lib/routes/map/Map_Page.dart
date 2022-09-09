@@ -101,7 +101,7 @@ class _MapState extends State<Map> {
                     return ListView.builder(shrinkWrap: true,
                       itemCount: data.size,
                       scrollDirection: Axis.vertical,
-                      padding: EdgeInsets.all(5),
+                      padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.01),
                       itemBuilder: (context, index) {
                         return SizedBox(
                             height: MediaQuery
@@ -112,33 +112,23 @@ class _MapState extends State<Map> {
                                 .of(context)
                                 .size
                                 .width * 0.02,
-                            child: ScrollConfiguration(
-                                behavior: MyBehavior(),
-                                child: ListView(
-                                  physics: BouncingScrollPhysics(),
-                                  children: <Widget>[
-                                    ListTile(
-                                      title: Text(
-                                          '${data.docs[index]['Name']}'),
-                                      subtitle: Text(
-                                          '${data.docs[index]['Address']}'),
-                                      trailing: IconButton(
-                                          onPressed: () async {
-                                            GoogleMapController controller = await _controller
-                                                .future;
-                                            controller.animateCamera(
-                                                CameraUpdate.newCameraPosition(
-                                                    CameraPosition(target: LatLng(data.docs[index]["LatLng"].latitude, data.docs[index]["LatLng"].longitude),
-                                                    zoom: 19)
-                                                ));
-                                          },
-                                          icon: Icon(Icons.place)),
-                                    ),
-
-                                  ],
-                                )
-                            )
-                        );
+                            child: ListTile(
+                              title: Text(
+                                  '${data.docs[index]['Name']}'),
+                              subtitle: Text(
+                                  '${data.docs[index]['Address']}'),
+                              trailing: IconButton(
+                                  onPressed: () async {
+                                    GoogleMapController controller = await _controller
+                                        .future;
+                                    controller.animateCamera(
+                                        CameraUpdate.newCameraPosition(
+                                            CameraPosition(target: LatLng(data.docs[index]["LatLng"].latitude, data.docs[index]["LatLng"].longitude),
+                                            zoom: 19)
+                                        ));
+                                  },
+                                  icon: Icon(Icons.place)),
+                            ));
                       },
                     );
                   }
