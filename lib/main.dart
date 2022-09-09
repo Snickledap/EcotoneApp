@@ -13,11 +13,7 @@ import 'package:provider/provider.dart';
 
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: FirebaseOptions(
-      apiKey: "AIzaSyDqOniWo09m6kiba68ntArwGdc3X6grjrU",
-      appId: "ecotone_app",
-      messagingSenderId: "315275309774",
-      projectId: "ecotone-app"));
+  await Firebase.initializeApp();
   runApp(HomePage());
 }
 
@@ -107,35 +103,27 @@ class _Sign_InState extends State<Sign_In> {
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.02),
+              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.1),
               child: Container(
-                height: MediaQuery.of(context).size.height*0.5,
-                width: MediaQuery.of(context).size.width*0.5,
+                height: MediaQuery.of(context).size.height*.75,
+                width: MediaQuery.of(context).size.width*.75,
                 child: Center(
                   child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
                 ),
               ),
             ),
           ),
-          Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.01)),
+          Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.00001)),
           SizedBox(
-            height: MediaQuery.of(context).size.height*0.08,
-            width: MediaQuery.of(context).size.width*0.6,
-            child: ElevatedButton(
-              onPressed: (){},
-              child: Text("Sign In"),
-            ),
-          ),
-          Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.01)),
-          SizedBox(
-            height: MediaQuery.of(context).size.height*0.08,
+            height: MediaQuery.of(context).size.height*0.1,
             width: MediaQuery.of(context).size.width*0.6,
             child: ElevatedButton(
               onPressed: (){
                 final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
                 provider.googleLogin();
               },
-              child: const Text("Sign In with Google"),
+              child: const Text("Sign In with Google", style: TextStyle(fontSize: 18))
+              ,
             ),
           ),
         ],

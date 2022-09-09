@@ -51,9 +51,12 @@ class _ChecklistPageState extends State<ChecklistPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-
                 //Check Box Format
-                const Padding(padding: EdgeInsets.all(10)),
+              Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.00001)),
+                SizedBox(
+                height: MediaQuery.of(context).size.height*0.1,
+                width: MediaQuery.of(context).size.width*0.6,
+                ),
 
                 //Check Box Logic
                 Column(
@@ -69,13 +72,10 @@ class _ChecklistPageState extends State<ChecklistPage> {
                     }).toList()),
 
                 //Button Formatting
-                const Padding(padding: EdgeInsets.all(60)),
-                Container(alignment: Alignment.center,height:60, width: 400, child:
+                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.00001)),
                 SizedBox(
-                    height: 60,
-                    width: 300,
-
-                    //Button
+                    height: MediaQuery.of(context).size.height*0.1,
+                    width: MediaQuery.of(context).size.width*0.6,
                     child:ElevatedButton(
                     style:ElevatedButton.styleFrom(
                       primary: const Color(0xFF015486),
@@ -95,8 +95,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                       ),
                     )
                 )
-                )
-              ],
+              ]
             )
         ),
 
