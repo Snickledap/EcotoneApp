@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../NavBar.dart';
 
+void main() => runApp(CheckList());
 
 class CheckList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Header
-    return const MaterialApp(
-
+    return MaterialApp(
       title: 'Checklist',
       home: ChecklistPage(),
     );
@@ -30,9 +30,9 @@ class _ChecklistPageState extends State<ChecklistPage> {
     {"name": "Drain Soil Sauce", "isChecked": false},
     {"name": "Check dosing and holding tank levels", "isChecked": false},
     {"name": "Input Data Into QR Form", "isChecked": false,},
-    {"name": "Fill out involveMint", "isChecked": false},
     {"name": "Complete BioGas Form ", "isChecked": false},
-    {"name": "Clean Area After Finished ", "isChecked": false}
+    {"name": "Clean Area After Finished ", "isChecked": false},
+    {"name": "Fill out involveMint", "isChecked": false}
   ];
 
   @override
@@ -51,12 +51,6 @@ class _ChecklistPageState extends State<ChecklistPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                //Check Box Format
-              Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.00001)),
-                SizedBox(
-                height: MediaQuery.of(context).size.height*0.1,
-                width: MediaQuery.of(context).size.width*0.6,
-                ),
 
                 //Check Box Logic
                 Column(
@@ -72,7 +66,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                     }).toList()),
 
                 //Button Formatting
-                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.00001)),
+                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.18)),
                 SizedBox(
                     height: MediaQuery.of(context).size.height*0.1,
                     width: MediaQuery.of(context).size.width*0.6,

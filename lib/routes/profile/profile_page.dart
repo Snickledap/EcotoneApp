@@ -14,22 +14,30 @@ import 'package:ecotone_app/routes/login/Google_Login_Setup.dart';
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(ProfilePage());
+  runApp(Profile());
+}
+
+class Profile extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+   return MaterialApp(
+     home:ProfilePage(),
+   );
+  }
 }
 
 class ProfilePage extends StatelessWidget {
-  final Stream<QuerySnapshot> Reminder = FirebaseFirestore
-      .instance
-      .collection("Reminder")
-      .snapshots();
   Future<void> _launchUrl() async {
-    final Uri _url = Uri.parse('https://flutter.dev');
+    final Uri _url = Uri.parse('https://involvemint.io/');
     if (!await launchUrl(_url)) {
       throw 'Could not launch $_url';
     }
   }
 
-
+final Stream<QuerySnapshot> Reminder = FirebaseFirestore
+    .instance
+    .collection("Reminder")
+    .snapshots();
   @override
   Widget build(BuildContext context) {
     return Sizer(
@@ -152,10 +160,10 @@ class ProfilePage extends StatelessWidget {
                       ],
                     )
                 ),
-                Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height * 0.05,)),
+                Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height * 0.16)),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.06,
-                  width: MediaQuery.of(context).size.width * 0.65,
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  width: MediaQuery.of(context).size.width * 0.60,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Colors.blue,
@@ -168,14 +176,13 @@ class ProfilePage extends StatelessWidget {
                       child: const Text("InvolveMINT")
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02,)),
+                Padding(padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02)),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.06,
-                  width: MediaQuery.of(context).size.width * 0.65,
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  width: MediaQuery.of(context).size.width * 0.6,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
-                        onPrimary: Colors.white,
+                        foregroundColor: Colors.white, backgroundColor: Colors.red,
                         elevation: 4,
                       ),
                       //Button Action
@@ -186,25 +193,11 @@ class ProfilePage extends StatelessWidget {
                       //Button Text
                       child: const Text('Sign Out')
                   ),
-                ),
-                Padding(padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.07,)),
-                Align(
-                  alignment: Alignment.bottomRight,
-                    child: Container(
-                      padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.03,),
-                      child: FloatingActionButton(
-                        tooltip:"Add Reminders",
-                          child: Icon(Icons.add,
-                          color: Colors.white,),
-                          onPressed: (){}
-                          ),
-                    )
-                ),
-            ],
+                )
+              ]
             ),
-            //Bottom Nav Bar
-            bottomNavigationBar: NavBar(),
-          );
+        bottomNavigationBar: NavBar(),
+        );
       },
     );
 
