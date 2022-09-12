@@ -4,27 +4,11 @@ import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ecotone_app/routes/login/Google_Login_Setup.dart';
 
 
-
-Future <void> main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(Profile());
-}
-
-class Profile extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-   return MaterialApp(
-     home:ProfilePage(),
-   );
-  }
-}
 
 class ProfilePage extends StatelessWidget {
   Future<void> _launchUrl() async {
@@ -182,12 +166,14 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                   width: MediaQuery.of(context).size.width * 0.6,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.red,
                         elevation: 4,
                       ),
                       //Button Action
                       onPressed: () {
-                        final provider = Provider.of<GoogleSignInProvider>(context,listen:false);
+                        final provider = Provider.
+                        of<GoogleSignInProvider>(context,listen: false);
                         provider.logout();
                       },
                       //Button Text
