@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
 String last_date= "5/28/2022";
+
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(Any());
+}
+
+
 class Any extends StatelessWidget {
   const Any({Key? key}) : super(key: key);
 
