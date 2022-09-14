@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import '../../NavBar.dart';
 
 void main() => runApp(CheckList());
@@ -7,10 +8,14 @@ void main() => runApp(CheckList());
 class CheckList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //Header
-    return MaterialApp(
-      title: 'Checklist',
-      home: ChecklistPage(),
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Checklist',
+          home: ChecklistPage(),
+        );
+      }
     );
   }
 }
@@ -49,42 +54,39 @@ class _ChecklistPageState extends State<ChecklistPage> {
         body:Container(
           alignment: Alignment.center,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-
-                //Check Box Logic
-                Column(
-                    children: checklist.map((task) {
-                      return CheckboxListTile(
-                          value: task["isChecked"],
-                          title: Text(task["name"]),
-                          onChanged: (newValue) {
-                            setState(() {
-                              task["isChecked"] = newValue;
-                            });
-                          });
-                    }).toList()),
-
-                //Button Formatting
-                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.18)),
+                children: <Widget>[  //Check Box Logic
                 SizedBox(
-                    height: MediaQuery.of(context).size.height*0.1,
-                    width: MediaQuery.of(context).size.width*0.6,
+                  height: 60.h,
+                  width: 95.w,
+                  child: Column(
+                      children: checklist.map((task) {
+                        return CheckboxListTile(
+                            value: task["isChecked"],
+                            title: Text(task["name"]),
+                            onChanged: (newValue) {
+                              setState(() {
+                                task["isChecked"] = newValue;
+                              });
+                            });
+                      }).toList()),
+                ),
+                //Button Formatting
+                Padding(padding: EdgeInsets.only(top: 5.h)),
+                SizedBox(
+                    height: 10.h,
+                    width: 60.w,
                     child:ElevatedButton(
                     style:ElevatedButton.styleFrom(
-                      primary: const Color(0xFF015486),
-                      onPrimary: Colors.white,
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color(0xFF015486),
                       elevation: 4,
                     ),
-
                     //Button Action
                     onPressed: (){},
-
                       //Button Text
                       child:
-                      Text(
-                          "Submit",
-                          style: TextStyle(fontSize: 24.0),
+                      Text("Submit",
+                          style: TextStyle(fontSize: 17.sp),
                           textAlign: TextAlign.center
                       ),
                     )
