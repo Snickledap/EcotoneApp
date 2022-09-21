@@ -11,25 +11,34 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 
+
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(HomePage());
 }
-
 class HomePage extends StatelessWidget {
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-      create: (context)=> GoogleSignInProvider(),
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        Provider<FirebaseAuthMethods>(
+          create: (_) => FirebaseAuthMethods(
+            FirebaseAuth.instance),
+        ),
+        StreamProvider(create: (context) => context.read<FirebaseAuthMethods>().authState, initialData: null,)
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: Home(),
-        ),
-      )
-  );
-  }
+      ),
+      ),
+    );
+      }
+    }
+
 
 
 class Home extends StatelessWidget {
@@ -95,8 +104,6 @@ class Sign_In extends StatefulWidget {
 }
 
 
-
-
 class _Sign_InState extends State<Sign_In> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
@@ -110,13 +117,19 @@ void dispose(){
 }
 
   void emailSignUp() async{
-    EmailFirebaseAuth(FirebaseAuth.instance)
+    FirebaseAuthMethods(FirebaseAuth.instance)
         .SignUpWithEmail(
         email: emailController.text,
         password: passwordController.text,
         context: context);
   }
-
+ void emailLogin() async {
+  FirebaseAuthMethods(FirebaseAuth.instance)
+      .loginWithEmail(
+      email: emailController.text,
+      password: passwordController.text,
+      context: context);
+ }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,8 +154,88 @@ void dispose(){
             width: MediaQuery.of(context).size.width*0.6,
             child: ElevatedButton(
               onPressed: (){
-                final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
-                provider.googleLogin();
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context){
+                      return SingleChildScrollView(
+                        physics: NeverScrollableScrollPhysics(),
+                        reverse: false,
+                        child: Dialog(
+                          insetPadding: EdgeInsets.symmetric(vertical:200, horizontal: 50),
+                          child: Stack(
+                            children: <Widget>[
+                              Positioned(
+                                  child: InkResponse(
+                                    onTap: (){
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: CircleAvatar(
+                                      child: Icon(Icons.close),
+                                      backgroundColor: Colors.transparent,
+                                    ),
+                                  )
+                              ),
+                              Form(
+                                key:_formKey,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Container(
+                                      child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
+                                      height: 100,
+                                      width: 100,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: TextFormField(
+                                        controller: emailController,
+                                        decoration: InputDecoration(
+                                          hintText:"Enter Your Email",
+                                        ) ,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: TextFormField(
+                                        obscureText: true,
+                                        controller:passwordController,
+                                        decoration: InputDecoration(
+                                          hintText: "Enter Your Password",
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(10),
+                                      height: 55,
+                                      width: 100,
+                                      child: ElevatedButton(
+                                        onPressed: emailLogin,
+                                        child: Text("Submit"),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                );
+              },
+              child: const Text("Sign In with Email",
+                  style: TextStyle(fontSize: 18)
+              ),
+            ),
+          ),
+          Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+          SizedBox(
+            height: MediaQuery.of(context).size.height*0.1,
+            width: MediaQuery.of(context).size.width*0.6,
+            child: ElevatedButton(
+              onPressed: (){
+                FirebaseAuthMethods(FirebaseAuth.instance)
+                    .signInWithGoogle(context);
               },
               child: const Text("Sign In with Google",
                   style: TextStyle(fontSize: 18)
@@ -158,54 +251,67 @@ void dispose(){
                 showDialog(
                     context: context,
                     builder: (BuildContext context){
-                      return Dialog(
-                        insetPadding: EdgeInsets.symmetric(vertical:200, horizontal: 50),
-                        child: Stack(
-                          children: <Widget>[
-                            Positioned(
-                                child: InkResponse(
-                                  onTap: (){
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: CircleAvatar(
-                                    child: Icon(Icons.close),
-                                    backgroundColor: Colors.transparent,
-                                  ),
-                                )
-                            ),
-                            Form(
-                              key:_formKey,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Container(
-                                      child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
-                                      height: 100,
-                                      width: 100,
+                      return SingleChildScrollView(
+                        physics: NeverScrollableScrollPhysics(),
+                        reverse: false,
+                        child: Dialog(
+                          insetPadding: EdgeInsets.symmetric(vertical:200, horizontal: 50),
+                          child: Stack(
+                            children: <Widget>[
+                              Positioned(
+                                  child: InkResponse(
+                                    onTap: (){
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: CircleAvatar(
+                                      child: Icon(Icons.close),
+                                      backgroundColor: Colors.transparent,
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.all(8),
+                                  )
+                              ),
+                              Form(
+                                key:_formKey,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Container(
+                                        child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
+                                        height: 100,
+                                        width: 100,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                          child: TextFormField(
+                                            controller: emailController,
+                                            decoration: InputDecoration(
+                                              hintText:"Enter Your Email",
+                                            ) ,
+                                      ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
                                         child: TextFormField(
-                                          controller: emailController,
+                                          obscureText: true,
+                                        controller:passwordController,
                                           decoration: InputDecoration(
-                                            hintText:"Enter Your Email",
-                                          ) ,
-                                    ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(8),
-                                      child: TextFormField(
-                                        obscureText: true,
-                                      controller:passwordController,
-                                        decoration: InputDecoration(
-                                          hintText: "Enter Your Password",
+                                            hintText: "Enter Your Password",
+                                          ),
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                            )
-                          ],
+                                      Container(
+                                       padding: EdgeInsets.all(10),
+                                        height: 55,
+                                        width: 100,
+                                        child: ElevatedButton(
+                                          onPressed: emailSignUp,
+                                          child: Text("Submit"),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     }
