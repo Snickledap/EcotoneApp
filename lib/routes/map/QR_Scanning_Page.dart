@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/NavBar.dart';
+import 'package:ecotone_app/NavBar_Consumer.dart';
+
 
 
 
@@ -128,7 +129,7 @@ class _QRScanningPageState extends State<_QRScanningPage> {
           ),
 
       //Bottom Nav Bar
-      bottomNavigationBar: NavBar(),
+      bottomNavigationBar: NavBar_Consumer(),
     );
 
   }

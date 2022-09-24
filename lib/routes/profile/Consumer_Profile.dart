@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/NavBar.dart';
+import 'package:ecotone_app/NavBar_Consumer.dart';
+import 'package:get/get.dart';
+
+import '../../main.dart';
+
 
 
 
 String points = "100";
-String username = "Chris Niles";
 
 
 
@@ -21,7 +24,7 @@ class ConsumerProfile extends StatelessWidget {
     return const MaterialApp(
       // Hide the debug banner
       debugShowCheckedModeBanner: false,
-      title: 'Checklist',
+      title: 'Profile Page',
       home: _ConsumerProfile(),
     );
   }
@@ -55,7 +58,7 @@ class _ConsumerProfileState extends State<_ConsumerProfile> {
 
               //Username Text
               Text(
-              "Hello, $username",
+              "Hello, Consumer",
               style: TextStyle(fontSize: 24),
               ),
 
@@ -115,11 +118,11 @@ class _ConsumerProfileState extends State<_ConsumerProfile> {
                     ),
 
                   //Shop Button Action
-                  onPressed: (){},
+                  onPressed: (){Get.to(() => RouteGenerator());},
 
                     //Shop Button Text
                     child: Text(
-                      "Shop",
+                      "Team Facing App",
                       style: TextStyle(fontSize: 24.0),
                       textAlign: TextAlign.center
                     ),
@@ -143,6 +146,7 @@ class _ConsumerProfileState extends State<_ConsumerProfile> {
                     //Sign Out Button Action
                     onPressed: (){},
 
+
                       //Sign Out Button Text
                       child: Text(
                         "Sign Out",
@@ -156,7 +160,7 @@ class _ConsumerProfileState extends State<_ConsumerProfile> {
     ),
 
       //Bottom Navigation Bar
-      bottomNavigationBar: NavBar(),
+      bottomNavigationBar: NavBar_Consumer(),
     );
 
   }

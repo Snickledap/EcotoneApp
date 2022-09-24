@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ecotone_app/NavBar_Consumer.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(BioGasForm());
 
 //Header
-class MyApp extends StatelessWidget {
+class BioGasForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTitle = 'Flutter Form Demo';
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
           title: Text(appTitle),
         ),
         body: MyCustomForm(),
+        bottomNavigationBar: NavBar_Consumer(),
       ),
     );
   }
@@ -80,7 +82,7 @@ class MyCustomFormState extends State<MyCustomForm> {
       ),
 
           //Button Format
-          const Padding(padding: EdgeInsets.all(170)),
+          const Padding(padding: EdgeInsets.all(50)),
           Container(alignment: Alignment.center,height:60, width: 600, child:
 
           //Button

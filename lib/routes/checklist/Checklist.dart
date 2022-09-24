@@ -1,16 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import '../../NavBar.dart';
 
+void main() => runApp(CheckList());
 
 class CheckList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //Header
-    return const MaterialApp(
-
-      title: 'Checklist',
-      home: ChecklistPage(),
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Checklist',
+          home: ChecklistPage(),
+        );
+      }
     );
   }
 }
@@ -30,9 +35,9 @@ class _ChecklistPageState extends State<ChecklistPage> {
     {"name": "Drain Soil Sauce", "isChecked": false},
     {"name": "Check dosing and holding tank levels", "isChecked": false},
     {"name": "Input Data Into QR Form", "isChecked": false,},
-    {"name": "Fill out involveMint", "isChecked": false},
     {"name": "Complete BioGas Form ", "isChecked": false},
-    {"name": "Clean Area After Finished ", "isChecked": false}
+    {"name": "Clean Area After Finished ", "isChecked": false},
+    {"name": "Fill out involveMint", "isChecked": false}
   ];
 
   @override
@@ -49,54 +54,44 @@ class _ChecklistPageState extends State<ChecklistPage> {
         body:Container(
           alignment: Alignment.center,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-
-                //Check Box Format
-                const Padding(padding: EdgeInsets.all(10)),
-
-                //Check Box Logic
-                Column(
-                    children: checklist.map((task) {
-                      return CheckboxListTile(
-                          value: task["isChecked"],
-                          title: Text(task["name"]),
-                          onChanged: (newValue) {
-                            setState(() {
-                              task["isChecked"] = newValue;
-                            });
-                          });
-                    }).toList()),
-
-                //Button Formatting
-                const Padding(padding: EdgeInsets.all(60)),
-                Container(alignment: Alignment.center,height:60, width: 400, child:
+                children: <Widget>[  //Check Box Logic
                 SizedBox(
-                    height: 60,
-                    width: 300,
-
-                    //Button
+                  height: 60.h,
+                  width: 95.w,
+                  child: Column(
+                      children: checklist.map((task) {
+                        return CheckboxListTile(
+                            value: task["isChecked"],
+                            title: Text(task["name"]),
+                            onChanged: (newValue) {
+                              setState(() {
+                                task["isChecked"] = newValue;
+                              });
+                            });
+                      }).toList()),
+                ),
+                //Button Formatting
+                Padding(padding: EdgeInsets.only(top: 5.h)),
+                SizedBox(
+                    height: 10.h,
+                    width: 60.w,
                     child:ElevatedButton(
                     style:ElevatedButton.styleFrom(
-                      primary: const Color(0xFF015486),
-                      onPrimary: Colors.white,
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color(0xFF015486),
                       elevation: 4,
                     ),
-
                     //Button Action
                     onPressed: (){},
-
                       //Button Text
                       child:
-                      Text(
-                          "Submit",
-                          style: TextStyle(fontSize: 24.0),
+                      Text("Submit",
+                          style: TextStyle(fontSize: 17.sp),
                           textAlign: TextAlign.center
                       ),
                     )
                 )
-                )
-              ],
+              ]
             )
         ),
 
