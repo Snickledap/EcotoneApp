@@ -8,14 +8,16 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ecotone_app/routes/login/Google_Login_Setup.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:observable/observable.dart';
+
+
+bool consumer= false.obs;
 
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(Profile());
 }
-
-
 
 class Profile extends StatelessWidget {
 
@@ -28,9 +30,15 @@ class Profile extends StatelessWidget {
   }
 }
 
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key? key}) : super(key: key);
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
 
-class ProfilePage extends StatelessWidget {
+class _ProfilePageState extends State<ProfilePage> {
+  bool isSwitched = false;
 
   Future<void> _launchUrl() async {
     final Uri _url = Uri.parse('https://involvemint.io/');
@@ -123,7 +131,7 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                               AsyncSnapshot<QuerySnapshot> snapshot,
                           ) {
                             if(snapshot.hasError){
-                              return Text("Soemthing Went Wrong with Snapshot of the Remidner Data");
+                              return Text("Soemthing Went Wrong with Snapshot of the Reminder Data");
                             }
                             if(snapshot.connectionState == ConnectionState.waiting){
                               return Text("Reminder Data is Loading");
@@ -207,22 +215,32 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                         ),
                             ]
                         ),
+                      ),
+                      Container(
+                        child: Switch(
+                          value: isSwitched,
+                          onChanged: (consumer) {
+                            setState(() {
+                              isSwitched = consumer;
+                            }
+                            );
+                          },
+                          activeTrackColor: Colors.lightGreenAccent,
+                          activeColor: Colors.green,
+                        ),
                       )
                      ],
                     ),
-                )
-                ]
-              ),
-          bottomNavigationBar: NavBar(),
-          );
+                ),
+                       ]
+        ),
+        bottomNavigationBar: NavBar(),
+        );
         },
       );
 
   }
 }
-
-
-
 
 class MyBehavior extends ScrollBehavior{
   @override

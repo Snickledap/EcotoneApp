@@ -1,4 +1,5 @@
 import 'package:ecotone_app/routes/login/Google_Login_Setup.dart';
+import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
 import 'package:ecotone_app/routes/profile/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:ecotone_app/routes/information/Information.dart';
 import 'package:ecotone_app/routes/map/Data_Analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+
 
 
 Future <void> main() async{
@@ -53,14 +55,13 @@ class Home extends StatelessWidget {
   );
 }
 
-
-
-
 class RouteGenerator extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
     String initialRoute = "/profile";
+
+
 
     return MaterialApp(
       theme: ThemeData(
@@ -79,6 +80,34 @@ class RouteGenerator extends StatelessWidget{
             return PageTransition(child: ChecklistPage(), type: PageTransitionType.fade);
           case '/info':
             return PageTransition(child: InformationPage(), type: PageTransitionType.fade);
+          default:
+            return null;
+        }
+      },
+    );
+  }
+}
+
+class ConsumerRouteGenerator extends StatelessWidget{
+  const ConsumerRouteGenerator({super.key});
+
+  @override
+  Widget build(BuildContext context){
+    String initialRoute = "/profile/Consumer_Profile";
+
+    return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.lightBlue,
+      ),
+      initialRoute: initialRoute,
+      onGenerateRoute: (settings) {
+        switch(settings.name) {
+          case '/Consumer_Profile':
+            return PageTransition(child: ConsumerProfile(), type: PageTransitionType.fade);
+          case '/data_analytics':
+            return PageTransition(child: AnalyticsPage(), type: PageTransitionType.fade);
+          case '/map':
+            return PageTransition(child: Map(), type: PageTransitionType.fade);
           default:
             return null;
         }

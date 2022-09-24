@@ -71,6 +71,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  dart_internal:
+    dependency: transitive
+    description:
+      name: dart_internal
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.6"
   fake_async:
     dependency: transitive
     description:
@@ -303,6 +310,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  observable:
+    dependency: "direct main"
+    description:
+      name: observable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.24.0"
   page_transition:
     dependency: "direct main"
     description:
@@ -484,5 +498,5 @@ packages:
     source: hosted
     version: "8.1.0"
 sdks:
-  dart: ">=2.17.0 <3.0.0"
+  dart: ">=2.17.0 <2.20.0"
   flutter: ">=3.0.0"

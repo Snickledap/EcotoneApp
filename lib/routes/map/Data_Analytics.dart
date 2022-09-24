@@ -28,18 +28,6 @@ Widget build(BuildContext context) {
             leadingWidth: 17.w,
             backgroundColor: const Color(0xFF309BE9), //Ecotone Colors
             actions: [
-              TextButton(
-                style: ButtonStyle(
-              overlayColor: MaterialStateColor.resolveWith((states) => Colors.blue)
-              ),
-                onPressed: (){},
-                child: Text('All',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20
-                ),
-                ),
-              )
             ],
           ),
           body: SizedBox(
@@ -151,7 +139,7 @@ class _DropDownMenuState extends State<_DropDownMenu> {
       },
 
       //Drop Down List
-      items: <String>['Zeus 1', 'Zeus 2', 'Zeus 3', 'Zeus 4']
+      items: <String>['Zeus', 'Seahorse']
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
