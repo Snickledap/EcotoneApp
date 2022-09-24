@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 
-List<String> routeNames = ['/map', "/info", "/consumer_profile"];
+List<String> routeNames = ['/QR', "/BioGas", "/consumer_profile"];
 
 
-class NavBar extends StatefulWidget {
-  const NavBar({Key? key}) : super(key: key);
+class NavBar_Consumer extends StatefulWidget {
+  const NavBar_Consumer({Key? key}) : super(key: key);
 
 
   @override
-  State<NavBar> createState() => NavBarState();
+  State<NavBar_Consumer> createState() => NavBar_ConsumerState();
 }
 
-class NavBarState extends State<NavBar> {
-  static int selectedIndex = 3;
+class NavBar_ConsumerState extends State<NavBar_Consumer> {
+  static int selectedIndex = 2;
 
   void onItemTapped(int index) {
     Navigator.pushReplacementNamed(context, routeNames[index]);
@@ -34,12 +34,12 @@ class NavBarState extends State<NavBar> {
         BottomNavigationBarItem(
           icon: Icon(Icons.map, color: Colors.white),
           activeIcon: Icon(Icons.map, color: Colors.lightBlue),
-          label: 'Map',
+          label: 'QR',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
           activeIcon: Icon(Icons.shopping_cart_outlined, color: Colors.lightBlue),
-          label: 'Info',
+          label: 'BioGas',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline, color: Colors.white),

@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecotone_app/main.dart';
+import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:provider/provider.dart';
@@ -8,10 +10,8 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ecotone_app/routes/login/Google_Login_Setup.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:observable/observable.dart';
+import 'package:get/get.dart';
 
-
-bool consumer= false.obs;
 
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +23,7 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: ProfilePage(),
     );
@@ -38,7 +38,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  bool isSwitched = false;
+  bool notSwitched = false;
 
   Future<void> _launchUrl() async {
     final Uri _url = Uri.parse('https://involvemint.io/');
@@ -218,10 +218,11 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                       ),
                       Container(
                         child: Switch(
-                          value: isSwitched,
-                          onChanged: (consumer) {
+                          value: notSwitched,
+                          onChanged: (bool newValue) {
                             setState(() {
-                              isSwitched = consumer;
+                              notSwitched = newValue;
+                              Get.to(ConsumerRouteGenerator());
                             }
                             );
                           },
@@ -249,8 +250,6 @@ class MyBehavior extends ScrollBehavior{
     return child;
   }
 }
-
-
 
 
 

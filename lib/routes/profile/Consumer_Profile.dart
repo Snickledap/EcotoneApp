@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/NavBar.dart';
+import 'package:ecotone_app/NavBar_Consumer.dart';
 
 
 
@@ -21,7 +21,7 @@ class ConsumerProfile extends StatelessWidget {
     return const MaterialApp(
       // Hide the debug banner
       debugShowCheckedModeBanner: false,
-      title: 'Checklist',
+      title: 'Profile Page',
       home: _ConsumerProfile(),
     );
   }
@@ -156,7 +156,7 @@ class _ConsumerProfileState extends State<_ConsumerProfile> {
     ),
 
       //Bottom Navigation Bar
-      bottomNavigationBar: NavBar(),
+      bottomNavigationBar: NavBar_Consumer(),
     );
 
   }

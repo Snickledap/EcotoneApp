@@ -1,4 +1,5 @@
 import 'package:ecotone_app/routes/login/Google_Login_Setup.dart';
+import 'package:ecotone_app/routes/map/QR_Scanning_Page.dart';
 import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
 import 'package:ecotone_app/routes/profile/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +11,7 @@ import 'package:ecotone_app/routes/information/Information.dart';
 import 'package:ecotone_app/routes/map/Data_Analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:ecotone_app/routes/checklist/Biogas Form.dart';
 
 
 
@@ -55,13 +57,12 @@ class Home extends StatelessWidget {
   );
 }
 
+
 class RouteGenerator extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
     String initialRoute = "/profile";
-
-
 
     return MaterialApp(
       theme: ThemeData(
@@ -93,7 +94,7 @@ class ConsumerRouteGenerator extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    String initialRoute = "/profile/Consumer_Profile";
+    String initialRoute = "/Consumer_Profile";
 
     return MaterialApp(
       theme: ThemeData(
@@ -104,10 +105,10 @@ class ConsumerRouteGenerator extends StatelessWidget{
         switch(settings.name) {
           case '/Consumer_Profile':
             return PageTransition(child: ConsumerProfile(), type: PageTransitionType.fade);
-          case '/data_analytics':
-            return PageTransition(child: AnalyticsPage(), type: PageTransitionType.fade);
-          case '/map':
-            return PageTransition(child: Map(), type: PageTransitionType.fade);
+          case '/BioGas':
+            return PageTransition(child: BioGasForm(), type: PageTransitionType.fade);
+          case '/QR':
+            return PageTransition(child: QRScanningPage(), type: PageTransitionType.fade);
           default:
             return null;
         }
