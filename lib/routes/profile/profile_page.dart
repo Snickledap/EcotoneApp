@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecotone_app/main.dart';
-import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
 final Stream<QuerySnapshot> Reminder = FirebaseFirestore
     .instance
     .collection("Reminder")
+    .orderBy('Time_Of_Event')
     .snapshots();
   @override
   Widget build(BuildContext context) {
@@ -222,7 +222,7 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                           onChanged: (bool newValue) {
                             setState(() {
                               notSwitched = newValue;
-                              Get.to(ConsumerRouteGenerator());
+                              Get.to(() => ConsumerRouteGenerator());
                             }
                             );
                           },
