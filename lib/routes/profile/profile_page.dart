@@ -205,9 +205,7 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                               ),
                               //Button Action
                               onPressed: () {
-                                final provider = Provider.
-                                of<GoogleSignInProvider>(context,listen: false);
-                                provider.logout();
+                                context.read<FirebaseAuthMethods>().signOut(context);
                               },
                           //Button Text
                            child: const Text('Sign Out')
