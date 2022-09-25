@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:graphic/graphic.dart';
 
 String last_date= "5/28/2022";
 
@@ -28,11 +31,11 @@ class Any extends StatelessWidget {
   }
 }
 
-class ChartData {
+class ChannelFeed {
 
   late CollectionReference channelFeed;
   late String apiKey;
-  ChartData(this.channelFeed);
+  ChannelFeed(this.channelFeed);
 
   fetchApiKey(String systemLabel) async {
 
@@ -44,15 +47,21 @@ class ChartData {
 
       print('apiKey:  ${apiKey}');
     });
-
-
   }
 
   fetchData(String systemLabel) async{
     await fetchApiKey(systemLabel);
-    final response = await http.get(Uri.parse(apiKey));
+    final response = await http.get(Uri.parse("apiKey"));
 
+    return response;
   }
+}
+
+class DataTemp {
+  final DateTime time;
+  final num db;
+
+  DataTemp(this.time, this.db);
 }
 
 class AnalyticsPage extends StatelessWidget {
@@ -61,8 +70,10 @@ class AnalyticsPage extends StatelessWidget {
 Widget build(BuildContext context) {
   CollectionReference channelFeed = FirebaseFirestore.instance.collection('channelfeed');
 
-  ChartData chartData = new ChartData(channelFeed);
-  chartData.fetchData("IPH-ZEUS");
+  ChannelFeed cf = new ChannelFeed(channelFeed);
+  //Map<String, dynamic> df = jsonDecode(cf.fetchData("IPH-ZEUS"));
+  //print('df:  ${df}');
+
 
   return Sizer(builder: (context, orientation, deviceType) {
     return Scaffold(
@@ -88,76 +99,61 @@ Widget build(BuildContext context) {
           body: SizedBox(
             child: Column(
               children:<Widget>[
-
-                //Time Frame Selection Bar
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-
-                    //Daily Time Frame Action
-                    TextButton(onPressed: (){}, child: Text('Today')),
-
-                    //Weekly Time Frame Action
-                    TextButton(onPressed: (){}, child: Text('1 Week')),
-
-                    //Monthly Time Frame Action
-                    TextButton(onPressed: (){}, child: Text('1 Month')),
-
-                    //3 Month Time Frame
-                    TextButton(onPressed: (){}, child: Text('3 Months')),
-                  ]
-                ),
-
-                //PH Container
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children:<Widget>[
-                      _TemperatureCard(),
-                      _pHCard()
+                Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  width: 350,
+                  height: 300,
+                  child: Chart(
+                    data: [ DataTemp(DateTime(2022, 9, 19), 5),
+                      DataTemp(DateTime(2022, 9, 26), 25),
+                      DataTemp(DateTime(2022, 10, 3), 100),
+                      DataTemp(DateTime(2022, 10, 10), 75),],
+                    variables: {
+                      'time': Variable(
+                        accessor: (DataTemp d) => d.time,
+                        scale: TimeScale(formatter: (time) =>
+                            DateFormat('MM-dd').format(time))
+                      ),
+                      'values': Variable(
+                        accessor: (DataTemp v) => v.db,
+                      ),
+                    },
+                    elements: [
+                      LineElement(
+                        shape: ShapeAttr(value: BasicLineShape(dash: [5, 2])),
+                        selected: {
+                          'touchMove': {1}
+                        },
+                      )
                     ],
-                ),
-
-                //Date Container
-                Padding(padding: EdgeInsets.all(3)),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children:<Widget>[
-                    _ConductivityCard(),
-                    _DateCard(),
-                  ],
-                ),
-
-                //Volume Container
-                Padding(padding: EdgeInsets.all(3)),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children:<Widget>[
-                    _StockCard(),
-                    _VolumeCard()
-                  ],
-                ),
-                Padding(padding: EdgeInsets.all(3)),
-                InkWell(
-                  child: Ink.image(
-                    image: AssetImage('lib/assets/images/PlaceHolderPic2.png'),
-                    fit: BoxFit.fill,
-                    width: 70.w,
-                    height: 16.h,
+                    coord: RectCoord(color: const Color(0xffdddddd)),
+                    axes: [
+                      Defaults.horizontalAxis,
+                      Defaults.verticalAxis,
+                    ],
+                    selections: {
+                      'touchMove': PointSelection(
+                        on: {
+                          GestureType.scaleUpdate,
+                          GestureType.tapDown,
+                          GestureType.longPressMoveUpdate
+                        },
+                        dim: Dim.x,
+                      )
+                    },
+                    tooltip: TooltipGuide(
+                      followPointer: [false, true],
+                      align: Alignment.topLeft,
+                      offset: const Offset(-20, -20),
+                    ),
                   ),
-                  onTap: (){
-                    print("Tapped on Place Holder");
-                  },
-                ),
-
-                  //Last Service Date Text
-                  const Text('Last Service Date:'),
-                  Text('$last_date'),
-                ]
-            ),
+                )
+              ]
+            )
           ),
+
+
+
 
           //Bottom Navigation Bar
           bottomNavigationBar: NavBar(),
