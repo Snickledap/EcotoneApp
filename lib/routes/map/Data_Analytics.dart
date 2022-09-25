@@ -3,7 +3,8 @@ import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
 
 String last_date= "5/28/2022";
 
@@ -11,6 +12,8 @@ Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(Any());
+
+
 }
 
 
@@ -25,11 +28,42 @@ class Any extends StatelessWidget {
   }
 }
 
+class ChartData {
+
+  late CollectionReference channelFeed;
+  late String apiKey;
+  ChartData(this.channelFeed);
+
+  fetchApiKey(String systemLabel) async {
+
+    await channelFeed.doc(systemLabel).get().then((DocumentSnapshot ds) {
+      print('Document name: ${systemLabel}');
+      print('Document data: ${ds.data()}');
+
+      apiKey = (ds.data()! as Map<String, dynamic>)['api_key'];
+
+      print('apiKey:  ${apiKey}');
+    });
+
+
+  }
+
+  fetchData(String systemLabel) async{
+    await fetchApiKey(systemLabel);
+    final response = await http.get(Uri.parse(apiKey));
+
+  }
+}
 
 class AnalyticsPage extends StatelessWidget {
 
 @override
 Widget build(BuildContext context) {
+  CollectionReference channelFeed = FirebaseFirestore.instance.collection('channelfeed');
+
+  ChartData chartData = new ChartData(channelFeed);
+  chartData.fetchData("IPH-ZEUS");
+
   return Sizer(builder: (context, orientation, deviceType) {
     return Scaffold(
           appBar: AppBar(
