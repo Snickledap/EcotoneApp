@@ -198,9 +198,9 @@ class _Sign_InState extends State<Sign_In> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Image.asset(
-                            height: 1000,
-                            width: 1000,
-                            "lib/assets/images/google-image.png"),
+                            height: 50,
+                            width: 50,
+                            "lib/assets/images/Ecotone_Logo_Transparent.png"),
                         SizedBox(
                           height: MediaQuery.of(context).size.height*0.1,
                           width: MediaQuery.of(context).size.width*0.6,
