@@ -163,117 +163,88 @@ class _Sign_InState extends State<Sign_In> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.1),
-              child: Container(
-                height: MediaQuery.of(context).size.height*.5,
-                width: MediaQuery.of(context).size.width*.5,
-                child: Center(
-                  child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
-                ),
-              ),
-            ),
-          ),
-          Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.00001)),
-            SizedBox(
-            height: MediaQuery.of(context).size.height*0.1,
-            width: MediaQuery.of(context).size.width*0.6,
-            child: ElevatedButton(
-              onPressed: (){
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context){
-                      return SingleChildScrollView(
-                        physics: NeverScrollableScrollPhysics(),
-                        reverse: false,
-                        child: Dialog(
-                          insetPadding: EdgeInsets.symmetric(vertical:200, horizontal: 50),
-                          child: Stack(
-                            children: <Widget>[
-                              Positioned(
-                                  child: InkResponse(
-                                    onTap: (){
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: CircleAvatar(
-                                      child: Icon(Icons.close),
-                                      backgroundColor: Colors.transparent,
-                                    ),
-                                  )
-                              ),
-                              Form(
-                                key:_formKey,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Container(
-                                      child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
-                                      height: 100,
-                                      width: 100,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: TextFormField(
-                                        controller: emailController,
-                                        decoration: InputDecoration(
-                                          hintText:"Enter Your Email",
-                                        ) ,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: TextFormField(
-                                        obscureText: true,
-                                        controller:passwordController,
-                                        decoration: InputDecoration(
-                                          hintText: "Enter Your Password",
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(10),
-                                      height: 55,
-                                      width: 100,
-                                      child: ElevatedButton(
-                                        onPressed: emailLogin,
-                                        child: Text("Submit"),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
+      body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        reverse: true,
+        child: Column(
+          children: <Widget>[
+                Form(
+                  key:_formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text("Sign In Through Email"),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: TextFormField(
+                          controller: emailController,
+                          decoration: InputDecoration(
+                            hintText:"Enter Your Email",
+                          ) ,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: TextFormField(
+                          obscureText: true,
+                          controller:passwordController,
+                          decoration: InputDecoration(
+                            hintText: "Enter Your Password",
                           ),
                         ),
-                      );
-                    }
-                );
-              },
-              child: const Text("Sign In with Email",
-                  style: TextStyle(fontSize: 18)
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        height: 55,
+                        width: 100,
+                        child: ElevatedButton(
+                          onPressed: emailLogin,
+                          child: Text("Submit"),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+
+            Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+            InkWell(
+              splashColor: Colors.white,
+              onTap: (){
+                  FirebaseAuthMethods(FirebaseAuth.instance)
+                      .signInWithGoogle(context);
+                },
+              child: Container(
+                decoration: BoxDecoration(
+                 border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+                height: 60,
+                width: 300,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                     Image.asset(
+                         height: 50,
+                         width: 50,
+                         "lib/assets/images/Ecotone_Logo_Transparent.png"),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height*0.1,
+                      width: MediaQuery.of(context).size.width*0.6,
+
+                      child: Center(
+                        child: Text("Sign In with Google",
+                            style: TextStyle(fontSize: 18)
+                        ),
+                      ),
+                    ),
+                  ]
+                ),
+              )
               ),
-            ),
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          SizedBox(
-            height: MediaQuery.of(context).size.height*0.1,
-            width: MediaQuery.of(context).size.width*0.6,
-            child: ElevatedButton(
-              onPressed: (){
-                FirebaseAuthMethods(FirebaseAuth.instance)
-                    .signInWithGoogle(context);
-              },
-              child: const Text("Sign In with Google",
-                  style: TextStyle(fontSize: 18)
-              ),
-            )
-          )
-          ],
-           )
-          );
+        ]
+        ),
+      )
+    );
   }
 }
