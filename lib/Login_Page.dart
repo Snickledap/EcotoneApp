@@ -1,3 +1,4 @@
+import 'package:ecotone_app/main.dart';
 import 'package:ecotone_app/routes/login/Google_Login_Setup.dart';
 import 'package:ecotone_app/routes/map/QR_Scanning_Page.dart';
 import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
@@ -6,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ecotone_app/routes/map/Map_Page.dart';
 import 'package:ecotone_app/routes/checklist/Checklist.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:ecotone_app/routes/information/Information.dart';
 import 'package:ecotone_app/routes/map/Data_Analytics.dart';
@@ -168,14 +170,60 @@ class _Sign_InState extends State<Sign_In> {
         reverse: true,
         child: Column(
           children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.arrow_back),
+              alignment: Alignment(-40, 5),
+              onPressed: (){Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+              }
+            ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 30)),
+            InkWell(
+                splashColor: Colors.white,
+                onTap: (){
+                  FirebaseAuthMethods(FirebaseAuth.instance)
+                      .signInWithGoogle(context);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  height: 60,
+                  width: 350,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                            height: 1000,
+                            width: 1000,
+                            "lib/assets/images/google-image.png"),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height*0.1,
+                          width: MediaQuery.of(context).size.width*0.6,
+
+                          child: Center(
+                            child: Text("SIGN IN WITH GOOGLE",
+                              style: GoogleFonts.roboto(
+                                fontSize: 18,
+                            ),
+                            ),
+                          ),
+                        ),
+                      ]
+                  ),
+                )
+            ),
                 Form(
                   key:_formKey,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Text("Sign In Through Email"),
                       Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.symmetric(vertical:40, horizontal: 20),
                         child: TextFormField(
                           controller: emailController,
                           decoration: InputDecoration(
@@ -184,7 +232,7 @@ class _Sign_InState extends State<Sign_In> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                         child: TextFormField(
                           obscureText: true,
                           controller:passwordController,
@@ -194,54 +242,24 @@ class _Sign_InState extends State<Sign_In> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.all(10),
-                        height: 55,
-                        width: 100,
+                        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                        height: 100,
+                        width: 400,
                         child: ElevatedButton(
                           onPressed: emailLogin,
-                          child: Text("Submit"),
+                          child: Text("SIGN IN",
+                            style: GoogleFonts.roboto(
+                              fontSize: 18,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF309be9),
                         ),
+                      )
                       )
                     ],
                   ),
                 ),
-
-            Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-            InkWell(
-              splashColor: Colors.white,
-              onTap: (){
-                  FirebaseAuthMethods(FirebaseAuth.instance)
-                      .signInWithGoogle(context);
-                },
-              child: Container(
-                decoration: BoxDecoration(
-                 border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                height: 60,
-                width: 300,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                     Image.asset(
-                         height: 50,
-                         width: 50,
-                         "lib/assets/images/Ecotone_Logo_Transparent.png"),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height*0.1,
-                      width: MediaQuery.of(context).size.width*0.6,
-
-                      child: Center(
-                        child: Text("Sign In with Google",
-                            style: TextStyle(fontSize: 18)
-                        ),
-                      ),
-                    ),
-                  ]
-                ),
-              )
-              ),
         ]
         ),
       )
