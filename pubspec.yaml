@@ -47,6 +47,8 @@ dependencies:
   google_sign_in: ^5.4.0
   observable: ^0.24.0
   get: ^4.6.5
+  google_fonts: ^3.0.1
+  flutter_launcher_icons: ^0.10.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -60,7 +62,10 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "lib/assets/images/Ecotone_Logo_Transparent.png"
 # The following section is specific to Flutter packages.
 flutter:
 
