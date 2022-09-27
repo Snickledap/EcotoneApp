@@ -170,16 +170,21 @@ class _Sign_InState extends State<Sign_In> {
         reverse: true,
         child: Column(
           children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              alignment: Alignment(-40, 5),
-              onPressed: (){Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
-              }
-            ),
-            Padding(padding: EdgeInsets.symmetric(vertical: 30)),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical:30, horizontal: 0),
+              child: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: (){Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+                }
+              ),
+        ),
+          ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
             InkWell(
                 splashColor: Colors.white,
                 onTap: (){
@@ -216,6 +221,13 @@ class _Sign_InState extends State<Sign_In> {
                       ]
                   ),
                 )
+            ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 30)),
+            Text(
+              'Or',
+              style: GoogleFonts.roboto(
+                fontSize: 18,
+              ),
             ),
                 Form(
                   key:_formKey,
