@@ -81,6 +81,7 @@ flutter:
     - lib/assets/images/Loading_Screen_2.png
     - lib/assets/images/PlaceHolderPic1.png
     - lib/assets/images/PlaceHolderPic2.png
+    - lib/assets/images/google-logo.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

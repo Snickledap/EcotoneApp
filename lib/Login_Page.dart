@@ -205,7 +205,7 @@ class _Sign_InState extends State<Sign_In> {
                         Image.asset(
                             height: 50,
                             width: 50,
-                            "lib/assets/images/Ecotone_Logo_Transparent.png"),
+                            "lib/assets/images/google-logo.png"),
                         SizedBox(
                           height: MediaQuery.of(context).size.height*0.1,
                           width: MediaQuery.of(context).size.width*0.6,
