@@ -1,21 +1,10 @@
 import 'package:ecotone_app/main.dart';
 import 'package:ecotone_app/routes/login/Google_Login_Setup.dart';
-import 'package:ecotone_app/routes/map/QR_Scanning_Page.dart';
-import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
-import 'package:ecotone_app/routes/profile/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/routes/map/Map_Page.dart';
-import 'package:ecotone_app/routes/checklist/Checklist.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:ecotone_app/routes/information/Information.dart';
-import 'package:ecotone_app/routes/map/Data_Analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:ecotone_app/routes/checklist/Biogas Form.dart';
-
-
 
 
 Future <void> main() async{
@@ -38,7 +27,7 @@ class LoginPage extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: Home(),
+          body: Login(),
         ),
       ),
     );
@@ -47,7 +36,7 @@ class LoginPage extends StatelessWidget {
 
 
 
-class Home extends StatelessWidget {
+class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context)=> Scaffold(
@@ -66,66 +55,6 @@ class Home extends StatelessWidget {
       },
     ),
   );
-}
-
-
-class RouteGenerator extends StatelessWidget{
-
-  @override
-  Widget build(BuildContext context){
-    String initialRoute = "/profile";
-
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
-      ),
-      initialRoute: initialRoute,
-      onGenerateRoute: (settings) {
-        switch(settings.name) {
-          case '/profile':
-            return PageTransition(child: ProfilePage(), type: PageTransitionType.fade);
-          case '/data_analytics':
-            return PageTransition(child: AnalyticsPage(), type: PageTransitionType.fade);
-          case '/map':
-            return PageTransition(child: Map(), type: PageTransitionType.fade);
-          case '/checklist':
-            return PageTransition(child: ChecklistPage(), type: PageTransitionType.fade);
-          case '/info':
-            return PageTransition(child: InformationPage(), type: PageTransitionType.fade);
-          default:
-            return null;
-        }
-      },
-    );
-  }
-}
-
-class ConsumerRouteGenerator extends StatelessWidget{
-  const ConsumerRouteGenerator({super.key});
-
-  @override
-  Widget build(BuildContext context){
-    String initialRoute = "/Consumer_Profile";
-
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
-      ),
-      initialRoute: initialRoute,
-      onGenerateRoute: (settings) {
-        switch(settings.name) {
-          case '/Consumer_Profile':
-            return PageTransition(child: ConsumerProfile(), type: PageTransitionType.fade);
-          case '/BioGas':
-            return PageTransition(child: BioGasForm(), type: PageTransitionType.fade);
-          case '/QR':
-            return PageTransition(child: QRScanningPage(), type: PageTransitionType.fade);
-          default:
-            return null;
-        }
-      },
-    );
-  }
 }
 
 
@@ -148,13 +77,6 @@ class _Sign_InState extends State<Sign_In> {
     passwordController.dispose();
   }
 
-  void emailSignUp() async{
-    FirebaseAuthMethods(FirebaseAuth.instance)
-        .SignUpWithEmail(
-        email: emailController.text,
-        password: passwordController.text,
-        context: context);
-  }
   void emailLogin() async {
     FirebaseAuthMethods(FirebaseAuth.instance)
         .loginWithEmail(
