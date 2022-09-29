@@ -11,6 +11,14 @@ import 'package:graphic/graphic.dart';
 
 String last_date= "5/28/2022";
 
+//These names should match the collection names in Firestore, will change the drop down menu
+List<String> systemNames = <String>[
+  "IPH-ZEUS",
+  "Seahorse 1"
+];
+
+String selectedSystem = "IPH-ZEUS";
+
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -57,6 +65,16 @@ class ChannelFeed {
   }
 }
 
+/*
+class DisplayChart {
+
+  Chart createChart() {
+    return Chart();
+  }
+}
+*/
+
+
 class DataTemp {
   final DateTime time;
   final num db;
@@ -70,15 +88,17 @@ class AnalyticsPage extends StatelessWidget {
 Widget build(BuildContext context) {
   CollectionReference channelFeed = FirebaseFirestore.instance.collection('channelfeed');
 
+  String dropdownValue = systemNames[0];
   ChannelFeed cf = new ChannelFeed(channelFeed);
-  //Map<String, dynamic> df = jsonDecode(cf.fetchData("IPH-ZEUS"));
+  //List<dynamic> df = jsonDecode(cf.fetchData("IPH-ZEUS"));
   //print('df:  ${df}');
+
 
 
   return Sizer(builder: (context, orientation, deviceType) {
     return Scaffold(
           appBar: AppBar(
-            leading: _DropDownMenu(),
+            title: Text("Analytics"),
             leadingWidth: 17.w,
             backgroundColor: const Color(0xFF309BE9), //Ecotone Colors
             actions: [
@@ -99,6 +119,26 @@ Widget build(BuildContext context) {
           body: SizedBox(
             child: Column(
               children:<Widget>[
+                Container(  //Dropdown for selecting system
+                  child: DropdownButton<String>(
+                    value: dropdownValue,
+                    icon: const Icon(Icons.arrow_downward),
+                    elevation: 16,
+                    style: const TextStyle(color: Colors.black),
+                    onChanged: (String? newValue) {
+                        dropdownValue = newValue!;
+                        //print("New value:  ${newValue}");
+                        //print("Dropdown value:  ${dropdownValue}");
+                      },
+                    //Drop Down List
+                    items: systemNames.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  )
+                ),
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   width: 350,
@@ -152,9 +192,6 @@ Widget build(BuildContext context) {
             )
           ),
 
-
-
-
           //Bottom Navigation Bar
           bottomNavigationBar: NavBar(),
     );
@@ -164,15 +201,15 @@ Widget build(BuildContext context) {
 }
 
 
-class _DropDownMenu extends StatefulWidget {
-  const _DropDownMenu({Key? key}) : super(key: key);
+class SystemSelectMenu extends StatefulWidget {
+  const SystemSelectMenu({Key? key}) : super(key: key);
 
   @override
-  State<_DropDownMenu> createState() => _DropDownMenuState();
+  State<SystemSelectMenu> createState() => _SystemSelectMenuState();
 }
 
-class _DropDownMenuState extends State<_DropDownMenu> {
-  String dropdownValue = 'Zeus 1';
+class _SystemSelectMenuState extends State<SystemSelectMenu> {
+  static String dropdownValue = 'IPH-ZEUS';
 
   @override
   Widget build(BuildContext context) {
@@ -186,12 +223,14 @@ class _DropDownMenuState extends State<_DropDownMenu> {
       onChanged: (String? newValue) {
         setState(() {
           dropdownValue = newValue!;
+          //print("New value:  ${newValue}");
+          //print("Dropdown value:  ${dropdownValue}");
+
         });
       },
 
       //Drop Down List
-      items: <String>['Zeus 1', 'Zeus 2', 'Zeus 3', 'Zeus 4']
-          .map<DropdownMenuItem<String>>((String value) {
+      items: systemNames.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
@@ -199,264 +238,13 @@ class _DropDownMenuState extends State<_DropDownMenu> {
       }).toList(),
     );
   }
-}
 
-
-
-@override
-class _TemperatureCard extends StatelessWidget{
-  @override
-  Widget build (BuildContext context) {
-
-    //Temperature Container Formatting
-    return CustomCard(
-        borderRadius: 15,
-        borderColor: Color(0xFF015486),
-        color: Colors.white,
-        height: 16.h,
-        width: 45.w,
-        onTap: (){},
-      child:
-
-          //Temperature Container
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children:<Widget>[
-              const Text('Temperature',
-              textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: Color(0xFF015486),
-                  fontSize: 12,
-                ),
-              ),
-
-             //Temperature Box Formatting
-             Expanded(
-              child: SizedBox(
-                height: double.infinity,
-               width: double.infinity,
-               child: Image.asset('lib/assets/images/PlaceHolderPic2.png'),
-             )
-             ),
-            ],
-          ),
-    );
+  String getDropdownValue() {
+    return dropdownValue;
   }
 }
 
 
-
-@override
-class _pHCard extends StatelessWidget{
-  @override
-  Widget build (BuildContext context) {
-
-    //PH Container Formatting
-    return CustomCard(
-        borderRadius: 15,
-        borderColor: Color(0xFF015486),
-        color: Colors.white,
-        height: 16.h,
-        width: 50.w,
-        onTap: (){},
-      child:
-
-      //PH Container
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:<Widget>[
-            const Text('pH',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Color(0xFF015486),
-                fontSize: 12,
-              ),
-            ),
-
-            //PH Box Formatting
-            Expanded(
-                child: SizedBox(
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: Image.asset('lib/assets/images/PlaceHolderPic2.png'),
-                )
-            ),
-          ],
-        ),
-    );
-  }
-}
-
-
-
-@override
-class _ConductivityCard extends StatelessWidget{
-  @override
-  Widget build (BuildContext context) {
-
-    //Electrical Conductivity Formatting
-    return CustomCard(
-        borderRadius: 15,
-        borderColor: Color(0xFF015486),
-        color: Colors.white,
-        height: 16.h,
-        width: 60.w,
-      onTap: (){},
-      child:
-
-        //Electrical Conductivity Container
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:<Widget>[
-            const Text('Electrical Conductivity',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Color(0xFF015486),
-                fontSize: 12,
-              ),
-            ),
-
-            //Electrical Conductivity Box Formatting
-            Expanded(
-                child: SizedBox(
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: Image.asset('lib/assets/images/PlaceHolderPic2.png'),
-                )
-            ),
-          ],
-        ),
-    );
-  }
-}
-
-
-
-@override
-class _DateCard extends StatelessWidget{
-  @override
-  Widget build (BuildContext context) {
-
-    //Date Formatting
-    return CustomCard(
-        borderRadius: 15,
-        borderColor: Color(0xFF015486),
-        color: Colors.white,
-        height: 16.h,
-        width: 35.w,
-      onTap: (){},
-      child:
-
-        //Date Container
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:<Widget>[
-            const Text('Date',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Color(0xFF015486),
-                fontSize: 12,
-              ),
-            ),
-
-            //Date Box Formatting
-            Expanded(
-                child: SizedBox(
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: Image.asset('lib/assets/images/PlaceHolderPic2.png'),
-                )
-            ),
-          ],
-        ),
-    );
-  }
-}
-
-
-
-@override
-class _StockCard extends StatelessWidget{
-  @override
-  Widget build (BuildContext context) {
-
-    //Fertilizer Stock Formatting
-    return CustomCard(
-        borderRadius: 15,
-        borderColor: Color(0xFF015486),
-        color: Colors.white,
-        height: 16.h,
-        width: 40.w,
-      onTap: (){},
-      child:
-
-        //Fertilizer Stock Container
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:<Widget>[
-            const Text('Fertilizer Stock',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Color(0xFF015486),
-                fontSize: 12,
-              ),
-            ),
-
-            //Fertilizer Stock Box Formatting
-            Expanded(
-                child: SizedBox(
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: Image.asset('lib/assets/images/PlaceHolderPic2.png'),
-                )
-            ),
-          ],
-        ),
-    );
-  }
-}
-
-
-
-@override
-class _VolumeCard extends StatelessWidget{
-  @override
-  Widget build (BuildContext context) {
-    //Dosing Tank Volume Container
-    return CustomCard(
-        borderRadius: 15,
-        borderColor: Color(0xFF015486),
-        color: Colors.white,
-        height: 16.h,
-        width: 55.w,
-      onTap: (){},
-      child:
-
-        //Dosing Tank Volume
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:<Widget>[
-            const Text('Dosing Tank Volume',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Color(0xFF015486),
-                fontSize: 12,
-              ),
-            ),
-
-            //Dosing Tank Volume Box Formatting
-            Expanded(
-                child: SizedBox(
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: Image.asset('lib/assets/images/PlaceHolderPic2.png',),
-                )
-            ),
-          ],
-        ),
-    );
-  }
-}
 
 
 
