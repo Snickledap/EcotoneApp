@@ -59,9 +59,9 @@ class ChannelFeed {
 
   fetchData(String systemLabel) async{
     await fetchApiKey(systemLabel);
-    final response = await http.get(Uri.parse("apiKey"));
-
-    return response;
+    var response = await http.get(Uri.parse(apiKey));
+    print(jsonDecode(response.body));
+    return response.body;
   }
 }
 
@@ -82,121 +82,105 @@ class DataTemp {
   DataTemp(this.time, this.db);
 }
 
-class AnalyticsPage extends StatelessWidget {
+class AnalyticsPage extends StatefulWidget {
+  const AnalyticsPage({super.key});
 
-@override
-Widget build(BuildContext context) {
-  CollectionReference channelFeed = FirebaseFirestore.instance.collection('channelfeed');
-
-  String dropdownValue = systemNames[0];
-  ChannelFeed cf = new ChannelFeed(channelFeed);
-  //List<dynamic> df = jsonDecode(cf.fetchData("IPH-ZEUS"));
-  //print('df:  ${df}');
+  @override
+  AnalyticsPageState createState() => AnalyticsPageState();
+}
 
 
+class AnalyticsPageState extends State<AnalyticsPage> {
 
-  return Sizer(builder: (context, orientation, deviceType) {
-    return Scaffold(
+  late CollectionReference cr;
+  late String dropdownValue = systemNames[0];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    cr = FirebaseFirestore.instance.collection('channelfeed');
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //Map<String, dynamic> df = jsonDecode(cf.fetchData("IPH-ZEUS"));
+    //print('df:  ${df}');
+
+    return Sizer(builder: (context, orientation, deviceType) {
+      return Scaffold(
           appBar: AppBar(
             title: Text("Analytics"),
             leadingWidth: 17.w,
             backgroundColor: const Color(0xFF309BE9), //Ecotone Colors
-            actions: [
-              TextButton(
-                style: ButtonStyle(
-              overlayColor: MaterialStateColor.resolveWith((states) => Colors.blue)
-              ),
-                onPressed: (){},
-                child: Text('All',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20
-                ),
-                ),
-              )
-            ],
           ),
+          bottomNavigationBar: NavBar(),
           body: SizedBox(
             child: Column(
-              children:<Widget>[
-                Container(  //Dropdown for selecting system
-                  child: DropdownButton<String>(
-                    value: dropdownValue,
-                    icon: const Icon(Icons.arrow_downward),
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.black),
-                    onChanged: (String? newValue) {
-                        dropdownValue = newValue!;
-                        //print("New value:  ${newValue}");
-                        //print("Dropdown value:  ${dropdownValue}");
-                      },
-                    //Drop Down List
-                    items: systemNames.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  )
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  width: 350,
-                  height: 300,
-                  child: Chart(
-                    data: [ DataTemp(DateTime(2022, 9, 19), 5),
-                      DataTemp(DateTime(2022, 9, 26), 25),
-                      DataTemp(DateTime(2022, 10, 3), 100),
-                      DataTemp(DateTime(2022, 10, 10), 75),],
-                    variables: {
-                      'time': Variable(
-                        accessor: (DataTemp d) => d.time,
-                        scale: TimeScale(formatter: (time) =>
-                            DateFormat('MM-dd').format(time))
-                      ),
-                      'values': Variable(
-                        accessor: (DataTemp v) => v.db,
-                      ),
-                    },
-                    elements: [
-                      LineElement(
-                        shape: ShapeAttr(value: BasicLineShape(dash: [5, 2])),
-                        selected: {
-                          'touchMove': {1}
+                children: <Widget>[
+                  Container( //Dropdown for selecting system
+                      child: DropdownButton<String>(
+                        value: dropdownValue,
+                        icon: const Icon(Icons.arrow_downward),
+                        elevation: 16,
+                        style: const TextStyle(color: Colors.black),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownValue = newValue!;
+                          });
+                          //print("New value:  ${newValue}");
+                          //print("Dropdown value:  ${dropdownValue}");
                         },
+                        //Drop Down List
+                        items: systemNames.map<DropdownMenuItem<String>>((
+                            String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
                       )
-                    ],
-                    coord: RectCoord(color: const Color(0xffdddddd)),
-                    axes: [
-                      Defaults.horizontalAxis,
-                      Defaults.verticalAxis,
-                    ],
-                    selections: {
-                      'touchMove': PointSelection(
-                        on: {
-                          GestureType.scaleUpdate,
-                          GestureType.tapDown,
-                          GestureType.longPressMoveUpdate
-                        },
-                        dim: Dim.x,
-                      )
-                    },
-                    tooltip: TooltipGuide(
-                      followPointer: [false, true],
-                      align: Alignment.topLeft,
-                      offset: const Offset(-20, -20),
-                    ),
-                  ),
-                )
-              ]
-            )
-          ),
+                  ), //Dropdown menu for system selection
+                  FutureBuilder<dynamic>(
+                      future: getData(),
+                      builder: (ctx, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        else {
+                          if (snapshot.error != null) {
+                            return Center(child: Text('An error occured'));
+                          }
+                          else {
+                            return DataChart();
+                          }
+                        }
+                      }
 
-          //Bottom Navigation Bar
-          bottomNavigationBar: NavBar(),
-    );
+                  ),
+                ]),
+          )
+      );
+     });
   }
-  );
+  //This function retrieves the api_key from Firestore and uses it to download the .json data from ThingSpeak
+  Future<dynamic> getData() async {
+    late String apiKey;
+    await cr.doc(dropdownValue).get().then((DocumentSnapshot ds) {
+      print('Document name: ${dropdownValue}');
+      print('Document data: ${ds.data()}');
+
+      apiKey = (ds.data()! as Map<String, dynamic>)['api_key'];
+
+      print('apiKey:  ${apiKey}');
+    });
+
+    var response = await http.get(Uri.parse(apiKey));
+
+
   }
 }
 
@@ -245,6 +229,14 @@ class _SystemSelectMenuState extends State<SystemSelectMenu> {
 }
 
 
+class DataChart extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Text("Testing");
+  }
+
+}
 
 
 
