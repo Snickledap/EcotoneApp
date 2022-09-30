@@ -65,7 +65,7 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "lib/assets/images/Ecotone_Logo_Transparent.png"
+  image_path: "lib/assets/images/Ecotone_Logo.png"
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -82,6 +82,7 @@ flutter:
     - lib/assets/images/PlaceHolderPic1.png
     - lib/assets/images/PlaceHolderPic2.png
     - lib/assets/images/google-logo.png
+    - lib/assets/images/Ecotone_Logo.PNG
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
