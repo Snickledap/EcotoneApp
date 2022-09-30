@@ -52,6 +52,10 @@ dependencies:
   flutter_local_notifications: ^11.0.1
   google_fonts: ^3.0.1
   flutter_launcher_icons: ^0.10.0
+  charts_flutter: ^0.12.0
+  http: ^0.13.5
+  graphic: ^0.10.7
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
