@@ -66,7 +66,7 @@ class Sign_In extends StatefulWidget {
 
 
 class _Sign_InState extends State<Sign_In> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKeyLogin = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -86,117 +86,122 @@ class _Sign_InState extends State<Sign_In> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        reverse: true,
-        child: Column(
-          children: <Widget>[
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical:30, horizontal: 0),
-              child: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: (){Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                );
-                }
-              ),
-        ),
-          ),
-            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-            InkWell(
-                splashColor: Colors.white,
-                onTap: (){
-                  FirebaseAuthMethods(FirebaseAuth.instance)
-                      .signInWithGoogle(context);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  height: 60,
-                  width: 350,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset(
-                            height: 50,
-                            width: 50,
-                            "lib/assets/images/google-logo.png"),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height*0.1,
-                          width: MediaQuery.of(context).size.width*0.6,
-
-                          child: Center(
-                            child: Text("SIGN IN WITH GOOGLE",
-                              style: GoogleFonts.roboto(
-                                fontSize: 18,
-                            ),
-                            ),
-                          ),
-                        ),
-                      ]
-                  ),
-                )
-            ),
-            Padding(padding: EdgeInsets.symmetric(vertical: 30)),
-            Text(
-              'Or',
-              style: GoogleFonts.roboto(
-                fontSize: 18,
-              ),
-            ),
-                Form(
-                  key:_formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical:40, horizontal: 20),
-                        child: TextFormField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                            hintText:"Enter Your Email",
-                          ) ,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                        child: TextFormField(
-                          obscureText: true,
-                          controller:passwordController,
-                          decoration: InputDecoration(
-                            hintText: "Enter Your Password",
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                        height: 100,
-                        width: 400,
-                        child: ElevatedButton(
-                          onPressed: emailLogin,
-                          child: Text("SIGN IN",
-                            style: GoogleFonts.roboto(
-                              fontSize: 18,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF309be9),
-                        ),
-                      )
-                      )
-                    ],
-                  ),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        body: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          reverse: true,
+          child: Column(
+            children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical:30, horizontal: 0),
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: (){Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
+                  }
                 ),
-        ]
-        ),
-      )
+          ),
+            ),
+              Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+              InkWell(
+                  splashColor: Colors.white,
+                  onTap: (){
+                    FirebaseAuthMethods(FirebaseAuth.instance)
+                        .signInWithGoogle(context);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    height: 60,
+                    width: 350,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                              height: 50,
+                              width: 50,
+                              "lib/assets/images/google-logo.png"),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height*0.1,
+                            width: MediaQuery.of(context).size.width*0.6,
+
+                            child: Center(
+                              child: Text("SIGN IN WITH GOOGLE",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                              ),
+                              ),
+                            ),
+                          ),
+                        ]
+                    ),
+                  )
+              ),
+              Padding(padding: EdgeInsets.symmetric(vertical: 30)),
+              Text(
+                'Or',
+                style: GoogleFonts.roboto(
+                  fontSize: 18,
+                ),
+              ),
+              Form(
+                key:_formKeyLogin,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical:40, horizontal: 20),
+                      child: TextFormField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          hintText:"Enter Your Email",
+                        ) ,
+                          onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                      child: TextFormField(
+                        obscureText: true,
+                        controller:passwordController,
+                        decoration: InputDecoration(
+                          hintText: "Enter Your Password",
+                        ),
+                          onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                      height: 100,
+                      width: 400,
+                      child: ElevatedButton(
+                        onPressed: emailLogin,
+                        child: Text("SIGN IN",
+                          style: GoogleFonts.roboto(
+                            fontSize: 18,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF309be9),
+                      ),
+                    )
+                    )
+                  ],
+                ),
+              ),
+          ]
+          ),
+        )
+      ),
     );
   }
 }
