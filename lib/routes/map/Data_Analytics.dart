@@ -14,7 +14,6 @@ String last_date= "5/28/2022";
 //These names should match the collection names in Firestore, will change the drop down menu
 List<String> systemNames = <String>[
   "IPH-ZEUS",
-  "Seahorse 1"
 ];
 
 String selectedSystem = "IPH-ZEUS";
@@ -97,7 +96,6 @@ class AnalyticsPageState extends State<AnalyticsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     cr = FirebaseFirestore.instance.collection('channelfeed');
@@ -120,28 +118,30 @@ class AnalyticsPageState extends State<AnalyticsPage> {
           body: SizedBox(
             child: Column(
                 children: <Widget>[
-                  Container( //Dropdown for selecting system
-                      child: DropdownButton<String>(
-                        value: dropdownValue,
-                        icon: const Icon(Icons.arrow_downward),
-                        elevation: 16,
-                        style: const TextStyle(color: Colors.black),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownValue = newValue!;
-                          });
-                          //print("New value:  ${newValue}");
-                          //print("Dropdown value:  ${dropdownValue}");
-                        },
-                        //Drop Down List
-                        items: systemNames.map<DropdownMenuItem<String>>((
-                            String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      )
+                  Center(
+                    child: Container( //Dropdown for selecting system
+                        child: DropdownButton<String>(
+                          value: dropdownValue,
+                          icon: const Icon(Icons.arrow_downward),
+                          elevation: 16,
+                          style: const TextStyle(color: Colors.black),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                            });
+                            //print("New value:  ${newValue}");
+                            //print("Dropdown value:  ${dropdownValue}");
+                          },
+                          //Drop Down List
+                          items: systemNames.map<DropdownMenuItem<String>>((
+                              String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        )
+                    ),
                   ), //Dropdown menu for system selection
                   FutureBuilder<dynamic>(
                       future: getData(),
@@ -155,7 +155,10 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                             return Center(child: Text('An error occured'));
                           }
                           else {
-                            return DataChart();
+                            //print("From after the future returned: ${snapshot.data}");
+                            return SizedBox(
+                                height: 500,
+                                child: DataChart(snapshot.data));
                           }
                         }
                       }
@@ -170,17 +173,28 @@ class AnalyticsPageState extends State<AnalyticsPage> {
   Future<dynamic> getData() async {
     late String apiKey;
     await cr.doc(dropdownValue).get().then((DocumentSnapshot ds) {
-      print('Document name: ${dropdownValue}');
-      print('Document data: ${ds.data()}');
+      print('Document name: $dropdownValue');
+      //print('Document data: ${ds.data()}');
 
       apiKey = (ds.data()! as Map<String, dynamic>)['api_key'];
 
-      print('apiKey:  ${apiKey}');
+      print('apiKey:  $apiKey');
     });
 
     var response = await http.get(Uri.parse(apiKey));
 
+    Map<String, dynamic> obj = jsonDecode(response.body);
 
+    //Remove nulls
+    var temp = obj["feeds"];
+    var temp2 = <dynamic>[];
+    for(var i in temp) {
+      if(i["field1"] != null) {
+        temp2.add(i);
+      }
+    }
+    print(temp2);
+    return temp2;
   }
 }
 
@@ -231,10 +245,28 @@ class _SystemSelectMenuState extends State<SystemSelectMenu> {
 
 class DataChart extends StatelessWidget {
 
+  late List<dynamic> data;
+  DataChart(this.data, {super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Text("Testing");
+
+
+    return Scrollbar(
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: data.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text("Time: " + data[index]["created_at"] + "  Temperature:" + data[index]["field1"])
+          );
+        }
+      ),
+    );
   }
+
+
 
 }
 
