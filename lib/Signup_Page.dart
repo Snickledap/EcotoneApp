@@ -2,6 +2,7 @@ import 'package:ecotone_app/routes/login/Google_Login_Setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'main.dart';
 
@@ -87,11 +88,11 @@ class _SignUpState extends State<SignUp> {
               children: <Widget>[
                 Container(
                   child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
-                  height: 100,
-                  width: 100,
+                  height: 200,
+                  width: 200,
                 ),
                 Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.only(top: 50, right: 10, left: 10),
                   child: TextFormField(
                     controller: emailController,
                     decoration: InputDecoration(
@@ -131,18 +132,25 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(10),
-                  height: 60,
-                  width: 300,
+                  padding: EdgeInsets.only(top: 30, right: 10, left: 10),
+                  height: 100,
+                  width: 400,
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()){
                         emailSignUp();
                       }
                     },
-                    child: Text("Sign Up Through Email"),
+                    child: Text("Sign Up Through Email",
+                      style: GoogleFonts.roboto(
+                        fontSize: 18,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF60c301),
+                    ),
                   ),
-                )
+                  ),
               ],
             ),
           )
