@@ -50,6 +50,8 @@ dependencies:
   timezone: ^0.9.0
   rxdart: ^0.27.5
   flutter_local_notifications: ^11.0.1
+  google_fonts: ^3.0.1
+  flutter_launcher_icons: ^0.10.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -63,7 +65,10 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "lib/assets/images/Ecotone_Logo_Transparent.png"
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -79,6 +84,7 @@ flutter:
     - lib/assets/images/Loading_Screen_2.png
     - lib/assets/images/PlaceHolderPic1.png
     - lib/assets/images/PlaceHolderPic2.png
+    - lib/assets/images/google-logo.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

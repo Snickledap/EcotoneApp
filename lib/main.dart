@@ -1,16 +1,16 @@
-import 'package:ecotone_app/routes/login/Google_Login_Setup.dart';
+import 'package:ecotone_app/Login_Page.dart';
+import 'package:ecotone_app/Signup_Page.dart';
 import 'package:ecotone_app/routes/map/QR_Scanning_Page.dart';
 import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
 import 'package:ecotone_app/routes/profile/profile_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ecotone_app/routes/map/Map_Page.dart';
 import 'package:ecotone_app/routes/checklist/Checklist.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:ecotone_app/routes/information/Information.dart';
 import 'package:ecotone_app/routes/map/Data_Analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:provider/provider.dart';
 import 'package:ecotone_app/routes/checklist/Biogas Form.dart';
 
 
@@ -25,46 +25,14 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<FirebaseAuthMethods>(
-          create: (_) => FirebaseAuthMethods(
-            FirebaseAuth.instance),
-        ),
-        StreamProvider(create: (context) => context.read<FirebaseAuthMethods>().authState, initialData: null,)
-      ],
-      child: MaterialApp(
+    return  MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: Home(),
-      ),
-      ),
+      )
     );
       }
     }
-
-
-
-class Home extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context)=> Scaffold(
-    body: StreamBuilder(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting)
-          return Center(child: CircularProgressIndicator());
-      else if (snapshot.hasData) {
-        return RouteGenerator();
-    } else if (snapshot.hasError) {
-        return Center(child: Text("Something Went Wrong with the Sign in"));
-    } else {
-        return Sign_In();
-      }
-      },
-    ),
-  );
-}
 
 
 class RouteGenerator extends StatelessWidget{
@@ -104,7 +72,6 @@ class ConsumerRouteGenerator extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     String initialRoute = "/Consumer_Profile";
-
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
@@ -127,39 +94,8 @@ class ConsumerRouteGenerator extends StatelessWidget{
 }
 
 
-class Sign_In extends StatefulWidget {
+class Home extends StatelessWidget {
 
-  @override
-  State<Sign_In> createState() => _Sign_InState();
-}
-
-
-class _Sign_InState extends State<Sign_In> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
-@override
-void dispose(){
-  super.dispose();
-  emailController.dispose();
-  passwordController.dispose();
-}
-
-  void emailSignUp() async{
-    FirebaseAuthMethods(FirebaseAuth.instance)
-        .SignUpWithEmail(
-        email: emailController.text,
-        password: passwordController.text,
-        context: context);
-  }
- void emailLogin() async {
-  FirebaseAuthMethods(FirebaseAuth.instance)
-      .loginWithEmail(
-      email: emailController.text,
-      password: passwordController.text,
-      context: context);
- }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,187 +104,72 @@ void dispose(){
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.1),
+              padding: EdgeInsets.only(top: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.13),
               child: Container(
-                height: MediaQuery.of(context).size.height*.5,
-                width: MediaQuery.of(context).size.width*.5,
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * .5,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * .7,
                 child: Center(
-                  child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
+                  child: Image.asset(
+                      "lib/assets/images/Ecotone_Logo_Transparent.png"),
                 ),
               ),
             ),
           ),
-          Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.00001)),
+          Padding(padding: EdgeInsets.symmetric(vertical: 60)),
           SizedBox(
-            height: MediaQuery.of(context).size.height*0.1,
-            width: MediaQuery.of(context).size.width*0.6,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.08,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width * 0.9,
             child: ElevatedButton(
-              onPressed: (){
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context){
-                      return SingleChildScrollView(
-                        physics: NeverScrollableScrollPhysics(),
-                        reverse: false,
-                        child: Dialog(
-                          insetPadding: EdgeInsets.symmetric(vertical:200, horizontal: 50),
-                          child: Stack(
-                            children: <Widget>[
-                              Positioned(
-                                  child: InkResponse(
-                                    onTap: (){
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: CircleAvatar(
-                                      child: Icon(Icons.close),
-                                      backgroundColor: Colors.transparent,
-                                    ),
-                                  )
-                              ),
-                              Form(
-                                key:_formKey,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Container(
-                                      child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
-                                      height: 100,
-                                      width: 100,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: TextFormField(
-                                        controller: emailController,
-                                        decoration: InputDecoration(
-                                          hintText:"Enter Your Email",
-                                        ) ,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: TextFormField(
-                                        obscureText: true,
-                                        controller:passwordController,
-                                        decoration: InputDecoration(
-                                          hintText: "Enter Your Password",
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(10),
-                                      height: 55,
-                                      width: 100,
-                                      child: ElevatedButton(
-                                        onPressed: emailLogin,
-                                        child: Text("Submit"),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    }
-                );
-              },
-              child: const Text("Sign In with Email",
-                  style: TextStyle(fontSize: 18)
+              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()),);},
+              child: Text("GET STARTED",
+                style: GoogleFonts.roboto(
+                  fontSize: 18,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF60c301)
               ),
             ),
           ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
           SizedBox(
-            height: MediaQuery.of(context).size.height*0.1,
-            width: MediaQuery.of(context).size.width*0.6,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.08,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width * 0.9,
             child: ElevatedButton(
-              onPressed: (){
-                FirebaseAuthMethods(FirebaseAuth.instance)
-                    .signInWithGoogle(context);
-              },
-              child: const Text("Sign In with Google",
-                  style: TextStyle(fontSize: 18)
-              ),
-            ),
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          SizedBox(
-            height: MediaQuery.of(context).size.height*0.1,
-            width: MediaQuery.of(context).size.width*0.6,
-            child: ElevatedButton(
-              onPressed: (){
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context){
-                      return SingleChildScrollView(
-                        physics: NeverScrollableScrollPhysics(),
-                        reverse: false,
-                        child: Dialog(
-                          insetPadding: EdgeInsets.symmetric(vertical:200, horizontal: 50),
-                          child: Stack(
-                            children: <Widget>[
-                              Positioned(
-                                  child: InkResponse(
-                                    onTap: (){
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: CircleAvatar(
-                                      child: Icon(Icons.close),
-                                      backgroundColor: Colors.transparent,
-                                    ),
-                                  )
-                              ),
-                              Form(
-                                key:_formKey,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      Container(
-                                        child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
-                                        height: 100,
-                                        width: 100,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(10),
-                                          child: TextFormField(
-                                            controller: emailController,
-                                            decoration: InputDecoration(
-                                              hintText:"Enter Your Email",
-                                            ) ,
-                                      ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: TextFormField(
-                                          obscureText: true,
-                                        controller:passwordController,
-                                          decoration: InputDecoration(
-                                            hintText: "Enter Your Password",
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                       padding: EdgeInsets.all(10),
-                                        height: 55,
-                                        width: 100,
-                                        child: ElevatedButton(
-                                          onPressed: emailSignUp,
-                                          child: Text("Submit"),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    }
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
                 );
               },
-              child: const Text("Sign Up with Email",
-                  style: TextStyle(fontSize: 18)
+              child: Text("I ALREADY HAVE AN ACCOUNT",
+                style: GoogleFonts.roboto(
+                  fontSize: 18,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF309be9),
               ),
             ),
           ),
