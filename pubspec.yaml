@@ -47,6 +47,9 @@ dependencies:
   google_sign_in: ^5.4.0
   observable: ^0.24.0
   get: ^4.6.5
+  timezone: ^0.9.0
+  rxdart: ^0.27.5
+  flutter_local_notifications: ^11.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
