@@ -30,9 +30,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.315275309774-4jn10m6v0ge5dglopibrjnmbu229k3jj</string>
+				<string>fb501243335204644</string>
 			</array>
 		</dict>
 	</array>
+	<key>FacebookAppID</key>
+    <string>501243335204644</string>
+    <key>FacebookClientToken</key>
+    <string>e00a62c7aff0194f836c3dd0bf677e09</string>
+    <key>FacebookDisplayName</key>
+    <string>Ecotone App</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>

@@ -146,6 +146,44 @@ class _Sign_InState extends State<Sign_In> {
                     ),
                   )
               ),
+              Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+              InkWell(
+                  splashColor: Colors.white,
+                  onTap: (){
+                    FirebaseAuthMethods(FirebaseAuth.instance)
+                        .signInWithFacebook(context);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    height: 60,
+                    width: 350,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                              height: 50,
+                              width: 50,
+                              "lib/assets/images/google-logo.png"),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height*0.1,
+                            width: MediaQuery.of(context).size.width*0.6,
+
+                            child: Center(
+                              child: Text("SIGN IN WITH FACEBOOK",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ]
+                    ),
+                  )
+              ),
               Padding(padding: EdgeInsets.symmetric(vertical: 30)),
               Text(
                 'Or',

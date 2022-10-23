@@ -1,6 +1,7 @@
 import 'package:ecotone_app/routes/login/showSnackBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 
@@ -76,7 +77,19 @@ class FirebaseAuthMethods {
       showSnackBar(context, e.message!);
     }
   }
+  //Facebook Sign in
+  Future<void> signInWithFacebook (BuildContext context) async{
+    try{
+      final LoginResult loginResult = await FacebookAuth.instance.login();
+      final OAuthCredential facebookAuthCredential =
+      FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
+      await _auth.signInWithCredential(facebookAuthCredential);
+
+    } on FirebaseAuthException catch (e){
+      showSnackBar(context, e.message!);
+    }
+  }
   //Sign Out
   Future<void> signOut(BuildContext context) async {
     try{
