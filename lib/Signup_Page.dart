@@ -64,106 +64,103 @@ class _SignUpState extends State<SignUp> {
   }
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        body: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
-          reverse: true,
-          child: Column(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical:30, horizontal: 0),
-                  child: IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: (){Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
-                      }
-                  ),
+    return Scaffold(
+      body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        reverse: true,
+        child: Column(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical:30, horizontal: 0),
+                child: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: (){Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                    }
                 ),
               ),
-              Form(
-                key:_formKeySignUp,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
-                      height: 200,
-                      width: 200,
+            ),
+            Form(
+              key:_formKeySignUp,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Container(
+                    child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
+                    height: 200,
+                    width: 200,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 50, right: 10, left: 10),
+                    child: TextFormField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        hintText:"Enter Your Email",
+                      ) ,
+                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 50, right: 10, left: 10),
-                      child: TextFormField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          hintText:"Enter Your Email",
-                        ) ,
-                        onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: TextFormField(
+                      obscureText: true,
+                      controller:passwordController,
+                      validator: (val){
+                        if(val!.isEmpty)
+                          return "Please enter the Password";
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Enter Your Password",
+                      ),
+                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                    ),
+                  ),Padding(
+                    padding: EdgeInsets.all(10),
+                    child: TextFormField(
+                      obscureText: true,
+                      controller:confirmPasswordController,
+                      validator: (val){
+                        if(val!.isEmpty)
+                          return "Please enter the Password Again";
+                        if(val !=passwordController.text)
+                          return "The Passwords Does Not Match";
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Confirm Your Password",
+                      ),
+                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 30, right: 10, left: 10),
+                    height: 100,
+                    width: 400,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKeySignUp.currentState!.validate()){
+                          emailSignUp();
+                        }
+                      },
+                      child: Text("Sign Up Through Email",
+                        style: GoogleFonts.roboto(
+                          fontSize: 18,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF60c301),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: TextFormField(
-                        obscureText: true,
-                        controller:passwordController,
-                        validator: (val){
-                          if(val!.isEmpty)
-                            return "Please enter the Password";
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          hintText: "Enter Your Password",
-                        ),
-                        onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                      ),
-                    ),Padding(
-                      padding: EdgeInsets.all(10),
-                      child: TextFormField(
-                        obscureText: true,
-                        controller:confirmPasswordController,
-                        validator: (val){
-                          if(val!.isEmpty)
-                            return "Please enter the Password Again";
-                          if(val !=passwordController.text)
-                            return "The Passwords Does Not Match";
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          hintText: "Confirm Your Password",
-                        ),
-                        onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                      ),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(top: 30, right: 10, left: 10),
-                      height: 100,
-                      width: 400,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKeySignUp.currentState!.validate()){
-                            emailSignUp();
-                          }
-                        },
-                        child: Text("Sign Up Through Email",
-                          style: GoogleFonts.roboto(
-                            fontSize: 18,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF60c301),
-                        ),
-                      ),
-                      ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
