@@ -65,25 +65,23 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading:IconButton(
+            color: Colors.black,
+            icon: Icon(Icons.arrow_back),
+            onPressed: (){Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+            }
+        ),
+      ),
       body: SingleChildScrollView(
         physics: NeverScrollableScrollPhysics(),
-        reverse: true,
         child: Column(
           children: <Widget>[
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical:30, horizontal: 0),
-                child: IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: (){Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
-                    }
-                ),
-              ),
-            ),
             Form(
               key:_formKeySignUp,
               child: Column(

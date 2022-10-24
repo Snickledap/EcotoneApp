@@ -99,81 +99,83 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              padding: EdgeInsets.only(top: MediaQuery
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                padding: EdgeInsets.only(top: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.13),
+                child: Container(
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * .5,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * .7,
+                  child: Center(
+                    child: Image.asset(
+                        "lib/assets/images/Ecotone_Logo_Transparent.png"),
+                  ),
+                ),
+              ),
+            ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 60)),
+            SizedBox(
+              height: MediaQuery
                   .of(context)
                   .size
-                  .height * 0.13),
-              child: Container(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * .5,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * .7,
-                child: Center(
-                  child: Image.asset(
-                      "lib/assets/images/Ecotone_Logo_Transparent.png"),
+                  .height * 0.08,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.9,
+              child: ElevatedButton(
+                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()),);},
+                child: Text("GET STARTED",
+                  style: GoogleFonts.roboto(
+                    fontSize: 18,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF60c301)
                 ),
               ),
             ),
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 60)),
-          SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.08,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.9,
-            child: ElevatedButton(
-              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()),);},
-              child: Text("GET STARTED",
-                style: GoogleFonts.roboto(
-                  fontSize: 18,
+            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            SizedBox(
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.08,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.9,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                },
+                child: Text("I ALREADY HAVE AN ACCOUNT",
+                  style: GoogleFonts.roboto(
+                    fontSize: 18,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF309be9),
                 ),
               ),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF60c301)
-              ),
             ),
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-          SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.08,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.9,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
-              },
-              child: Text("I ALREADY HAVE AN ACCOUNT",
-                style: GoogleFonts.roboto(
-                  fontSize: 18,
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF309be9),
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
