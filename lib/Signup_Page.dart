@@ -1,4 +1,4 @@
-import 'package:ecotone_app/routes/login/Google_Login_Setup.dart';
+import 'package:ecotone_app/routes/login/Login_Setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';

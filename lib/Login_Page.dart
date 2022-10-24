@@ -1,10 +1,11 @@
 import 'package:ecotone_app/main.dart';
-import 'package:ecotone_app/routes/login/Google_Login_Setup.dart';
+import 'package:ecotone_app/routes/login/Login_Setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
 
 
 Future <void> main() async{
@@ -158,14 +159,15 @@ class _Sign_InState extends State<Sign_In> {
               ),
             ),
             Padding(padding: EdgeInsets.symmetric(vertical: 15)),
-            Text(
+
+              Text(
               'Or',
               style: GoogleFonts.roboto(
                 fontSize: 18,
               ),
             ),
             Padding(padding: EdgeInsets.symmetric(vertical: 15)),
-            InkWell(
+            InkWell(                                                // google Sign in Button
                 splashColor: Colors.white,
                 onTap: (){
                   FirebaseAuthMethods(FirebaseAuth.instance)
@@ -203,7 +205,7 @@ class _Sign_InState extends State<Sign_In> {
                 )
             ),
             Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-            InkWell(
+            InkWell(                                              // FaceBook in Button
                 splashColor: Colors.white,
                 onTap: (){
                   FirebaseAuthMethods(FirebaseAuth.instance)
@@ -235,6 +237,50 @@ class _Sign_InState extends State<Sign_In> {
 
                           child: Center(
                             child: Text("SIGN IN WITH FACEBOOK",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                  color: Colors.white
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]
+                  ),
+                )
+            ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            InkWell(                                               // Apple in Button
+                splashColor: Colors.white,
+                onTap: (){
+
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    color: Colors.black,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  height: 60,
+                  width: 350,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          IconData(
+                            0xf04be,
+                            fontFamily: 'MaterialICons',
+
+                          ),
+                          size:48,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height*0.1,
+                          width: MediaQuery.of(context).size.width*0.6,
+
+                          child: Center(
+                            child: Text("SIGN IN WITH APPLE",
                               style: GoogleFonts.roboto(
                                   fontSize: 18,
                                   color: Colors.white

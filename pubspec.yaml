@@ -56,6 +56,7 @@ dependencies:
   http: ^0.13.5
   graphic: ^0.10.7
   flutter_facebook_auth: ^4.4.1+1
+  sign_in_with_apple: ^4.1.0
 
 dev_dependencies:
   flutter_test:
