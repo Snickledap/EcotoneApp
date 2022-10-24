@@ -94,7 +94,7 @@ class FirebaseAuthMethods {
 
   //Apple Sign in
   Future<void> signInWithApple (BuildContext context) async{
-    final credential = await SignInWithApple.getAppleIDCredential(
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
       scopes: [
         AppleIDAuthorizationScopes.email,
         AppleIDAuthorizationScopes.fullName

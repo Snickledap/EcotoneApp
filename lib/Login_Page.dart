@@ -252,7 +252,8 @@ class _Sign_InState extends State<Sign_In> {
             InkWell(                                               // Apple in Button
                 splashColor: Colors.white,
                 onTap: (){
-
+                  FirebaseAuthMethods(FirebaseAuth.instance)
+                      .signInWithApple(context);
                 },
                 child: Container(
                   decoration: BoxDecoration(
