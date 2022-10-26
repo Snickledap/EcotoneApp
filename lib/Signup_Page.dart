@@ -48,11 +48,13 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
+
   @override
   void dispose(){
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose();
   }
 
   void emailSignUp() async{
@@ -71,10 +73,10 @@ class _SignUpState extends State<SignUp> {
         leading:IconButton(
             color: Colors.black,
             icon: Icon(Icons.arrow_back),
-            onPressed: (){Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
+            onPressed: (){
+              Navigator
+                  .push(context, MaterialPageRoute(builder: (context) => HomePage()),
+              );
             }
         ),
       ),
@@ -82,6 +84,12 @@ class _SignUpState extends State<SignUp> {
         physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
+            Text(
+              'Sign Up With Email',
+              style: GoogleFonts.roboto(
+                fontSize: 18,
+              ),
+            ),
             Form(
               key:_formKeySignUp,
               child: Column(
@@ -125,7 +133,7 @@ class _SignUpState extends State<SignUp> {
                       validator: (val){
                         if(val!.isEmpty)
                           return "Please enter the Password Again";
-                        if(val !=passwordController.text)
+                        if(val!=passwordController.text)
                           return "The Passwords Does Not Match";
                         return null;
                       },
@@ -145,13 +153,13 @@ class _SignUpState extends State<SignUp> {
                           emailSignUp();
                         }
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF60c301),
+                      ),
                       child: Text("Sign Up Through Email",
                         style: GoogleFonts.roboto(
                           fontSize: 18,
                         ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF60c301),
                       ),
                     ),
                     ),

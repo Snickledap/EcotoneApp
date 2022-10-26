@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-List<String> routeNames = ['/map', '/data_analytics', '/checklist', "/info", "/profile"];
+List<String> routeNames = ['/map_and_analytics', '/data_analytics', '/checklist', "/info", "/profile"];
 
 
 class NavBar extends StatefulWidget {

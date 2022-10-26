@@ -45,12 +45,12 @@ class Login extends StatelessWidget {
     body: StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting)
-          return Center(child: CircularProgressIndicator());
-        else if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasData) {
           return RouteGenerator();
         } else if (snapshot.hasError) {
-          return Center(child: Text("Something Went Wrong with the Sign in"));
+          return const Center(child: Text("Something Went Wrong with the Sign in"));
         } else {
           return Sign_In();
         }
@@ -69,23 +69,24 @@ class Sign_In extends StatefulWidget {
 
 class _Sign_InState extends State<Sign_In> {
   final _formKeyLogin = GlobalKey<FormState>();
-  final TextEditingController emailController =  TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController loginEmailController =  TextEditingController();
+  final TextEditingController loginPasswordController = TextEditingController();
 
   @override
   void dispose(){
     super.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    loginEmailController.dispose();
+    loginPasswordController.dispose();
   }
 
   void emailLogin() async {
     FirebaseAuthMethods(FirebaseAuth.instance)
         .loginWithEmail(
-        email: emailController.text,
-        password: passwordController.text,
+        email: loginEmailController.text,
+        password: loginPasswordController.text,
         context: context);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,201 +96,218 @@ class _Sign_InState extends State<Sign_In> {
         leading:IconButton(
           color: Colors.black,
             icon: Icon(Icons.arrow_back),
-            onPressed: (){Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+            onPressed: (){
+            Navigator
+                .push(context, MaterialPageRoute(builder: (context) => HomePage()),
             );
             }
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Text(
-            'Sign In With Email',
-            style: GoogleFonts.roboto(
-              fontSize: 18,
-            ),
-          ),
-          Form(
-            key:_formKeyLogin,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical:40, horizontal: 20),
-                  child: TextFormField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      hintText:"Enter Your Email",
-                    ) ,
-                    onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                  child: TextFormField(
-                    obscureText: true,
-                    controller:passwordController,
-                    decoration: InputDecoration(
-                      hintText: "Enter Your Password",
-                    ),
-                    onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                  ),
-                ),
-                Container(
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                    height: 100,
-                    width: 400,
-                    child: ElevatedButton(
-                      onPressed: emailLogin,
-                      child: Text("SIGN IN",
-                        style: GoogleFonts.roboto(
-                          fontSize: 18,
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF309be9),
-                      ),
-                    )
-                )
-              ],
-            ),
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 15)),
+      body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: Column(
+          children: <Widget>[
             Text(
-            'Or',
-            style: GoogleFonts.roboto(
-              fontSize: 18,
+              'Sign In With Email',
+              style: GoogleFonts.roboto(
+                fontSize: 18,
+              ),
             ),
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 15)),
-          InkWell(                                                // google Sign in Button
-              splashColor: Colors.white,
-              onTap: (){
-                FirebaseAuthMethods(FirebaseAuth.instance)
-                    .signInWithGoogle(context);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                height: 60,
-                width: 350,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset(
-                          height: 50,
-                          width: 50,
-                          "lib/assets/images/google-logo.png"),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height*0.1,
-                        width: MediaQuery.of(context).size.width*0.6,
-
-                        child: Center(
-                          child: Text("SIGN IN WITH GOOGLE",
-                            style: GoogleFonts.roboto(
-                              fontSize: 18,
-                            ),
+            Form(
+              key:_formKeyLogin,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical:40, horizontal: 20),
+                    child: TextFormField(
+                      controller: loginEmailController,
+                      decoration: InputDecoration(
+                        hintText:"Enter Your Email",
+                      ) ,
+                      validator: (val){
+                        if(val!.isEmpty)
+                          return "Please Enter Your Email";
+                        return null;
+                      },
+                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                    child: TextFormField(
+                      obscureText: true,
+                      controller: loginPasswordController,
+                      decoration: InputDecoration(
+                        hintText: "Enter Your Password",
+                      ),
+                      validator: (val){
+                      if(val!.isEmpty)
+                      return "Please enter the Password ";
+                      return null;
+                      },
+                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                    ),
+                  ),
+                  Container(
+                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                      height: 100,
+                      width: 400,
+                      child: ElevatedButton(
+                        onPressed: (){
+                          if (_formKeyLogin.currentState!.validate()){
+                              emailLogin();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF309be9),
+                        ),
+                        child: Text("SIGN IN",
+                          style: GoogleFonts.roboto(
+                            fontSize: 18,
                           ),
                         ),
-                      ),
-                    ]
-                ),
-              )
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-          InkWell(                                              // FaceBook in Button
-              splashColor: Colors.white,
-              onTap: (){
-                FirebaseAuthMethods(FirebaseAuth.instance)
-                    .signInWithFacebook(context);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color(0xFF3B5998),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                height: 60,
-                width: 350,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        IconData(
-                          0xe255,
-                          fontFamily: 'MaterialICons',
+                      )
+                  )
+                ],
+              ),
+            ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 15)),
+              Text(
+              'Or',
+              style: GoogleFonts.roboto(
+                fontSize: 18,
+              ),
+            ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 15)),
+           InkWell(                                                // google Sign in Button
+                splashColor: Colors.white,
+                onTap: (){
+                  FirebaseAuthMethods(FirebaseAuth.instance)
+                      .signInWithGoogle(context);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  height: 60,
+                  width: 350,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                            height: 50,
+                            width: 50,
+                            "lib/assets/images/google-logo.png"),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height*0.1,
+                          width: MediaQuery.of(context).size.width*0.6,
 
-                        ),
-                        size:48,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height*0.1,
-                        width: MediaQuery.of(context).size.width*0.6,
-
-                        child: Center(
-                          child: Text("SIGN IN WITH FACEBOOK",
-                            style: GoogleFonts.roboto(
+                          child: Center(
+                            child: Text("SIGN IN WITH GOOGLE",
+                              style: GoogleFonts.roboto(
                                 fontSize: 18,
-                                color: Colors.white
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ]
-                ),
-              )
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-          InkWell(                                               // Apple in Button
-              splashColor: Colors.white,
-              onTap: (){
-                /*FirebaseAuthMethods(FirebaseAuth.instance)
-                    .signInWithApple(context);*/
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  color: Colors.black,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                height: 60,
-                width: 350,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        IconData(
-                          0xf04be,
-                          fontFamily: 'MaterialICons',
+                      ]
+                  ),
+                )
+            ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            InkWell(                                              // FaceBook in Button
+                splashColor: Colors.white,
+                onTap: (){
+                  FirebaseAuthMethods(FirebaseAuth.instance)
+                      .signInWithFacebook(context);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFF3B5998),
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  height: 60,
+                  width: 350,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          IconData(
+                            0xe255,
+                            fontFamily: 'MaterialICons',
 
+                          ),
+                          size:48,
+                          color: Colors.white,
                         ),
-                        size:48,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height*0.1,
-                        width: MediaQuery.of(context).size.width*0.6,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height*0.1,
+                          width: MediaQuery.of(context).size.width*0.6,
 
-                        child: Center(
-                          child: Text("SIGN IN WITH APPLE",
-                            style: GoogleFonts.roboto(
-                                fontSize: 18,
-                                color: Colors.white
+                          child: Center(
+                            child: Text("SIGN IN WITH FACEBOOK",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                  color: Colors.white
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ]
-                ),
-              )
-          ),
-      ]
+                      ]
+                  ),
+                )
+            ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            InkWell(                                               // Apple in Button
+                splashColor: Colors.white,
+                onTap: (){
+                  /*FirebaseAuthMethods(FirebaseAuth.instance)
+                      .signInWithApple(context);*/
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    color: Colors.black,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  height: 60,
+                  width: 350,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          IconData(
+                            0xf04be,
+                            fontFamily: 'MaterialICons',
+
+                          ),
+                          size:48,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height*0.1,
+                          width: MediaQuery.of(context).size.width*0.6,
+
+                          child: Center(
+                            child: Text("SIGN IN WITH APPLE",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                  color: Colors.white
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]
+                  ),
+                )
+            ),
+        ]
+        ),
       )
     );
   }

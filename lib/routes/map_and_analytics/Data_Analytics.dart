@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
@@ -5,6 +7,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 String last_date= "5/28/2022";
 
@@ -19,7 +23,6 @@ Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(Any());
-
 
 }
 
@@ -60,16 +63,6 @@ class ChannelFeed {
     return response.body;
   }
 }
-
-/*
-class DisplayChart {
-
-  Chart createChart() {
-    return Chart();
-  }
-}
-*/
-
 
 class DataTemp {
   final DateTime time;
@@ -249,17 +242,11 @@ class DataChart extends StatelessWidget {
   Widget build(BuildContext context) {
 
 
-    return Scrollbar(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text("Time: " + data[index]["created_at"] + "  Temperature:" + data[index]["field1"])
-          );
-        }
-      ),
+    return Column(
+      children: [
+        SfCartesianChart(
+        )
+      ],
     );
   }
 

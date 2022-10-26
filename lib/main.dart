@@ -1,15 +1,15 @@
 import 'package:ecotone_app/Login_Page.dart';
 import 'package:ecotone_app/Signup_Page.dart';
-import 'package:ecotone_app/routes/map/QR_Scanning_Page.dart';
+import 'package:ecotone_app/routes/map_and_analytics/QR_Scanning_Page.dart';
+import 'package:ecotone_app/routes/map_and_analytics/Data_Analytics.dart';
 import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
 import 'package:ecotone_app/routes/profile/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/routes/map/Map_Page.dart';
+import 'package:ecotone_app/routes/map_and_analytics/Map_Page.dart';
 import 'package:ecotone_app/routes/checklist/Checklist.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:ecotone_app/routes/information/Information.dart';
-import 'package:ecotone_app/routes/map/Data_Analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ecotone_app/routes/checklist/Biogas Form.dart';
 
@@ -52,7 +52,7 @@ class RouteGenerator extends StatelessWidget{
             return PageTransition(child: ProfilePage(), type: PageTransitionType.fade);
           case '/data_analytics':
             return PageTransition(child: AnalyticsPage(), type: PageTransitionType.fade);
-          case '/map':
+          case '/map_and_analytics':
             return PageTransition(child: Map(), type: PageTransitionType.fade);
           case '/checklist':
             return PageTransition(child: ChecklistPage(), type: PageTransitionType.fade);
