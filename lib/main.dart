@@ -21,18 +21,32 @@ Future <void> main() async{
   await Firebase.initializeApp();
   runApp(HomePage());
 }
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: Home(),
-      )
+        )
     );
-      }
-    }
+  }
+  @override
+  void dispose() {
+    print("Disposing first route");
+    super.dispose();
+  }
+}
+
+
+
 
 
 class RouteGenerator extends StatelessWidget{
@@ -136,7 +150,13 @@ class Home extends StatelessWidget {
                   .size
                   .width * 0.9,
               child: ElevatedButton(
-                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()),);},
+                onPressed: () {
+                  Navigator
+                      .pushReplacement(context, MaterialPageRoute(
+                      builder: (context) => SignUp()
+                  ),
+                  );
+                  },
                 child: Text("GET STARTED",
                   style: GoogleFonts.roboto(
                     fontSize: 18,
@@ -159,9 +179,10 @@ class Home extends StatelessWidget {
                   .width * 0.9,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  Navigator
+                      .pushReplacement(context, MaterialPageRoute(
+                      builder: (context) => LoginPage()
+                  ),
                   );
                 },
                 child: Text("I ALREADY HAVE AN ACCOUNT",
@@ -179,4 +200,5 @@ class Home extends StatelessWidget {
       ),
     );
   }
+
 }
