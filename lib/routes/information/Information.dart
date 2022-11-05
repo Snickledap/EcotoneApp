@@ -1,6 +1,7 @@
 import 'package:ecotone_app/NavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:expandable/expandable.dart';
 
 
 void main() {
@@ -17,6 +18,15 @@ void main() {
     'Eh993__rOxA',
   ];
 
+final List<String> videoDesc=[    //List of video descriptions
+  'Training0',
+  'Training1',
+  'Training2',
+  'Training3',
+  'Training4',
+  'Training5',
+  'Training6',
+];
 
 YoutubePlayerController _youtubeController(int index) {
   return YoutubePlayerController(
@@ -46,7 +56,6 @@ class Information extends StatelessWidget{
     );
   }
 }
-
 
 class InformationPage extends StatefulWidget {
   @override
@@ -84,7 +93,6 @@ class InformationPage extends StatefulWidget {
 
   }
 
-
 class VideoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -94,25 +102,22 @@ class VideoList extends StatelessWidget {
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
       itemBuilder:(context,index){
-        return Container(
-          padding: const EdgeInsets.only(
-            top: 10,
-            bottom: 10,
-            left: 10,
-            right: 10,
+        //should make a list of video titles
+        return ExpandablePanel(
+          header: Text(videoDesc[index]),
+          collapsed: Text("", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+          expanded: YoutubePlayer(
+            progressIndicatorColor: Colors.amber,
+            progressColors: ProgressBarColors(
+                playedColor: Colors.amber,
+                handleColor: Colors.yellow
             ),
-            height:220,
-            width: 400,
-            child: YoutubePlayer(
-              progressIndicatorColor: Colors.amber,
-              progressColors: ProgressBarColors(
-                  playedColor: Colors.amber,
-                  handleColor: Colors.yellow
-              ),
-              showVideoProgressIndicator: true,
-              controller: _youtubeController(index),
-            )
-              );
+            showVideoProgressIndicator: true,
+            controller: _youtubeController(index),
+          ),
+          // tapHeaderToExpand: true,
+          // hasIcon: true,
+        );
       },
     );
   }
