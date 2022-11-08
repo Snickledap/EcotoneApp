@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
+import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
 
 String last_date= "5/28/2022";
@@ -177,7 +180,7 @@ class AnalyticsPageState extends State<AnalyticsPage> {
 
       apiKey = (ds.data()! as Map<String, dynamic>)['api_key'];
 
-      print('apiKey:  $apiKey');
+      //print('apiKey:  $apiKey');
     });
 
     //http GET request using the URL obtained from Firestore (apikey)
@@ -190,14 +193,18 @@ class AnalyticsPageState extends State<AnalyticsPage> {
     Map<String, dynamic> obj = jsonDecode(response.body);
 
     //These lines remove nulls
-    var temp = obj["feeds"];
-    var temp2 = <dynamic>[];
+    List temp = obj["feeds"];
+    String timestamp = temp[0].keys.first;
+    String fieldName = temp[0].keys.last;
+    //print(temp[0][fieldName].runtimeType);
+    List temp2 = [];
     for(var i in temp) {
-      if(i["field1"] != null) {
-        temp2.add(i);
+      if(i[fieldName] != null) {
+        temp2.add([i[timestamp], i[fieldName]]);
       }
     }
-    print(temp2);
+    //print(temp);
+    //print(temp2);
     return temp2;
   }
 }
@@ -262,8 +269,9 @@ class DataChart extends StatelessWidget {
         shrinkWrap: true,
         itemCount: data.length,
         itemBuilder: (context, index) {
+          print(data[0].runtimeType);
           return ListTile(
-            title: Text("Time: " + data[index]["created_at"] + "  Temperature:" + data[index]["field1"])
+            title: Text("Time: " + data[index][0] + "  Value:" + data[index][1])
           );
         }
       ),
