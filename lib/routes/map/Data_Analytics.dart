@@ -151,7 +151,7 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                           if (snapshot.error != null) {
                             return Center(child: Text('An error occured'));
                           }
-                          else {
+                          else {  //Where you use the data
                             //print("From after the future returned: ${snapshot.data}");
                             return SizedBox(
                                 height: 500,
@@ -169,20 +169,27 @@ class AnalyticsPageState extends State<AnalyticsPage> {
   //This function retrieves the api_key from Firestore and uses it to download the .json data from ThingSpeak
   Future<dynamic> getData() async {
     late String apiKey;
+
+    //This line gets the API keys stored in Firestore
     await cr.doc(dropdownValue).get().then((DocumentSnapshot ds) {
       print('Document name: $dropdownValue');
-      //print('Document data: ${ds.data()}');
+      print('Document data: ${ds.data()}');
 
       apiKey = (ds.data()! as Map<String, dynamic>)['api_key'];
 
       print('apiKey:  $apiKey');
     });
 
+    //http GET request using the URL obtained from Firestore (apikey)
+    //response
     var response = await http.get(Uri.parse(apiKey));
 
+    //A http response object is formatted into header + body
+    //The bod contains the actual info we need in String form
+    //Use jsonDecode to turn the String into a json object and store it in a Map
     Map<String, dynamic> obj = jsonDecode(response.body);
 
-    //Remove nulls
+    //These lines remove nulls
     var temp = obj["feeds"];
     var temp2 = <dynamic>[];
     for(var i in temp) {
@@ -239,15 +246,15 @@ class _SystemSelectMenuState extends State<SystemSelectMenu> {
   }
 }
 
-
+//Self-defined class to place data into appropriate locations for visualization
 class DataChart extends StatelessWidget {
 
   late List<dynamic> data;
+  //This constructor accepts a List
   DataChart(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {
-
 
     return Scrollbar(
       child: ListView.builder(
