@@ -144,27 +144,50 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                     ),
                   ), //Dropdown menu for system selection
                   FutureBuilder<dynamic>(
-                      future: getData(),
-                      builder: (ctx, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                        else {
-                          if (snapshot.error != null) {
-                            return Center(child: Text('An error occured'));
+                        future: getData(),
+                        builder: (ctx, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
                           }
-                          else {  //Where you use the data
-                            //print("From after the future returned: ${snapshot.data}");
-                            return SizedBox(
+                          else {
+                            if (snapshot.error != null) {
+                              return Center(child: Text('An error occured'));
+                            }
+                            else {  //Where you use the data
+                              //print("From after the future returned: ${snapshot.data}");
+                              return Container(
                                 height: 500,
-                                child: DataChart(snapshot.data));
-                          }
-                        }
-                      }
+                                width: 400,
+                                child: ListView.builder(
+                                  itemCount: 3,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Padding(
+                                      padding: EdgeInsets.all(20),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          DataChart(snapshot.data),
+                                          Padding(padding: EdgeInsets.symmetric(horizontal: 20)),
+                                          DataChart(snapshot.data)
+                                        ],
+                                      ),
+                                    );
+                                  },
 
-                  ),
-                ]),
+                                ),
+                              );
+
+
+                                     }
+
+                            }
+                          }
+                          ),
+
+
+                ]
+    ),
           )
       );
      });
@@ -263,18 +286,57 @@ class DataChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Scrollbar(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          print(data[0].runtimeType);
-          return ListTile(
-            title: Text("Time: " + data[index][0] + "  Value:" + data[index][1])
-          );
-        }
+    return Container(
+      decoration:BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        border: Border.all(color: Colors.black)
       ),
+      height: 125,
+      width: 125,
+      child: InkWell(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        child: Center(
+          child: Text(
+              'Internal Stomach Temperature'+ '\n'+ '\n'+data[1].last +' F',
+          textAlign:TextAlign.center,
+          ),
+        ),
+          onTap:(){
+          showDialog(
+          context: context,
+          builder: (BuildContext context){
+         return AlertDialog(
+           icon: Align(
+             alignment: Alignment.topLeft,
+               child:IconButton(
+                onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back),
+           )),
+           title: Text('Internal Stomach Temperature',
+           textAlign: TextAlign.center,),
+          content: Padding(
+            padding: EdgeInsets.all(2),
+            child: SizedBox(
+              height: 350,
+              width: 400,
+              child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                  print(data[0].runtimeType);
+                  return ListTile(
+                    title: Text("Time: " + data[index][0] + "  Value:" + data[index][1])
+                  );
+                  }
+                  ),
+
+            ),
+            ),
+          );
+          }
+      );
+  }
+  ),
     );
   }
 
