@@ -153,7 +153,7 @@ class Home extends StatelessWidget {
                 onPressed: () {
                   Navigator
                       .pushReplacement(context, MaterialPageRoute(
-                      builder: (context) => SignUp()
+                      builder: (context) => SignUpPage()
                   ),
                   );
                   },
@@ -181,7 +181,7 @@ class Home extends StatelessWidget {
                 onPressed: () {
                   Navigator
                       .pushReplacement(context, MaterialPageRoute(
-                      builder: (context) => LoginPage()
+                      builder: (context) => Sign_In()
                   ),
                   );
                 },

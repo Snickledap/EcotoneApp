@@ -76,7 +76,7 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
             Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 1.h,
+                  padding: EdgeInsets.only(top: 0.9.h,
                     left: 3.w
                   ),
                   child: Container(
@@ -109,7 +109,7 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                     )
                   ),
                 ),
-                Padding(padding: EdgeInsets.symmetric(vertical: 1.h)),
+                Padding(padding: EdgeInsets.symmetric(vertical: 0.9.h)),
                 Container(
                   height: 65.h,
                     width: 100.w,

@@ -97,9 +97,11 @@ class _Sign_InState extends State<Sign_In> {
           color: Colors.black,
             icon: Icon(Icons.arrow_back),
             onPressed: (){
-            Navigator
-                .pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()),
-            );
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home()
+                  ),
+              );
             }
         ),
       ),
