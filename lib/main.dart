@@ -157,17 +157,17 @@ class Home extends StatelessWidget {
                   ),
                   );
                   },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF60c301)
+                ),
                 child: Text("GET STARTED",
                   style: GoogleFonts.roboto(
                     fontSize: 18,
                   ),
                 ),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF60c301)
-                ),
               ),
             ),
-            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
             SizedBox(
               height: MediaQuery
                   .of(context)
@@ -181,17 +181,17 @@ class Home extends StatelessWidget {
                 onPressed: () {
                   Navigator
                       .pushReplacement(context, MaterialPageRoute(
-                      builder: (context) => Sign_In()
+                      builder: (context) => LoginPage()
                   ),
                   );
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF309be9),
+                ),
                 child: Text("I ALREADY HAVE AN ACCOUNT",
                   style: GoogleFonts.roboto(
                     fontSize: 18,
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF309be9),
                 ),
               ),
             ),
