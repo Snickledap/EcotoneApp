@@ -85,23 +85,25 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('Hi Employee 1',
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                  color: Color(0xFF166390),
-                              )
+                          Row(
+                            children: [
+                              Text('Reminder',
+                                  style: TextStyle(
+                                    fontSize: 25.sp,
+                                    color: Color(0xFF000000),
+                                  )
+                              ),
+                              Padding(padding: EdgeInsets.symmetric(horizontal: 80)),
+                              ElevatedButton(
+                                onPressed: () {context.read<FirebaseAuthMethods>().signOut(context);},
+                                child: Icon(Icons.logout),
+                              ),
+                            ],
                           ),
-                          Text('Reminder',
-                              style: TextStyle(
-                                fontSize: 25.sp,
-                                  color: Color(0xFF166390),
-                              )
-                          ),
-
                           Text('You have some tasks to complete',
                               style: TextStyle(
                                 fontSize: 13.sp,
-                                  color: Color(0xFF166390),
+                                  color: Color(0xFF000000),
                               )
                           ),
                         ],
@@ -194,23 +196,6 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                                onPressed: _launchUrl,
                               //Button Text
                                 child: const Text("InvolveMINT")
-                          ),
-                        ),
-                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.1,
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                backgroundColor: Colors.red,
-                                elevation: 4,
-                              ),
-                              //Button Action
-                              onPressed: () {
-                                context.read<FirebaseAuthMethods>().signOut(context);
-                              },
-                          //Button Text
-                           child: const Text('Sign Out')
                           ),
                         ),
                             ]

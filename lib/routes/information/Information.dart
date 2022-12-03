@@ -9,23 +9,13 @@ void main() {
 }
 
   final List<String> videoID=[    //replace video id with training videos
-    'cR6LOX-uo9E',
-    '2vNVGZGlUok',
-    '_DCsrRmQGTQ',
-    '47y41Di7zao',
-    'OMOVFvcNfvE',
-    'SvKmSNxFHyQ',
-    'Eh993__rOxA',
+    'CDV5YjmH7wE',
+    'iADMXKMQIg4',
   ];
 
 final List<String> videoDesc=[    //List of video descriptions
-  'Training0',
-  'Training1',
-  'Training2',
-  'Training3',
-  'Training4',
-  'Training5',
-  'Training6',
+  'Ecotone Overview',
+  'Seahorse Training',
 ];
 
 YoutubePlayerController _youtubeController(int index) {

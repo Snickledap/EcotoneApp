@@ -4,7 +4,24 @@ import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ecotone_app/NavBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
+
+Future <void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(Map_Page());
+}
+
+class Map_Page extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Map(),
+    );
+  }
+}
 
 class Map extends StatefulWidget {
   @override
@@ -66,17 +83,6 @@ class _MapState extends State<Map> {
       ),
       body: Column(
           children: <Widget>[
-            SizedBox(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.5,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 1,
-              child: getMapBody(),
-            ),
             SizedBox(
               height: MediaQuery
                   .of(context)
