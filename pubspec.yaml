@@ -37,13 +37,13 @@ dependencies:
   sizer: ^2.0.15
   google_maps_flutter: ^2.1.6
   youtube_player_flutter: ^8.1.0
-  cloud_firestore: ^3.1.17
+  cloud_firestore: ^4.0.4
   intl: ^0.17.0
   page_transition: ^2.0.7
   url_launcher: ^6.1.5
   location: ^4.4.0
   provider: ^6.0.3
-  firebase_auth: ^3.7.0
+  firebase_auth: ^4.1.1
   google_sign_in: ^5.4.0
   observable: ^0.24.0
   get: ^4.6.5
@@ -51,9 +51,9 @@ dependencies:
   rxdart: ^0.27.5
   flutter_local_notifications: ^11.0.1
   google_fonts: ^3.0.1
-  charts_flutter: ^0.12.0
+  fl_chart: ^0.55.2
   http: ^0.13.5
-  graphic: ^0.10.7
+  graphic: ^1.0.0
   flutter_facebook_auth: ^4.4.1+1
   sign_in_with_apple: ^4.1.0
   expandable: ^5.0.1

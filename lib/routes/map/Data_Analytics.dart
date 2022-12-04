@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
+import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
 
 String last_date= "5/28/2022";
@@ -141,27 +144,50 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                     ),
                   ), //Dropdown menu for system selection
                   FutureBuilder<dynamic>(
-                      future: getData(),
-                      builder: (ctx, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                        else {
-                          if (snapshot.error != null) {
-                            return Center(child: Text('An error occured'));
+                        future: getData(),
+                        builder: (ctx, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
                           }
                           else {
-                            //print("From after the future returned: ${snapshot.data}");
-                            return SizedBox(
+                            if (snapshot.error != null) {
+                              return Center(child: Text('An error occured'));
+                            }
+                            else {  //Where you use the data
+                              //print("From after the future returned: ${snapshot.data}");
+                              return Container(
                                 height: 500,
-                                child: DataChart(snapshot.data));
-                          }
-                        }
-                      }
+                                width: 400,
+                                child: ListView.builder(
+                                  itemCount: 3,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Padding(
+                                      padding: EdgeInsets.all(20),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          DataChart(snapshot.data),
+                                          Padding(padding: EdgeInsets.symmetric(horizontal: 20)),
+                                          DataChart(snapshot.data)
+                                        ],
+                                      ),
+                                    );
+                                  },
 
-                  ),
-                ]),
+                                ),
+                              );
+
+
+                                     }
+
+                            }
+                          }
+                          ),
+
+
+                ]
+    ),
           )
       );
      });
@@ -169,28 +195,39 @@ class AnalyticsPageState extends State<AnalyticsPage> {
   //This function retrieves the api_key from Firestore and uses it to download the .json data from ThingSpeak
   Future<dynamic> getData() async {
     late String apiKey;
+
+    //This line gets the API keys stored in Firestore
     await cr.doc(dropdownValue).get().then((DocumentSnapshot ds) {
       print('Document name: $dropdownValue');
-      //print('Document data: ${ds.data()}');
+      print('Document data: ${ds.data()}');
 
       apiKey = (ds.data()! as Map<String, dynamic>)['api_key'];
 
-      print('apiKey:  $apiKey');
+      //print('apiKey:  $apiKey');
     });
 
+    //http GET request using the URL obtained from Firestore (apikey)
+    //response
     var response = await http.get(Uri.parse(apiKey));
 
+    //A http response object is formatted into header + body
+    //The bod contains the actual info we need in String form
+    //Use jsonDecode to turn the String into a json object and store it in a Map
     Map<String, dynamic> obj = jsonDecode(response.body);
 
-    //Remove nulls
-    var temp = obj["feeds"];
-    var temp2 = <dynamic>[];
+    //These lines remove nulls
+    List temp = obj["feeds"];
+    String timestamp = temp[0].keys.first;
+    String fieldName = temp[0].keys.last;
+    //print(temp[0][fieldName].runtimeType);
+    List temp2 = [];
     for(var i in temp) {
-      if(i["field1"] != null) {
-        temp2.add(i);
+      if(i[fieldName] != null) {
+        temp2.add([i[timestamp], i[fieldName]]);
       }
     }
-    print(temp2);
+    //print(temp);
+    //print(temp2);
     return temp2;
   }
 }
@@ -239,27 +276,67 @@ class _SystemSelectMenuState extends State<SystemSelectMenu> {
   }
 }
 
-
+//Self-defined class to place data into appropriate locations for visualization
 class DataChart extends StatelessWidget {
 
   late List<dynamic> data;
+  //This constructor accepts a List
   DataChart(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {
 
-
-    return Scrollbar(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text("Time: " + data[index]["created_at"] + "  Temperature:" + data[index]["field1"])
-          );
-        }
+    return Container(
+      decoration:BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        border: Border.all(color: Colors.black)
       ),
+      height: 125,
+      width: 125,
+      child: InkWell(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        child: Center(
+          child: Text(
+              'Internal Stomach Temperature'+ '\n'+ '\n'+data[1].last +' F',
+          textAlign:TextAlign.center,
+          ),
+        ),
+          onTap:(){
+          showDialog(
+          context: context,
+          builder: (BuildContext context){
+         return AlertDialog(
+           icon: Align(
+             alignment: Alignment.topLeft,
+               child:IconButton(
+                onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back),
+           )),
+           title: Text('Internal Stomach Temperature',
+           textAlign: TextAlign.center,),
+          content: Padding(
+            padding: EdgeInsets.all(2),
+            child: SizedBox(
+              height: 350,
+              width: 400,
+              child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                  print(data[0].runtimeType);
+                  return ListTile(
+                    title: Text("Time: " + data[index][0] + "  Value:" + data[index][1])
+                  );
+                  }
+                  ),
+
+            ),
+            ),
+          );
+          }
+      );
+  }
+  ),
     );
   }
 

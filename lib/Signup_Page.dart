@@ -73,7 +73,8 @@ class _SignUpState extends State<SignUp> {
             icon: Icon(Icons.arrow_back),
             onPressed: (){Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => Home()
+              ),
             );
             }
         ),
@@ -123,13 +124,15 @@ class _SignUpState extends State<SignUp> {
                       obscureText: true,
                       controller:confirmPasswordController,
                       validator: (val){
-                        if(val!.isEmpty)
+                        if(val!.isEmpty) {
                           return "Please enter the Password Again";
-                        if(val !=passwordController.text)
+                        }
+                        if(val !=passwordController.text) {
                           return "The Passwords Does Not Match";
+                        }
                         return null;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Confirm Your Password",
                       ),
                       onEditingComplete: () => FocusScope.of(context).nextFocus(),
