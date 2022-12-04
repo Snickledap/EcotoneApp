@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../NavBar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(CheckList());
 
 class CheckList extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Sizer(
@@ -27,12 +30,15 @@ class ChecklistPage extends StatefulWidget {
   _ChecklistPageState createState() => _ChecklistPageState();
 }
 
+
 class _ChecklistPageState extends State<ChecklistPage> {
 
   // Generate checklist here
-  List<Map> checklist= [
+  List<Map> checklist1= [
     {"name": "Feed system 1:2 ratio of Food to Water", "isChecked": false},
     {"name": "Drain Soil Sauce", "isChecked": false},
+    ];
+  List<Map> checklist2= [
     {"name": "Check dosing and holding tank levels", "isChecked": false},
     {"name": "Input Data Into QR Form", "isChecked": false,},
     {"name": "Complete BioGas Form ", "isChecked": false},
@@ -41,9 +47,15 @@ class _ChecklistPageState extends State<ChecklistPage> {
   ];
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context){
 
+    Future<void> _launchFeedingForm() async {
+      final Uri _url = Uri.parse('https://docs.google.com/forms/u/0/d/1Q19Drp78QNgefURf_scAc7scYmZe0DnEcdT2Rgr63lI/viewform?edit_requested=true');
+      if (!await launchUrl(_url)) {
+        throw 'Could not launch Form';
+      }
+    }
+    return Scaffold(
       //Header
         appBar: AppBar(
           title: const Text('Checklist'),
@@ -56,10 +68,11 @@ class _ChecklistPageState extends State<ChecklistPage> {
               child: Column(
                 children: <Widget>[  //Check Box Logic
                 SizedBox(
-                  height: 60.h,
+                  height: 15.h,
                   width: 95.w,
                   child: Column(
-                      children: checklist.map((task) {
+                      children:
+                      checklist1.map((task) {
                         return CheckboxListTile(
                             value: task["isChecked"],
                             title: Text(task["name"]),
@@ -67,11 +80,47 @@ class _ChecklistPageState extends State<ChecklistPage> {
                               setState(() {
                                 task["isChecked"] = newValue;
                               });
-                            });
-                      }).toList()),
+                            }
+                            );
+                      }).toList(),
+                  ),
                 ),
+                  Center(
+                    child: SizedBox(
+                      height: 5.h,
+                      width: 45.w,
+                      child:
+                        ElevatedButton(
+                          style:ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: const Color(0xFF015486),
+                            elevation: 4,
+                          ),
+                          child: Text('Feeding and Draining Form'),
+                          onPressed: _launchFeedingForm,
+                        )
+                    ),
+                  ),
+                  SizedBox(
+                    height: 45.h,
+                    width: 95.w,
+                    child: Column(
+                        children: checklist2.map((task) {
+                          return CheckboxListTile(
+                              value: task["isChecked"],
+                              title: Text(task["name"]),
+                              onChanged: (newValue) {
+                                setState(() {
+                                  task["isChecked"] = newValue;
+                                });
+                              }
+                          );
+                        }).toList()),
+                  ),
                 //Button Formatting
-                Padding(padding: EdgeInsets.only(top: 5.h)),
+                Padding(
+                    padding: EdgeInsets.only(top: 5.h)
+                ),
                 SizedBox(
                     height: 10.h,
                     width: 60.w,
