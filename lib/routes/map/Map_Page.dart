@@ -70,6 +70,17 @@ class _MapState extends State<Map> {
               height: MediaQuery
                   .of(context)
                   .size
+                  .height * 0.4,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 1,
+              child: getMapBody(),
+            ),
+            SizedBox(
+              height: MediaQuery
+                  .of(context)
+                  .size
                   .height * 0.29,
               width: MediaQuery
                   .of(context)
@@ -113,7 +124,7 @@ class _MapState extends State<Map> {
                                     controller.animateCamera(
                                         CameraUpdate.newCameraPosition(
                                             CameraPosition(target: LatLng(data.docs[index]["LatLng"].latitude, data.docs[index]["LatLng"].longitude),
-                                            zoom: 19)
+                                                zoom: 19)
                                         ));
                                   },
                                   icon: Icon(Icons.place)),
@@ -132,9 +143,9 @@ class _MapState extends State<Map> {
 
 
 class MyBehavior extends ScrollBehavior{
-    @override
+  @override
   Widget buildOverscrollIndicator(
       BuildContext context, Widget child, ScrollableDetails details){
     return child;
   }
-  }
+}

@@ -8,6 +8,7 @@ void main() {
   runApp(Information());
 }
 
+
   final List<String> videoID=[    //replace video id with training videos
     'CDV5YjmH7wE',
     'iADMXKMQIg4',
@@ -17,6 +18,12 @@ final List<String> videoDesc=[    //List of video descriptions
   'Ecotone Overview',
   'Seahorse Training',
 ];
+
+ExpandableController _expandableController(int index){
+  return ExpandableController(
+    initialExpanded: true
+  );
+}
 
 YoutubePlayerController _youtubeController(int index) {
   return YoutubePlayerController(
@@ -29,19 +36,13 @@ YoutubePlayerController _youtubeController(int index) {
   );
 }
 
-/*@override
-void deactivate() {
-  // Pauses video while navigating to next page.
-  _youtubeController.pause();
-   super.deactivate();
-}
-*/
-
 class Information extends StatelessWidget{
+
 
   @override
   Widget build(BuildContext context){
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
         home:InformationPage()
     );
   }
@@ -84,8 +85,10 @@ class InformationPage extends StatefulWidget {
   }
 
 class VideoList extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       itemCount: videoID.length,
@@ -93,20 +96,33 @@ class VideoList extends StatelessWidget {
       scrollDirection: Axis.vertical,
       itemBuilder:(context,index){
         //should make a list of video titles
-        return ExpandablePanel(
-          header: Text(videoDesc[index]),
-          collapsed: Text("", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
-          expanded: YoutubePlayer(
-            progressIndicatorColor: Colors.amber,
-            progressColors: ProgressBarColors(
-                playedColor: Colors.amber,
-                handleColor: Colors.yellow
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.black
+              )
             ),
-            showVideoProgressIndicator: true,
-            controller: _youtubeController(index),
+            child: ExpandablePanel(
+              controller: _expandableController(index),
+              header: Align(
+                alignment: Alignment.center,
+                  child: Text('\n'+videoDesc[index]+'\n')),
+              expanded: YoutubePlayer(
+                progressIndicatorColor: Colors.amber,
+                progressColors: ProgressBarColors(
+                    playedColor: Colors.amber,
+                    handleColor: Colors.yellow
+                ),
+                showVideoProgressIndicator: true,
+                controller: _youtubeController(index),
+              ), collapsed: const Center(
+              child: Text( "Expand To Watch Video")
+            ),
+               //tapHeaderToExpand: true,
+            ),
           ),
-          // tapHeaderToExpand: true,
-          // hasIcon: true,
         );
       },
     );

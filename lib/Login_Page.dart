@@ -237,7 +237,7 @@ class _Sign_InState extends State<Sign_In> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Icon(
+                        const Icon(
                           IconData(
                             0xe255,
                             fontFamily: 'MaterialICons',
@@ -282,7 +282,7 @@ class _Sign_InState extends State<Sign_In> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Icon(
+                        const Icon(
                           IconData(
                             0xf04be,
                             fontFamily: 'MaterialICons',
