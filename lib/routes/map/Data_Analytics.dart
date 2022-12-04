@@ -18,17 +18,8 @@ List<String> systemNames = <String>[
 
 String selectedSystem = "IPH-ZEUS";
 
-Future<void> main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(Any());
-
-
-}
-
-
-class Any extends StatelessWidget {
-  const Any({Key? key}) : super(key: key);
+class Analytics extends StatelessWidget {
+  const Analytics({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

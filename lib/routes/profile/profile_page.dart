@@ -8,15 +8,8 @@ import 'package:ecotone_app/NavBar.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ecotone_app/routes/login/Login_Setup.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 
-
-Future <void> main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(Profile());
-}
 
 class Profile extends StatelessWidget {
 

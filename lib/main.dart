@@ -63,9 +63,9 @@ class RouteGenerator extends StatelessWidget{
       onGenerateRoute: (settings) {
         switch(settings.name) {
           case '/profile':
-            return PageTransition(child: ProfilePage(), type: PageTransitionType.fade);
+            return PageTransition(child: Profile(), type: PageTransitionType.fade);
           case '/data_analytics':
-            return PageTransition(child: AnalyticsPage(), type: PageTransitionType.fade);
+            return PageTransition(child: Analytics(), type: PageTransitionType.fade);
           case '/map':
             return PageTransition(child: Map(), type: PageTransitionType.fade);
           case '/checklist':
