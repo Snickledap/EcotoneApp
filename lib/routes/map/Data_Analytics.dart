@@ -297,7 +297,7 @@ class DataChart extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(20)),
         child: Center(
           child: Text(
-              'Internal Stomach Temperature'+ '\n'+ '\n'+data[1].last +' F',
+              'Internal Stomach Temperature'+ '\n'+ '\n'+data[1].first +' F',
           textAlign:TextAlign.center,
           ),
         ),
@@ -319,6 +319,7 @@ class DataChart extends StatelessWidget {
               height: 350,
               width: 400,
               child: ListView.builder(
+                  reverse: true,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: data.length,
