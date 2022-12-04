@@ -119,7 +119,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                   ),
                 //Button Formatting
                 Padding(
-                    padding: EdgeInsets.only(top: 5.h)
+                    padding: EdgeInsets.only(top: 3.h)
                 ),
                 SizedBox(
                     height: 10.h,

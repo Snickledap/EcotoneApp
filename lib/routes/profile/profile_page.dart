@@ -61,7 +61,9 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
             AppBar(
               actions: <Widget>[
                 IconButton(
-                  onPressed: () {context.read<FirebaseAuthMethods>().signOut(context);},
+                  onPressed: () {
+                    context.read<FirebaseAuthMethods>().signOut(context);
+                    },
                   icon: Icon(Icons.logout),
                 ),
               ],
@@ -217,7 +219,7 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                 ),
                        ]
         ),
-        bottomNavigationBar: NavBar(),
+        bottomNavigationBar: const NavBar(),
         );
         },
       );
