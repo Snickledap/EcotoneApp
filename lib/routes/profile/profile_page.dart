@@ -59,6 +59,12 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
             //Header
             appBar:
             AppBar(
+              actions: <Widget>[
+                IconButton(
+                  onPressed: () {context.read<FirebaseAuthMethods>().signOut(context);},
+                  icon: Icon(Icons.logout),
+                ),
+              ],
               title: const Text(
                 'Profile',
               ),
@@ -85,20 +91,11 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Row(
-                            children: [
-                              Text('Reminder',
-                                  style: TextStyle(
-                                    fontSize: 25.sp,
-                                    color: Color(0xFF000000),
-                                  )
-                              ),
-                              Padding(padding: EdgeInsets.symmetric(horizontal: 80)),
-                              ElevatedButton(
-                                onPressed: () {context.read<FirebaseAuthMethods>().signOut(context);},
-                                child: Icon(Icons.logout),
-                              ),
-                            ],
+                          Text('Reminder',
+                              style: TextStyle(
+                                fontSize: 25.sp,
+                                color: Color(0xFF000000),
+                              )
                           ),
                           Text('You have some tasks to complete',
                               style: TextStyle(
