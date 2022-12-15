@@ -6,7 +6,7 @@ import 'package:ecotone_app/NavBar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
-import 'package:fl_chart/fl_chart.dart';
+import 'package:graphic/graphic.dart';
 import 'dart:convert';
 
 String last_date= "5/28/2022";
@@ -192,40 +192,87 @@ class AnalyticsPageState extends State<AnalyticsPage> {
       );
      });
   }
-  //This function retrieves the api_key from Firestore and uses it to download the .json data from ThingSpeak
+
+
+  //This function retrieves the apiKey and channel_id of a given Ecotone system
+  //and uses it to download data from a corresponding ThingSpeak channel
   Future<dynamic> getData() async {
     late String apiKey;
+    late String channel_id;
 
-    //This line gets the API keys stored in Firestore
+    //This async function gets the values stored in Firestore to build a URL to access the ThingSpeak API
     await cr.doc(dropdownValue).get().then((DocumentSnapshot ds) {
       print('Document name: $dropdownValue');
       print('Document data: ${ds.data()}');
 
-      apiKey = (ds.data()! as Map<String, dynamic>)['api_key'];
-
+      apiKey = (ds.data()! as Map<String, dynamic>)['apiKey'];
+      channel_id = (ds.data()! as Map<String, dynamic>)['channel_id'];
       //print('apiKey:  $apiKey');
     });
 
+
+    //Build a URL to retrieve channel field data from ThingSpeak
+    //Here, we are retrieving data from all fields at once in order to display the latest value available for each field
+    String url = "https://api.thingspeak.com/channels/" + channel_id + "/feeds.json?api_key=" + apiKey + "&days=1";
+    print(url);
+
     //http GET request using the URL obtained from Firestore (apikey)
     //response
-    var response = await http.get(Uri.parse(apiKey));
+    var response = await http.get(Uri.parse(url));
 
     //A http response object is formatted into header + body
     //The bod contains the actual info we need in String form
     //Use jsonDecode to turn the String into a json object and store it in a Map
     Map<String, dynamic> obj = jsonDecode(response.body);
 
-    //These lines remove nulls
-    List temp = obj["feeds"];
-    String timestamp = temp[0].keys.first;
-    String fieldName = temp[0].keys.last;
-    //print(temp[0][fieldName].runtimeType);
-    List temp2 = [];
-    for(var i in temp) {
-      if(i[fieldName] != null) {
-        temp2.add([i[timestamp], i[fieldName]]);
+
+    //We grab the names for each field and corresponding values for use later
+    //print(obj["channel"].runtimeType);
+    Map<String, dynamic> channelHeader = obj["channel"];
+    //print("testing: " + channelHeader.keys.toString());
+
+    //fieldNames contains a list of lists containing and formatted like so: [field i, type of sensor data]
+    List listOfFieldNames = [];
+
+    for(String i in channelHeader.keys) {
+      if(i.contains("field")) {
+        listOfFieldNames.add([i, channelHeader[i]]);
       }
     }
+    print(listOfFieldNames);
+
+
+    //From ThingSpeak, we grab the latest values captured by each sensor
+    //We start at the bottom of the "feeds" list (it is listed in chronological order, so start at the end for the latest data)
+    //and grab the value if the corresponding boolean in isLatestValueSaved is false AND value is not null
+    List isLatestValueSaved = [];
+    List latestValues = []; //latestValues will hold the latest recorded values for each tracked data type
+    for(var i in listOfFieldNames){
+      isLatestValueSaved.add(false);
+      latestValues.add(null);
+    }
+
+    List temp = obj["feeds"];
+    int tempSize = temp.length;
+    String timestamp = temp[temp.length - 1].keys.first;
+    String fieldName = temp[temp.length - 1].keys.last;
+    //print(temp[0][fieldName].runtimeType);
+
+
+    for(var i = temp.length - 1; i >= 0; i--) {
+      //For each data entry in "feeds", check for non-null values where isLatestValueSaved is false
+      //If the latest value is not saved AND the value at current data entry is non-null, save it and set isLatestValueSaved to true
+      for(var j = 0; j < isLatestValueSaved.length; j++) {
+        if(!isLatestValueSaved[j] && temp[i][listOfFieldNames[j][0]] != null) {
+          isLatestValueSaved[j] = true;
+          latestValues[j] = temp[i][listOfFieldNames[j][0]];
+        }
+      }
+    }
+
+    print("Latest values: " + latestValues.toString());
+
+    //temp2
     //print(temp);
     //print(temp2);
     return temp2;
