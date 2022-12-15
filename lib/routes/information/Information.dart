@@ -15,9 +15,14 @@ void main() {
     'iADMXKMQIg4',
   ];
 
-final List<String> videoDesc=[    //List of video descriptions
+  final List<String> videoTitle=[    //List of video title
   'Ecotone Overview',
-  'Seahorse Training',
+  'Zeus Training',
+  ];
+
+  final List<String> videoDesc=[    //List of Video Descriptions
+    'A General Overview of Ecotone and what the comapny does',
+    'How to use the Zeus',
 ];
 
 ExpandableController _expandableController(int index){
@@ -140,7 +145,7 @@ class _VideoListState extends State<VideoList> with SingleTickerProviderStateMix
                     children: <Widget>[
                       Align(
                         alignment: Alignment.center,
-                          child: Text('\n'+videoDesc[index]+'\n')),
+                          child: Text('\n'+videoTitle[index]+'\n')),
                       Align(
                         alignment: Alignment.centerRight,
                         child: ExpandableIcon(
@@ -158,14 +163,19 @@ class _VideoListState extends State<VideoList> with SingleTickerProviderStateMix
                   ),
                 ],
               ),
-              expanded: YoutubePlayer(
-                progressIndicatorColor: Colors.amber,
-                progressColors: const ProgressBarColors(
-                    playedColor: Colors.amber,
-                    handleColor: Colors.yellow
-                ),
-                showVideoProgressIndicator: true,
-                controller: _youtubeController(index),
+              expanded: Column(
+                children: <Widget>[
+                  YoutubePlayer(
+                    progressIndicatorColor: Colors.amber,
+                    progressColors: const ProgressBarColors(
+                        playedColor: Colors.amber,
+                        handleColor: Colors.yellow
+                    ),
+                    showVideoProgressIndicator: true,
+                    controller: _youtubeController(index),
+                  ),
+                  Text(videoDesc[index]),
+                ],
               ),
               collapsed: const Align(
 
