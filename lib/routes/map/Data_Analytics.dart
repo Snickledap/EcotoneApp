@@ -1,13 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
-import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 String last_date= "5/28/2022";
 
@@ -29,31 +26,6 @@ class Analytics extends StatelessWidget {
   }
 }
 
-class ChannelFeed {
-
-  late CollectionReference channelFeed;
-  late String apiKey;
-  ChannelFeed(this.channelFeed);
-
-  fetchApiKey(String systemLabel) async {
-
-    await channelFeed.doc(systemLabel).get().then((DocumentSnapshot ds) {
-      print('Document name: ${systemLabel}');
-      print('Document data: ${ds.data()}');
-
-      apiKey = (ds.data()! as Map<String, dynamic>)['api_key'];
-
-      print('apiKey:  ${apiKey}');
-    });
-  }
-
-  fetchData(String systemLabel) async{
-    await fetchApiKey(systemLabel);
-    var response = await http.get(Uri.parse(apiKey));
-    print(jsonDecode(response.body));
-    return response.body;
-  }
-}
 
 /*
 class DisplayChart {
@@ -208,18 +180,20 @@ class AnalyticsPageState extends State<AnalyticsPage> {
 
     //These lines remove nulls
     List temp = obj["feeds"];
-    String timestamp = temp[0].keys.first;
-    String fieldName = temp[0].keys.last;
+    List reversedTemp = temp.reversed.toList();
+    String timestamp = reversedTemp[0].keys.first;
+    String fieldName = reversedTemp[0].keys.last;
     //print(temp[0][fieldName].runtimeType);
     List temp2 = [];
-    for(var i in temp) {
+    List reversedTemp2 = temp2.reversed.toList();
+    for(var i in reversedTemp) {
       if(i[fieldName] != null) {
-        temp2.add([i[timestamp], i[fieldName]]);
+        reversedTemp2.add([i[timestamp], i[fieldName]]);
       }
     }
     //print(temp);
     //print(temp2);
-    return temp2;
+    return reversedTemp2;
   }
 }
 
@@ -271,8 +245,11 @@ class _SystemSelectMenuState extends State<SystemSelectMenu> {
 class DataChart extends StatelessWidget {
 
   late List<dynamic> data;
+
   //This constructor accepts a List
   DataChart(this.data, {super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -310,14 +287,24 @@ class DataChart extends StatelessWidget {
               height: 350,
               width: 400,
               child: ListView.builder(
-                reverse: true,
+                reverse: false,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                   print(data[0].runtimeType);
                   return ListTile(
-                    title: Text("Time: " + data[index][0] + "  Value:" + data[index][1] +' F')
+                    title: Text(
+                           DateFormat.yMd()
+                              .add_jm()
+                              .format(
+                                DateTime
+                                  .parse(data[index][0])
+                                    .toLocal())
+                                      .toString()
+                            + "  Temperature: "
+                            + data[index][1]
+                            +' F')
                   );
                   }
                   ),
