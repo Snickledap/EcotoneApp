@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../NavBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(CheckList());
+
 
 class CheckList extends StatelessWidget {
 
@@ -68,20 +68,27 @@ class _ChecklistPageState extends State<ChecklistPage> {
               child: Column(
                 children: <Widget>[  //Check Box Logic
                 SizedBox(
-                  height: 15.h,
+                  height: 17.h,
                   width: 95.w,
                   child: Column(
                       children:
                       checklist1.map((task) {
-                        return CheckboxListTile(
-                            value: task["isChecked"],
-                            title: Text(task["name"]),
-                            onChanged: (newValue) {
-                              setState(() {
-                                task["isChecked"] = newValue;
-                              });
-                            }
-                            );
+                        return Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: CheckboxListTile(
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: Colors.black,width: 1),
+                                  borderRadius: BorderRadius.circular(5)
+                              ),
+                              value: task["isChecked"],
+                              title: Text(task["name"]),
+                              onChanged: (newValue) {
+                                setState(() {
+                                  task["isChecked"] = newValue;
+                                });
+                              }
+                              ),
+                        );
                       }).toList(),
                   ),
                 ),
@@ -102,24 +109,31 @@ class _ChecklistPageState extends State<ChecklistPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 45.h,
+                    height: 42.5.h,
                     width: 95.w,
                     child: Column(
                         children: checklist2.map((task) {
-                          return CheckboxListTile(
-                              value: task["isChecked"],
-                              title: Text(task["name"]),
-                              onChanged: (newValue) {
-                                setState(() {
-                                  task["isChecked"] = newValue;
-                                });
-                              }
+                          return Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: CheckboxListTile(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.black,width: 1),
+                                borderRadius: BorderRadius.circular(5)
+                              ),
+                                value: task["isChecked"],
+                                title: Text(task["name"]),
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    task["isChecked"] = newValue;
+                                  });
+                                }
+                            ),
                           );
                         }).toList()),
                   ),
                 //Button Formatting
                 Padding(
-                    padding: EdgeInsets.only(top: 3.h)
+                    padding: EdgeInsets.only(top: 1.h)
                 ),
                 SizedBox(
                     height: 10.h,
