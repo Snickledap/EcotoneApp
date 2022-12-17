@@ -304,7 +304,8 @@ class FormListState extends State<FormList>{
                     const SnackBar(content: Text('Adding Your Data to the Cloud FireStore'),
                     )
                 );
-                SystemDataInputForm.add({'Name': Name.data,
+                SystemDataInputForm.add({
+                  'Name': Name.data,
                   'Food_Type': _currentlySelectedValue, //take the value of the text field
                   'Food_Waste_Weight': Food_Waste_Weight,
                   'Water_Weight': Water_Weight,

@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../NavBar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -34,21 +34,21 @@ class ChecklistPage extends StatefulWidget {
 class _ChecklistPageState extends State<ChecklistPage> {
 
   // Generate checklist here
-  List<Map> checklist1= [
-    {"name": "Feed system 1:2 ratio of Food to Water", "isChecked": false},
-    {"name": "Drain Soil Sauce", "isChecked": false},
-    ];
-  List<Map> checklist2= [
-    {"name": "Check dosing and holding tank levels", "isChecked": false},
-    {"name": "Input Data Into QR Form", "isChecked": false,},
-    {"name": "Complete BioGas Form ", "isChecked": false},
-    {"name": "Clean Area After Finished ", "isChecked": false},
-    {"name": "Fill out involveMint", "isChecked": false}
-  ];
+  Map<String, bool> checklist1= {
+     "Feed system 1:2 ratio of Food to Water": false,
+     "Drain Soil Sauce": false,
+     "Check dosing and holding tank levels": false,
+     "Input Data Into QR Form": false,
+     "Complete BioGas Form ": false,
+     "Clean Area After Finished ": false,
+     "Fill out involveMint": false
+  };
+  List <CheckListModel> selectedItems = [];
 
   @override
   Widget build(BuildContext context){
 
+    CollectionReference checkListSubmit = FirebaseFirestore.instance.collection('Checklist');
     Future<void> _launchFeedingForm() async {
       final Uri _url = Uri.parse('https://docs.google.com/forms/u/0/d/1Q19Drp78QNgefURf_scAc7scYmZe0DnEcdT2Rgr63lI/viewform?edit_requested=true');
       if (!await launchUrl(_url)) {
@@ -68,70 +68,44 @@ class _ChecklistPageState extends State<ChecklistPage> {
               child: Column(
                 children: <Widget>[  //Check Box Logic
                 SizedBox(
-                  height: 17.h,
+                  height: 60.h,
                   width: 95.w,
-                  child: Column(
-                      children:
-                      checklist1.map((task) {
-                        return Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: CheckboxListTile(
-                              shape: RoundedRectangleBorder(
-                                  side: BorderSide(color: Colors.black,width: 1),
-                                  borderRadius: BorderRadius.circular(5)
-                              ),
-                              value: task["isChecked"],
-                              title: Text(task["name"]),
-                              onChanged: (newValue) {
-                                setState(() {
-                                  task["isChecked"] = newValue;
-                                });
+                  child: ListView.builder(
+                    itemCount: checklist1.length,
+                    itemBuilder:  (BuildContext context, index){
+                      String key = checklist1.keys.elementAt(index);
+                      return  CheckboxListTile(
+                        title:  Text(key),
+                        value: checklist1[key],
+                        onChanged: (bool ?value) {
+                          setState(() {
+                            checklist1[key] = value!;
+                            selectedItems.clear();
+                            checklist1.forEach((key, value) {
+                              if (value) {
+                                selectedItems.add(CheckListModel(key, value));
                               }
-                              ),
-                        );
-                      }).toList(),
+                            });
+                          });
+                        },
+                      );
+                    })
                   ),
-                ),
-                  Center(
-                    child: SizedBox(
+                //Button Formatting
+                  SizedBox(
                       height: 5.h,
                       width: 45.w,
                       child:
-                        ElevatedButton(
-                          style:ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: const Color(0xFF015486),
-                            elevation: 4,
-                          ),
-                          child: Text('Feeding and Draining Form'),
-                          onPressed: _launchFeedingForm,
-                        )
-                    ),
+                      ElevatedButton(
+                        style:ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: const Color(0xFF015486),
+                          elevation: 4,
+                        ),
+                        child: Text('Feeding and Draining Form'),
+                        onPressed: _launchFeedingForm,
+                      )
                   ),
-                  SizedBox(
-                    height: 42.5.h,
-                    width: 95.w,
-                    child: Column(
-                        children: checklist2.map((task) {
-                          return Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: CheckboxListTile(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(color: Colors.black,width: 1),
-                                borderRadius: BorderRadius.circular(5)
-                              ),
-                                value: task["isChecked"],
-                                title: Text(task["name"]),
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    task["isChecked"] = newValue;
-                                  });
-                                }
-                            ),
-                          );
-                        }).toList()),
-                  ),
-                //Button Formatting
                 Padding(
                     padding: EdgeInsets.only(top: 1.h)
                 ),
@@ -145,7 +119,14 @@ class _ChecklistPageState extends State<ChecklistPage> {
                       elevation: 4,
                     ),
                     //Button Action
-                    onPressed: (){},
+                    onPressed: (){
+                      checkListSubmit.add({
+                        'Name': "Team Member",
+                        'Completed': selectedItems.toString().replaceAll('[', '').replaceAll(']', ''),
+                        'Date':DateTime.now()})
+                          .then((value) => print('Checklist Data Saved'))
+                          .catchError((error) => print('Something went wrong and was not able upload;$error'));
+                    },
                       //Button Text
                       child:
                       Text("Submit",
@@ -161,5 +142,15 @@ class _ChecklistPageState extends State<ChecklistPage> {
       //Bottom Navigation Bar
       bottomNavigationBar: NavBar(),
     );
+  }
+}
+
+class CheckListModel{
+  String name;
+  bool value;
+  CheckListModel(this.name,this.value);
+  @override
+  String toString(){
+    return name;
   }
 }
