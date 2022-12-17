@@ -98,7 +98,10 @@ class AnalyticsPageState extends State<AnalyticsPage> {
   late String fieldName;
   late List listOfFieldNames;
   late List latestValues;
-  late var vals;
+  late List vals;
+  late List temp;
+  late List valsList;
+  late List tempReversed;
 
 
 
@@ -117,8 +120,8 @@ class AnalyticsPageState extends State<AnalyticsPage> {
 
     //This async function gets the values stored in Firestore to build a URL to access the ThingSpeak API
     await cr.doc(dropdownValue).get().then((DocumentSnapshot ds) {
-      print('Document name: $dropdownValue');
-      print('Document data: ${ds.data()}');
+      //print('Document name: $dropdownValue');
+     // print('Document data: ${ds.data()}');
 
       apiKey = (ds.data()! as Map<String, dynamic>)['apiKey'];
       channel_id = (ds.data()! as Map<String, dynamic>)['channel_id'];
@@ -129,7 +132,7 @@ class AnalyticsPageState extends State<AnalyticsPage> {
     //Build a URL to retrieve channel field data from ThingSpeak
     //Here, we are retrieving data from all fields at once in order to display the latest value available for each field
     String url = "https://api.thingspeak.com/channels/" + channel_id + "/feeds.json?api_key=" + apiKey + "&days=1";
-    print(url);
+    //print(url);
 
     //http GET request using the URL obtained from Firestore (apikey)
     //response
@@ -156,8 +159,8 @@ class AnalyticsPageState extends State<AnalyticsPage> {
         listOfFieldNames.add([channelHeader[i]]);
       }
     }
-    print("Field Names $listOfFieldNames");
-    print('\n');
+    //print("Field Names $listOfFieldNames");
+    //print('\n');
 
 
 
@@ -172,20 +175,20 @@ class AnalyticsPageState extends State<AnalyticsPage> {
     }
 
 
-    List temp = obj["feeds"];
-    print(temp.runtimeType);
-    print('\n');
-    //print(temp);
+    temp = obj["feeds"];
+    //print(temp.runtimeType);
+    //print('\n');
+    //print(temp.reversed);
+    tempReversed = temp.reversed.toList();
 
 
-    for (var i = 0; i < temp.length; ++i) {
+    for (var i = 0; i < tempReversed.length; ++i) {
 
-       vals = temp[i].values;
-
+        vals = tempReversed[i].values.toList();
+      //print(vals);
     }
-    Map<dynamic,dynamic> valsList = vals as Map;
-    print(valsList.runtimeType);
-
+    List listOfVals = vals;
+    print(listOfVals);
 
 
     int tempSize = temp.length;
@@ -288,7 +291,7 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                                             borderRadius: BorderRadius.all(Radius.circular(20)),
                                             child: Center(
                                               child: Text(
-                                                listOfFieldNames[index].toString()+ '\n'+ '\n' +' F',
+                                                listOfFieldNames[index].toString()+ '\n'+ '\n' +' ${vals.sublist(2)[index]}',
                                                 textAlign:TextAlign.center,
                                               ),
                                             ),
@@ -302,7 +305,7 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                                                           child:IconButton(
                                                             onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back),
                                                           )),
-                                                      title: Text('Internal Stomach Temperature',
+                                                      title: Text("${listOfFieldNames[index]}",
                                                         textAlign: TextAlign.center,),
                                                       content: Padding(
                                                         padding: EdgeInsets.all(2),
@@ -312,10 +315,10 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                                                           child: ListView.builder(
                                                               scrollDirection: Axis.vertical,
                                                               shrinkWrap: true,
-                                                              itemCount: 1,
+                                                              itemCount: tempReversed.length,
                                                               itemBuilder: (context, index) {
                                                                 return ListTile(
-                                                                    title: Text("Time: " + "  Value:" )
+                                                                    title: Text("Time: ${tempReversed[index]["created_at"]}" + "  Value: ${vals.sublist(3)}" )
                                                                 );
                                                               }
                                                           ),
