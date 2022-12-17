@@ -105,7 +105,7 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                 ),
                 Padding(padding: EdgeInsets.symmetric(vertical: 0.9.h)),
                 Container(
-                  height: 65.h,
+                  height: 63.h,
                     width: 100.w,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -51,7 +51,6 @@ dependencies:
   rxdart: ^0.27.5
   flutter_local_notifications: ^11.0.1
   google_fonts: ^3.0.1
-  fl_chart: ^0.55.2
   http: ^0.13.5
   graphic: ^1.0.0
   flutter_facebook_auth: ^4.4.1+1
