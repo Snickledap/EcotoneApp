@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -266,61 +264,93 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                             else {  //Where you use the data
                               //print("From after the future returned: ${snapshot.data}");
                               return Container(
-                                height: 500,
+                                height: 550,
                                 width: 400,
                                 child: ListView.builder(
                                   itemCount: latestValues.length,
                                   itemBuilder: (BuildContext context, int index) {
                                     return
-                                      Container(
-                                        decoration:BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                                            border: Border.all(color: Colors.black)
-                                        ),
-                                        height: 125,
-                                        width: 125,
-                                        child: InkWell(
-                                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                                            child: Center(
-                                              child: Text(
-                                                listOfFieldNames[index].toString()+ '\n'+ '\n' +' ${vals.sublist(2)[index]}',
-                                                textAlign:TextAlign.center,
-                                              ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          decoration:BoxDecoration(
+                                            gradient: LinearGradient(
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                              colors: [
+                                                Colors.green.withAlpha(150),
+                                                Colors.lightGreen.withAlpha(150),
+                                                Colors.greenAccent.withAlpha(150),
+                                                Colors.white.withAlpha(150)
+                                              ]
                                             ),
-                                            onTap:(){
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext context){
-                                                    return AlertDialog(
-                                                      icon: Align(
-                                                          alignment: Alignment.topLeft,
-                                                          child:IconButton(
-                                                            onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back),
-                                                          )),
-                                                      title: Text("${listOfFieldNames[index]}",
-                                                        textAlign: TextAlign.center,),
-                                                      content: Padding(
-                                                        padding: EdgeInsets.all(2),
-                                                        child: SizedBox(
-                                                          height: 350,
-                                                          width: 400,
-                                                          child: ListView.builder(
-                                                              scrollDirection: Axis.vertical,
-                                                              shrinkWrap: true,
-                                                              itemCount: tempReversed.length,
-                                                              itemBuilder: (context, index) {
-                                                                return ListTile(
-                                                                    title: Text("Time: ${tempReversed[index]["created_at"]}" + "  Value: ${vals.sublist(3)}" )
-                                                                );
-                                                              }
-                                                          ),
-
+                                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                                              border: Border.all(color: Colors.black)
+                                          ),
+                                          height:150,
+                                          width: 125,
+                                          child: InkWell(
+                                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                                              child: Center(
+                                                child: Text(
+                                                  listOfFieldNames[index].toString().replaceAll('[', '').replaceAll(']', '')
+                                                      + '\n'
+                                                      + '\n'
+                                                      +' ${vals.sublist(2)[index]
+                                                  }',
+                                                  textAlign:TextAlign.center,
+                                                ),
+                                              ),
+                                              onTap:(){
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context){
+                                                      return AlertDialog(
+                                                        icon: Align(
+                                                            alignment: Alignment.topLeft,
+                                                            child:IconButton(
+                                                              onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back),
+                                                            )),
+                                                        title: Text(
+                                                          listOfFieldNames[index]
+                                                              .toString()
+                                                              .replaceAll('[', '').replaceAll(']', ''),
+                                                          textAlign: TextAlign.center,
                                                         ),
-                                                      ),
-                                                    );
-                                                  }
-                                              );
-                                            }
+                                                        content: Padding(
+                                                          padding: EdgeInsets.all(2),
+                                                          child: SizedBox(
+                                                            height: 350,
+                                                            width: 400,
+                                                            child: ListView.builder(
+                                                                scrollDirection: Axis.vertical,
+                                                                shrinkWrap: true,
+                                                                itemCount: tempReversed.length,
+                                                                itemBuilder: (context, index) {
+                                                                  return ListTile(
+                                                                      title: Text(
+                                                                          "Time: ${DateFormat.yMd()
+                                                                                  .add_jm()
+                                                                                  .format(
+                                                                                  DateTime
+                                                                                  .parse(tempReversed[index]["created_at"])
+                                                                                  .toLocal())
+                                                                                  .toString()}  Value: ${vals.sublist(3)
+                                                                          .toString()
+                                                                          .replaceAll('[', '')
+                                                                          .replaceAll(']', '')}"
+                                                                      )
+                                                                  );
+                                                                }
+                                                            ),
+
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+                                                );
+                                              }
+                                          ),
                                         ),
                                       );
                                   },
@@ -346,131 +376,3 @@ class AnalyticsPageState extends State<AnalyticsPage> {
 
 
 }
-
-
-class SystemSelectMenu extends StatefulWidget {
-  const SystemSelectMenu({Key? key}) : super(key: key);
-
-  @override
-  State<SystemSelectMenu> createState() => _SystemSelectMenuState();
-}
-
-class _SystemSelectMenuState extends State<SystemSelectMenu> {
-  static String dropdownValue = 'IPH-ZEUS';
-
-  @override
-  Widget build(BuildContext context) {
-
-    //Drop Down Menu
-    return DropdownButton<String>(
-      value: dropdownValue,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.black),
-      onChanged: (String? newValue) {
-        setState(() {
-          dropdownValue = newValue!;
-          //print("New value:  ${newValue}");
-          //print("Dropdown value:  ${dropdownValue}");
-
-        });
-      },
-
-      //Drop Down List
-      items: systemNames.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
-  }
-
-  String getDropdownValue() {
-    return dropdownValue;
-  }
-}
-
-//Self-defined class to place data into appropriate locations for visualization
-class DataChart extends StatelessWidget {
-
-  late List<dynamic> data;
-
-  //This constructor accepts a List
-  DataChart(this.data, {super.key});
-
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Container(
-      decoration:BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        border: Border.all(color: Colors.black)
-      ),
-      height: 125,
-      width: 125,
-      child: InkWell(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        child: Center(
-          child: Text(
-              'Internal Stomach Temperature'+ '\n'+ '\n'+data[1].last +' F',
-          textAlign:TextAlign.center,
-          ),
-        ),
-          onTap:(){
-          showDialog(
-          context: context,
-          builder: (BuildContext context){
-         return AlertDialog(
-           icon: Align(
-             alignment: Alignment.topLeft,
-               child:IconButton(
-                onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back),
-           )),
-           title: Text('Internal Stomach Temperature',
-           textAlign: TextAlign.center,),
-          content: Padding(
-            padding: EdgeInsets.all(2),
-            child: SizedBox(
-              height: 350,
-              width: 400,
-              child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                  print(data[0].runtimeType);
-                  return ListTile(
-                    title: Text(
-                           DateFormat.yMd()
-                              .add_jm()
-                              .format(
-                                DateTime
-                                  .parse(data[index][0])
-                                    .toLocal())
-                                      .toString()
-                            + "  Temperature: "
-                            + data[index][1]
-                            +' F')
-                  );
-                  }
-                  ),
-
-            ),
-            ),
-          );
-          }
-      );
-  }
-  ),
-    );
-  }
-
-
-
-}
-
-
-
