@@ -97,6 +97,8 @@ flutter:
     - lib/assets/images/PlaceHolderPic2.png
     - lib/assets/images/google-logo.png
     - lib/assets/images/Ecotone_Logo.png
+    - lib/assets/images/Abstract-wavy-green-eco-style-background-vector-03-1280x720.jpg
+    - lib/assets/images/270nhy.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

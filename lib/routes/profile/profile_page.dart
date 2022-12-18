@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecotone_app/main.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:provider/provider.dart';
@@ -52,166 +53,208 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
             //Header
             appBar:
             AppBar(
+              title: Column(
+                children: <Widget>[
+                  Container(
+                    height: 80,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.grey.withAlpha(200)
+                    ),
+                    child: FittedBox(
+                      child: Icon(Icons.person_outline,
+                      color: Colors.black,),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  Text("Team Member",
+                  style: TextStyle(
+                    color: Colors.black
+                  ),)
+                ],
+              ),
+              toolbarHeight: MediaQuery.of(context).size.height*0.3,
+              flexibleSpace: FittedBox(
+                child: Image.asset("lib/assets/images/270nhy.jpg"),
+                fit: BoxFit.fill,
+              ),
+              elevation: 0,
               actions: <Widget>[
-                IconButton(
-                  onPressed: () {
-                    context.read<FirebaseAuthMethods>().signOut(context);
-                    },
-                  icon: Icon(Icons.logout),
+                Align(alignment: Alignment.topRight,
+                  child: IconButton(
+                    onPressed: () {
+                      context.read<FirebaseAuthMethods>().signOut(context);
+                      },
+                    icon: Icon(Icons.logout),
+                  ),
                 ),
               ],
-              title: const Text(
-                'Profile',
-              ),
-              //Header Format
-              titleTextStyle:
-              const TextStyle(
-                color: Colors.white,
-                fontSize: 28,
-              ),
               centerTitle: true,
-              backgroundColor: const Color(0xFF309BE9), //Ecotone Colors
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent, //Ecotone Colors
             ),
             body:
             //Top Text Container
-            Column(
+            Stack(
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 0.9.h,
-                    left: 3.w
-                  ),
+                Center(
                   child: Container(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Reminder',
-                              style: TextStyle(
-                                fontSize: 25.sp,
-                                color: Color(0xFF000000),
-                              )
-                          ),
-                          Text('You have some tasks to complete',
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                  color: Color(0xFF000000),
-                              )
-                          ),
-                        ],
-                      ),
-                    )
-                  ),
+                decoration: BoxDecoration(
+                gradient:LinearGradient(
+                  begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFFddedc8),
+                  Colors.green.withAlpha(150),
+                  Colors.lightGreen.withAlpha(150),
+                  Colors.greenAccent.withAlpha(150),
+                ]
+            )
+      ),),
                 ),
-                Padding(padding: EdgeInsets.symmetric(vertical: 0.9.h)),
-                Container(
-                  height: 63.h,
-                    width: 100.w,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                Center(
+                  child: Container(
+                  child: ListView(
                     children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(
-                            top:1.h,
-                            left: 3.w,
-                            right: 3.w,
-                          ),
-                          height: 15.h,
-                          width: 100.w,
-                          child: StreamBuilder<QuerySnapshot>(
-                            stream: Reminder,
-                            builder: (
-                            BuildContext context,
-                              AsyncSnapshot<QuerySnapshot> snapshot,
-                          ) {
-                            if(snapshot.hasError){
-                              return Text("Soemthing Went Wrong with Snapshot of the Reminder Data");
-                            }
-                            if(snapshot.connectionState == ConnectionState.waiting){
-                              return Text("Reminder Data is Loading");
-                            }
-                            final data = snapshot.requireData;
-                            return
-                              ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: data.size,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder:(context,index){
-                                return CustomCard(
-                                  borderRadius: 15.sp,
-                                  borderColor: Colors.blue,
-                                  width: MediaQuery.of(context).size.width *0.6,
-                                  color: Color(0xffe6eef3),
-                                  child: ListTile(
-                                    title: Text(
-                                          DateFormat.yMMMd().add_jm().format(data
-                                              .docs[index]['Time_Of_Event']
-                                              .toDate())
-                                    ),
-                                    subtitle: Text('${data
-                                        .docs[index]['Name_Of_Event']}'
-                                    ),
-                                    trailing: IconButton(
-                                      alignment: Alignment.centerRight,
-                                      icon: Icon(
-                                        Icons.alarm_add_outlined,
-                                        size: 25.sp,
-                                        color: Colors.brown[900],
-                                      ),
-                                      onPressed: () {
-
-                                      },
-                                    ),
-                                  ),
-                                );
-                              }
-                          );
-                        },
-                    )
-                ),
-                      Container(
-                        height:25.h,
-                        width: 100.w,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.1,
-                              width: MediaQuery.of(context).size.width * 0.60,
-                              child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                backgroundColor: Colors.blue,
-                                elevation: 4,
-                              ),
-                              //Button Action
-                               onPressed: _launchUrl,
-                              //Button Text
-                                child: const Text("InvolveMINT")
-                          ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 0.9.h,
+                          left: 3.w
                         ),
-                            ]
+                        child: Container(
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text('Reminder',
+                                    style: TextStyle(
+                                      fontSize: 25.sp,
+                                      color: Color(0xFF000000),
+                                    )
+                                ),
+                                Text('You have some tasks to complete',
+                                    style: TextStyle(
+                                      fontSize: 13.sp,
+                                        color: Color(0xFF000000),
+                                    )
+                                ),
+                              ],
+                            ),
+                          )
                         ),
                       ),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 0.9.h)),
                       Container(
-                        child: Switch(
-                          value: notSwitched,
-                          onChanged: (bool newValue) {
-                            setState(() {
-                              notSwitched = newValue;
-                              Get.to(() => ConsumerRouteGenerator());
-                            }
-                            );
-                          },
-                          activeTrackColor: Colors.lightGreenAccent,
-                          activeColor: Colors.green,
-                        ),
-                      )
-                     ],
-                    ),
-                ),
-                       ]
+                        height: 63.h,
+                          width: 100.w,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(
+                                  top:1.h,
+                                  left: 3.w,
+                                  right: 3.w,
+                                ),
+                                height: 15.h,
+                                width: 100.w,
+                                child: StreamBuilder<QuerySnapshot>(
+                                  stream: Reminder,
+                                  builder: (
+                                  BuildContext context,
+                                    AsyncSnapshot<QuerySnapshot> snapshot,
+                                ) {
+                                  if(snapshot.hasError){
+                                    return Text("Soemthing Went Wrong with Snapshot of the Reminder Data");
+                                  }
+                                  if(snapshot.connectionState == ConnectionState.waiting){
+                                    return Text("Reminder Data is Loading");
+                                  }
+                                  final data = snapshot.requireData;
+                                  return
+                                    ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: data.size,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder:(context,index){
+                                      return CustomCard(
+                                        borderRadius: 15.sp,
+                                        borderColor: Colors.blue,
+                                        width: MediaQuery.of(context).size.width *0.6,
+                                        color: Color(0xffe6eef3),
+                                        child: ListTile(
+                                          title: Text(
+                                                DateFormat.yMMMd().add_jm().format(data
+                                                    .docs[index]['Time_Of_Event']
+                                                    .toDate())
+                                          ),
+                                          subtitle: Text('${data
+                                              .docs[index]['Name_Of_Event']}'
+                                          ),
+                                          trailing: IconButton(
+                                            alignment: Alignment.centerRight,
+                                            icon: Icon(
+                                              Icons.alarm_add_outlined,
+                                              size: 25.sp,
+                                              color: Colors.brown[900],
+                                            ),
+                                            onPressed: () {
+
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                );
+                              },
+                          )
+                      ),
+                            Container(
+                              height:25.h,
+                              width: 100.w,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    SizedBox(
+                                    height: MediaQuery.of(context).size.height * 0.1,
+                                    width: MediaQuery.of(context).size.width * 0.60,
+                                    child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      backgroundColor: Colors.blue,
+                                      elevation: 4,
+                                    ),
+                                    //Button Action
+                                     onPressed: _launchUrl,
+                                    //Button Text
+                                      child: const Text("InvolveMINT")
+                                ),
+                              ),
+                                  ]
+                              ),
+                            ),
+                            Container(
+                              child: Switch(
+                                value: notSwitched,
+                                onChanged: (bool newValue) {
+                                  setState(() {
+                                    notSwitched = newValue;
+                                    Get.to(() => ConsumerRouteGenerator());
+                                  }
+                                  );
+                                },
+                                activeTrackColor: Colors.lightGreenAccent,
+                                activeColor: Colors.green,
+                              ),
+                            )
+                           ],
+                          ),
+                      ),
+                             ]
         ),
+              ),
+                )],
+            ),
         bottomNavigationBar: const NavBar(),
         );
         },
@@ -228,5 +271,28 @@ class MyBehavior extends ScrollBehavior{
   }
 }
 
+class CustomShapePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = Colors.blue
+      ..strokeWidth = 15;
 
+    var path = Path();
+    path.moveTo(0,0);
+    path.lineTo(size.width, 0);
+
+    path.lineTo(size.width, size.height*0.8);
+    path.lineTo(size.width*0.5, size.height);
+    path.lineTo(0, size.height*0.8);
+    path.lineTo(0, 0);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomShapePainter oldDelegate) {
+    return false;
+  }
+}
 

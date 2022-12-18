@@ -217,6 +217,7 @@ class AnalyticsPageState extends State<AnalyticsPage> {
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
           appBar: AppBar(
+            centerTitle: true,
             title: Text("Analytics"),
             leadingWidth: 17.w,
             backgroundColor: const Color(0xFF309BE9), //Ecotone Colors

@@ -26,33 +26,34 @@ class NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      elevation: 50,
       currentIndex: selectedIndex,
       type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.black,
-      unselectedItemColor: Colors.white,
+      backgroundColor: Colors.white,
+      unselectedItemColor: Colors.black,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.location_on, color: Colors.white),
+          icon: Icon(Icons.location_on, color: Colors.black),
           activeIcon: Icon(Icons.location_on, color: Colors.lightBlue),
           label: 'Map',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.analytics, color: Colors.white),
+          icon: Icon(Icons.analytics, color: Colors.black),
           activeIcon: Icon(Icons.analytics, color: Colors.lightBlue),
           label: 'Analytics',
     ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.checklist, color: Colors.white),
+          icon: Icon(Icons.checklist, color: Colors.black),
           activeIcon: Icon(Icons.checklist, color: Colors.lightBlue),
           label: 'Checklist',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.help_outline, color: Colors.white),
+          icon: Icon(Icons.help_outline, color: Colors.black),
           activeIcon: Icon(Icons.help_outline, color: Colors.lightBlue),
           label: 'Info',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline, color: Colors.white),
+          icon: Icon(Icons.person_outline, color: Colors.black),
           activeIcon: Icon(Icons.person_outline, color: Colors.lightBlue),
           label: 'Profile',
         ),

@@ -66,7 +66,7 @@ class _MapState extends State<Map> {
         initialCameraPosition: CameraPosition(
             target: LatLng(
                 currentLocation!.latitude!, currentLocation!.longitude!),
-            zoom: 2),
+            zoom: 19),
         onMapCreated: (GoogleMapController controller) {
           _googleMapController = controller;
         },);
