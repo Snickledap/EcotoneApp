@@ -75,7 +75,7 @@ class FormListState extends State<FormList>{
       .instance
       .collection('System_Data_input_Form')
       .snapshots();
-  final _formKey = GlobalKey<FormState>();
+  final _systemDataKey = GlobalKey<FormState>();
   var Name, Food_Type,Food_Waste_Weight,Water_Weight,Gallon_Fertilizer,Oz_Fertilizer,Temperature;
   List <String>_FoodTypes = [
     'Vegetables',
@@ -113,7 +113,7 @@ class FormListState extends State<FormList>{
           child: Container(
            padding: EdgeInsets.symmetric(horizontal: 2.w),
            child: Form(
-            key: _formKey,
+            key: _systemDataKey,
               child: ListView.builder(
                 itemCount: 1,
               itemBuilder: (BuildContext context, int index) {
@@ -299,7 +299,7 @@ class FormListState extends State<FormList>{
             //Button
             child: ElevatedButton(
               //Button Action
-              onPressed: (){if (_formKey.currentState!.validate()){
+              onPressed: (){if (_systemDataKey.currentState!.validate()){
                 ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Adding Your Data to the Cloud FireStore'),
                     )
