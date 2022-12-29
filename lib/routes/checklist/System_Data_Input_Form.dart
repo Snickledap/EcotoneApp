@@ -1,17 +1,8 @@
+import 'package:ecotone_app/NavBar_Consumer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/NavBar.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sizer/sizer.dart';
-
-
-
-Future <void> main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(SystemInputFormPage());
-}// only available to Team side
 
 
 class SystemInputFormPage extends StatelessWidget{
@@ -46,7 +37,7 @@ class DataForm extends StatelessWidget {
         ),
         //Formatting Text Fields
         body:FormList(),
-        bottomNavigationBar: NavBar(),
+        bottomNavigationBar: NavBar_Consumer(),
       ),
     );
   }

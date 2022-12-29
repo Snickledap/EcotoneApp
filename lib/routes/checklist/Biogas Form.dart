@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ecotone_app/NavBar_Consumer.dart';
 
-void main() => runApp(BioGasForm());
+void main() => runApp(const BioGasForm());
 
 //Header
 class BioGasForm extends StatelessWidget {
+  const BioGasForm({super.key});
+
   @override
   Widget build(BuildContext context) {
     final appTitle = 'Flutter Form Demo';
@@ -33,14 +35,14 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
 
   // Create a global key that uniquely identifies the Form widget and allows validation of the form.
-  final _formKey = GlobalKey<FormState>();
+  final _BioGasFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
 
-    // Build a Form widget using the _formKey created above.
+    // Build a Form widget using the _BioGasFormKey created above.
     return Form(
-      key: _formKey,
+      key: _BioGasFormKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -88,8 +90,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           //Button
           ElevatedButton(
               style:ElevatedButton.styleFrom(
-                primary: Color(0xFF015486),
-                onPrimary: Colors.white,
+                foregroundColor: Colors.white, backgroundColor: Color(0xFF015486),
                 elevation: 4,
               ),
 

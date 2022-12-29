@@ -48,7 +48,7 @@ class Login extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasData) {
-          return RouteGenerator();
+          return const RouteGenerator();
         } else if (snapshot.hasError) {
           return const Center(child: Text("Something Went Wrong with the Sign in"));
         } else {

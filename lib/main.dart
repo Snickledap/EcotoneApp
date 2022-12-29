@@ -1,17 +1,18 @@
 import 'package:ecotone_app/Login_Page.dart';
 import 'package:ecotone_app/Signup_Page.dart';
+import 'package:ecotone_app/routes/checklist/System_Data_Input_Form.dart';
 import 'package:ecotone_app/routes/map/QR_Scanning_Page.dart';
 import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
 import 'package:ecotone_app/routes/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ecotone_app/routes/map/Map_Page.dart';
 import 'package:ecotone_app/routes/checklist/Checklist.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:ecotone_app/routes/information/Information.dart';
 import 'package:ecotone_app/routes/map/Data_Analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:ecotone_app/routes/checklist/Biogas Form.dart';
 
 
 
@@ -31,7 +32,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return  GetMaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: Home(),
@@ -50,6 +51,8 @@ class _HomePageState extends State<HomePage> {
 
 
 class RouteGenerator extends StatelessWidget{
+  const RouteGenerator({super.key});
+
 
   @override
   Widget build(BuildContext context){
@@ -79,26 +82,24 @@ class RouteGenerator extends StatelessWidget{
     );
   }
 }
-
 class ConsumerRouteGenerator extends StatelessWidget{
   const ConsumerRouteGenerator({super.key});
 
   @override
   Widget build(BuildContext context){
-    String initialRoute = "/Consumer_Profile";
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
       ),
-      initialRoute: initialRoute,
+      initialRoute: "/Consumer_Profile",
       onGenerateRoute: (settings) {
         switch(settings.name) {
           case '/Consumer_Profile':
-            return PageTransition(child: ConsumerProfile(), type: PageTransitionType.fade);
-          case '/BioGas':
-            return PageTransition(child: BioGasForm(), type: PageTransitionType.fade);
+            return PageTransition(child: const ConsumerProfile(), type: PageTransitionType.fade);
+          case '/SystemInput':
+            return PageTransition(child: const SystemInputFormPage(), type: PageTransitionType.fade);
           case '/QR':
-            return PageTransition(child: QRScanningPage(), type: PageTransitionType.fade);
+            return PageTransition(child: const QRScanningPage(), type: PageTransitionType.fade);
           default:
             return null;
         }
