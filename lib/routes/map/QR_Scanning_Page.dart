@@ -2,15 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ecotone_app/NavBar_Consumer.dart';
 
-
-class QRScanningPage extends StatefulWidget {
+class QRScanningPage extends StatelessWidget {
   const QRScanningPage({Key? key}) : super(key: key);
 
   @override
-  QRScanningPageState createState() => QRScanningPageState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: QRScanning(),
+    );
+  }
 }
 
-class QRScanningPageState extends State<QRScanningPage> {
+class QRScanning extends StatefulWidget {
+  const QRScanning({Key? key}) : super(key: key);
+
+  @override
+  QRScanningState createState() => QRScanningState();
+}
+
+class QRScanningState extends State<QRScanning> {
 
   @override
   Widget build(BuildContext context) {

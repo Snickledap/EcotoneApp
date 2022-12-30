@@ -227,7 +227,7 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                                      width: 40.w,
                                      child: ElevatedButton(
                                        onPressed: (){
-                                        Get.to(()=> const ConsumerProfile());
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> ConsumerRouteGenerator()));
                                        }, child: const Text("Consumer Page"),
                                      ),
                                    )

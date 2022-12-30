@@ -82,6 +82,8 @@ class RouteGenerator extends StatelessWidget{
     );
   }
 }
+
+
 class ConsumerRouteGenerator extends StatelessWidget{
   const ConsumerRouteGenerator({super.key});
 
@@ -95,11 +97,11 @@ class ConsumerRouteGenerator extends StatelessWidget{
       onGenerateRoute: (settings) {
         switch(settings.name) {
           case '/Consumer_Profile':
-            return PageTransition(child: const ConsumerProfile(), type: PageTransitionType.fade);
+            return PageTransition(child: ConsumerProfile(), type: PageTransitionType.fade);
           case '/SystemInput':
-            return PageTransition(child: const SystemInputFormPage(), type: PageTransitionType.fade);
+            return PageTransition(child: DataForm(), type: PageTransitionType.fade);
           case '/QR':
-            return PageTransition(child: const QRScanningPage(), type: PageTransitionType.fade);
+            return PageTransition(child: QRScanning(), type: PageTransitionType.fade);
           default:
             return null;
         }
