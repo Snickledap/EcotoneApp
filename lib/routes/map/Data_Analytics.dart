@@ -141,8 +141,8 @@ class AnalyticsPageState extends State<AnalyticsPage> {
     var response = await http.get(Uri.parse(url));
 
     //A http response object is formatted into header + body
-    //The bod contains the actual info we need in String form
-    //Use jsonDecode to turn the String into a json object and store it in a Map
+    //The body contains the actual info we need in String form
+    //Use jsonDecode to turn the String into a json object and store it in a Map<String, dynamic>
     Map<String, dynamic> obj = jsonDecode(response.body);
 
 
@@ -172,6 +172,7 @@ class AnalyticsPageState extends State<AnalyticsPage> {
       latestValues.add(null);
     }
 
+
     var feeds = obj["feeds"];
 
     for(var i = feeds.length - 1; i >= 0; i--) {
@@ -185,9 +186,8 @@ class AnalyticsPageState extends State<AnalyticsPage> {
       }
     }
 
-   print("Latest values: " + latestValues.toString());
-
-
+    //And now we have the latest values recorded for each data type from the specified Zeus system
+    print("Latest values: " + latestValues.toString());
   }
 
   Future<dynamic> getFieldData(int index) async {
