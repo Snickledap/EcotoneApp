@@ -16,8 +16,7 @@ class QR_Scanning_PageState extends State<QR_Scanning_Page> {
   Widget build(BuildContext context) {
 
     //Back Button
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -110,9 +109,8 @@ class QR_Scanning_PageState extends State<QR_Scanning_Page> {
             ),
 
         //Bottom Nav Bar
-        bottomNavigationBar: const NavBar_Consumer(),
-      ),
-    );
+        bottomNavigationBar:  NavBar_Consumer(),
+      );
 
   }
 }
