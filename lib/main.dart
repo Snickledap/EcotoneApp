@@ -155,7 +155,7 @@ class Home extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator
-                      .pushReplacement(context, MaterialPageRoute(
+                      .push(context, MaterialPageRoute(
                       builder: (context) => SignUpPage()
                   ),
                   );
@@ -184,7 +184,7 @@ class Home extends StatelessWidget {
                 onPressed: () {
                   Navigator
                       .push(context, MaterialPageRoute(
-                      builder: (context) => Sign_In()
+                      builder: (context) => LogIn_Page()
                   ),
                   );
                 },

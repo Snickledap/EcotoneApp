@@ -71,7 +71,8 @@ class _SignUpState extends State<SignUp> {
         leading:IconButton(
             color: Colors.black,
             icon: Icon(Icons.arrow_back),
-            onPressed: (){Navigator.push(
+            onPressed: (){
+              Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Home()
               ),
