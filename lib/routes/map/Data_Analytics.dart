@@ -75,13 +75,6 @@ class DisplayChart {
 */
 
 
-class DataTemp {
-  final DateTime time;
-  final num db;
-
-  DataTemp(this.time, this.db);
-}
-
 class AnalyticsPage extends StatefulWidget {
   const AnalyticsPage({super.key});
 
@@ -102,7 +95,7 @@ class AnalyticsPageState extends State<AnalyticsPage> {
 
   late List listOfFieldNames;
   late List latestValues;
-  late List fieldValues;
+  late List fieldValues = [];
 
 
 
@@ -191,15 +184,21 @@ class AnalyticsPageState extends State<AnalyticsPage> {
   }
 
   Future<dynamic> getFieldData(int index) async {
-    String url = "https://api.thingspeak.com/channels/" + channel_id + "/" + (index+1).toString() + ".json?api_key=" + apiKey + "&days=1";
+
+
+    String url = "https://api.thingspeak.com/channels/" + channel_id + "/fields/" + (index+1).toString() + ".json?api_key=" + apiKey + "&days=1";
     print(url);
 
     var response = await http.get(Uri.parse(url));
 
     Map<String, dynamic> obj = jsonDecode(response.body);
+    print(obj["feeds"]);
 
-    Map<String, dynamic> feeds = obj["feeds"];
-    Map<String, String> feedsTemp = feeds[0];
+    List<dynamic> feeds = obj["feeds"];
+    print("Feeds: " + feeds.toString());
+
+    Map<String, dynamic> feedsTemp = feeds[0];
+    print("First entry in Feeds: " + feedsTemp.toString());
 
     List feedsKeys = feedsTemp.keys.toList();
 
@@ -213,8 +212,8 @@ class AnalyticsPageState extends State<AnalyticsPage> {
 
     }
 
-    print(fieldValues);
-    return 0;
+    print("Field values: " + fieldValues.toString());
+
   }
 
 
@@ -312,14 +311,14 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                                                           height: 350,
                                                           width: 400,
                                                           child: FutureBuilder<dynamic>(
-                                                            future: getFieldData(index),
+                                                            future: getFieldData(index),  /*FIELD DATA*********************/
                                                             builder: (ctx, snapshot) {
                                                               if(snapshot.connectionState == ConnectionState.waiting) {
                                                                 return Center(child: CircularProgressIndicator());
                                                               }
                                                               else {
                                                                 if (snapshot.error != null) {
-                                                                  print(fieldValues.toString());
+                                                                  //print(fieldValues.toString());
                                                                   return Center(child: Text('An error occured'));
                                                                 }
                                                                 else {
