@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-List<String> routeNames = ['/QR', "/SystemInput", "/Consumer_Profile"];
+List<String> routeNames = ['/QR', "/System_Input", "/Consumer_Profile"];
 
 
 class NavBar_Consumer extends StatefulWidget {

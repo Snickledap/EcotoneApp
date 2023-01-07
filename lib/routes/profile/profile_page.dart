@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecotone_app/main.dart';
-import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
@@ -227,7 +224,9 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                                      width: 40.w,
                                      child: ElevatedButton(
                                        onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> ConsumerRouteGenerator()));
+                                        Navigator.push(context, MaterialPageRoute (
+                                          builder: (BuildContext context) => const ConsumerRouteGenerator(),
+                                        ),);
                                        }, child: const Text("Consumer Page"),
                                      ),
                                    )

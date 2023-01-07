@@ -5,23 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sizer/sizer.dart';
 
 
-class SystemInputFormPage extends StatelessWidget{
-  const SystemInputFormPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context){
-    return Sizer(builder: (context, orientation, deviceType)
-    {
-      return MaterialApp(
-          home: DataForm()
-      );
-    }
-    );
-  }
-}
+class System_Data_Input_Page extends StatelessWidget {
+  const System_Data_Input_Page({super.key});
 
-
-class DataForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +37,6 @@ class UserName extends StatelessWidget {
     return Text('User Name Place Holder');
   }
 }
-
 
 
 class FormList extends StatefulWidget{

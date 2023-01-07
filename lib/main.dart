@@ -1,13 +1,13 @@
 import 'package:ecotone_app/Login_Page.dart';
 import 'package:ecotone_app/Signup_Page.dart';
-import 'package:ecotone_app/routes/checklist/System_Data_Input_Form.dart';
+import 'package:ecotone_app/routes/checklist/System_Data_Input_Page.dart';
 import 'package:ecotone_app/routes/map/QR_Scanning_Page.dart';
 import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
 import 'package:ecotone_app/routes/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ecotone_app/routes/map/Map_Page.dart';
 import 'package:ecotone_app/routes/checklist/Checklist.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:ecotone_app/routes/information/Information.dart';
@@ -32,7 +32,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return  GetMaterialApp(
+    return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: Home(),
@@ -97,11 +97,11 @@ class ConsumerRouteGenerator extends StatelessWidget{
       onGenerateRoute: (settings) {
         switch(settings.name) {
           case '/Consumer_Profile':
-            return PageTransition(child: ConsumerProfile(), type: PageTransitionType.fade);
-          case '/SystemInput':
-            return PageTransition(child: DataForm(), type: PageTransitionType.fade);
+            return PageTransition(child: Consumer_Profile(), type: PageTransitionType.fade);
+          case '/System_Input':
+            return PageTransition(child: System_Data_Input_Page(), type: PageTransitionType.fade);
           case '/QR':
-            return PageTransition(child: QRScanning(), type: PageTransitionType.fade);
+            return PageTransition(child: QR_Scanning_Page(), type: PageTransitionType.fade);
           default:
             return null;
         }

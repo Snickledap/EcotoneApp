@@ -1,29 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ecotone_app/NavBar_Consumer.dart';
-import '../../main.dart';
 
 
 String points = "100";
-class ConsumerProfilePage extends StatelessWidget {
+class Consumer_Profile extends StatefulWidget {
+  const Consumer_Profile({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ConsumerProfile(),
-    );
-  }
+  State<Consumer_Profile> createState() => Consumer_ProfileState();
 }
 
-class ConsumerProfile extends StatefulWidget {
-  const ConsumerProfile({Key? key}) : super(key: key);
-
-  @override
-  State<ConsumerProfile> createState() => ConsumerProfileState();
-}
-
-class ConsumerProfileState extends State<ConsumerProfile> {
+class Consumer_ProfileState extends State<Consumer_Profile> {
 
   @override
   Widget build(BuildContext context) {
@@ -99,13 +87,8 @@ class ConsumerProfileState extends State<ConsumerProfile> {
                           foregroundColor: Colors.white, backgroundColor: Color(0xFF015486),
                           elevation: 4,
                       ),
-
-                    //Shop Button Action
-                    onPressed: (){ Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const RouteGenerator()
-                      ),
-                    );},
+                    onPressed: (){ Navigator.pop(
+                      context);},
 
                       //Shop Button Text
                       child: Text(

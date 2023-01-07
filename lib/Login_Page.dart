@@ -52,9 +52,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
         ),
         StreamProvider(create: (context) => context.read<FirebaseAuthMethods>().authState, initialData: null,)
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
+      child: Scaffold(
           body: StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
@@ -73,10 +71,8 @@ class _LogIn_PageState extends State<LogIn_Page> {
                           color: Colors.black,
                           icon: Icon(Icons.arrow_back),
                           onPressed: (){
-                            Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Home()
-                  ));
+                            Navigator.pop(
+                              context);
                           }
                       ),
                     ),
@@ -291,7 +287,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
             },
           ),
         ),
-      ),
+
     );
   }
 }
