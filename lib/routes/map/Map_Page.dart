@@ -16,15 +16,22 @@ class Map extends StatefulWidget {
 }
   Marker? _origin;
   Marker? _destination;
- Directions? _info;
-final Stream<QuerySnapshot> Container_Location = FirebaseFirestore
-    .instance
-    .collection('Container_Location')
-    .snapshots();
+  Directions? _info;
   LocationData? currentLocation;
+
 class _MapState extends State<Map> {
 
+  late CollectionReference cl;
 
+  @override
+  void initState() {
+    super.initState();
+    cl = FirebaseFirestore.instance.collection('Container_Location');
+    getCurrentLocation();
+    getMapBody();
+    zeusLocation();
+    setState(() {});
+  }
 
   void getCurrentLocation() {
     Location location = Location();
@@ -39,7 +46,6 @@ class _MapState extends State<Map> {
   }
 
   Widget getMapBody() {
-
 
     if (currentLocation == null) {
       return Center(child: Text("Loading"),);
@@ -74,11 +80,18 @@ class _MapState extends State<Map> {
     }
   }
 
-  @override
-  void initState() {
-    getCurrentLocation();
-    super.initState();
+  Future<void> zeusLocation() async{
+
+    QuerySnapshot querySnapshot = await cl.get();
+    final allLocationData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    print(allLocationData);
+    // List zeusLatLng = allLocationData.map((e) => e['LatLng']).toList();
+    // print(zeusLatLng);
   }
+
+
+
+
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,75 +139,85 @@ class _PanelWidgetState extends State<PanelWidget> {
               style: TextStyle(fontSize: 24),
               ),
             ),
-            StreamBuilder<QuerySnapshot>(stream: Container_Location,
-                builder:
-                    (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasError) {
-                    return const Text(
-                        "Something Went wrong with the snapshot of the Container Location");
-                  }
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Text("Loading");
-                  }
-                  final data = snapshot.requireData;
-                  return ListView.builder(
-                    controller: widget.controller,
-                    shrinkWrap: true,
-                    itemCount: data.size,
-                    scrollDirection: Axis.vertical,
-                    padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.01),
-                    itemBuilder: (context, index) {
-                      return Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                            onTap: () {
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height * 0.09,
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * 0.02,
-                                  child: ListTile(
-                                    title: Text(
-                                        '${data.docs[index]['Name']}'),
-                                    subtitle: Text(
-                                        '${data.docs[index]['Address']}'),
-                                    trailing: IconButton(
-                                        onPressed: () async{
-                                          _googleMapController.animateCamera(
-                                          CameraUpdate.newCameraPosition(
-                                          CameraPosition(
-                                          target: LatLng(
-                                          data.docs[index]["LatLng"].latitude,
-                                          data.docs[index]["LatLng"].longitude
-                                          ),
-                                          zoom: 19)
-                                          ));
-                                          _addMarker(LatLng(
-                                              data.docs[index]["LatLng"].latitude,
-                                              data.docs[index]["LatLng"].longitude
-                                          ),
-                                          );
-
-                                          print(data.runtimeType);
-                                          },
-                                        icon: const Icon(Icons.place)),
-                                  )),
-                            ),
-
-                        ),
-                      );
-                    },
-                  );
-                }
-            ),
+            // StreamBuilder<QuerySnapshot>(
+            //     stream: ,
+            //     builder:
+            //         (context, snapshot) {
+            //           if (snapshot.hasError) {
+            //             return const Text(
+            //                 "Something Went wrong with the snapshot of the Container Location");
+            //           }
+            //           if (snapshot.connectionState == ConnectionState.waiting) {
+            //             return const Text("Loading");
+            //           }
+            //           if (snapshot.hasData) {
+            //             GeoPoint geoLocation = GeoPoint(
+            //                 snapshot.data.docs["LatLng"].latitude,
+            //                 snapshot.data.docs["LatLng"].longitude);
+            //             if(geoLocation == null)
+            //               return Text("no geolocation Data");
+            //             final data = snapshot.requireData;
+            //             final zeusLatLng = LatLng(
+            //                 geoLocation.latitude, geoLocation.longitude);
+            //             return ListView.builder(
+            //               controller: widget.controller,
+            //               shrinkWrap: true,
+            //               itemCount: data.size,
+            //               scrollDirection: Axis.vertical,
+            //               padding: EdgeInsets.only(top: MediaQuery
+            //                   .of(context)
+            //                   .size
+            //                   .height * 0.01),
+            //               itemBuilder: (context, index) {
+            //                 return Material(
+            //                   color: Colors.transparent,
+            //                   child: InkWell(
+            //                     onTap: () {},
+            //                     child: Padding(
+            //                       padding: const EdgeInsets.all(8.0),
+            //                       child: Container(
+            //                           height: MediaQuery
+            //                               .of(context)
+            //                               .size
+            //                               .height * 0.09,
+            //                           width: MediaQuery
+            //                               .of(context)
+            //                               .size
+            //                               .width * 0.02,
+            //                           child: ListTile(
+            //                             title: Text(
+            //                                 '${data.docs[index]['Name']}'),
+            //                             subtitle: Text(
+            //                                 '${data.docs[index]['Address']}'),
+            //                             trailing: IconButton(
+            //                                 onPressed: () async {
+            //                                   _googleMapController
+            //                                       .animateCamera(
+            //                                       CameraUpdate
+            //                                           .newCameraPosition(
+            //                                           CameraPosition(
+            //                                               target: zeusLatLng,
+            //                                               zoom: 19)
+            //                                       ));
+            //                                   _addMarker(zeusLatLng
+            //                                   );
+            //
+            //                                   print(data.runtimeType);
+            //                                 },
+            //                                 icon: const Icon(Icons.place)),
+            //                           )),
+            //                     ),
+            //
+            //                   ),
+            //                 );
+            //               },
+            //             );
+            //           }
+            //           return Center(
+            //             child: CircularProgressIndicator(),
+            //           );
+            //         }
+            //         ),
           ],
         ),
       ),
@@ -235,3 +258,6 @@ class MyBehavior extends ScrollBehavior{
     return child;
   }
 }
+
+
+
