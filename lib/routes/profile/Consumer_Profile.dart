@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ecotone_app/NavBar_Consumer.dart';
+import 'package:provider/provider.dart';
+
+import '../login/Login_Setup.dart';
 
 
 String points = "100";
@@ -113,7 +116,9 @@ class Consumer_ProfileState extends State<Consumer_Profile> {
                         ),
 
                       //Sign Out Button Action
-                      onPressed: (){},
+                      onPressed: (){
+                        context.read<FirebaseAuthMethods>().signOut(context);
+                      },
 
 
                         //Sign Out Button Text
