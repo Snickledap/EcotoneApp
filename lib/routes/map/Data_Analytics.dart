@@ -191,19 +191,19 @@ class AnalyticsPageState extends State<AnalyticsPage> {
 
     var response = await http.get(Uri.parse(url));
 
-    print(response.body.runtimeType);
+    //print(response.body.runtimeType);
     Map<String, dynamic> obj = jsonDecode(response.body);
-    print(obj["feeds"]);
+    //print(obj["feeds"]);
 
     List<dynamic> feeds = obj["feeds"];
-    print("Feeds: " + feeds.toString());
+    //print("Feeds: " + feeds.toString());
 
     Map<String, dynamic> feedsTemp = feeds[0];
-    print("First entry in Feeds: " + feedsTemp.toString());
+    //print("First entry in Feeds: " + feedsTemp.toString());
 
     List feedsKeys = feedsTemp.keys.toList();
 
-    print("Feeds keys: " + feedsKeys.toString());
+    //print("Feeds keys: " + feedsKeys.toString());
 
     fieldValues = [];
 
@@ -213,7 +213,7 @@ class AnalyticsPageState extends State<AnalyticsPage> {
 
     }
 
-    print("Field values: " + fieldValues.toString());
+    //print("Field values: " + fieldValues.toString());
 
   }
 
@@ -330,6 +330,7 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                                                                       itemBuilder: (context, index) {
                                                                         return ListTile(
                                                                             title: Text("Time:" + fieldValues[index][0].toString()),
+                                                                            subtitle: Text("Value: " + fieldValues[index][1].toString()),
 
                                                                         );
                                                                       }
