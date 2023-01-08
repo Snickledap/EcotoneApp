@@ -227,10 +227,8 @@ class _LogIn_PageState extends State<LogIn_Page> {
 
                                         ),
                                         actions: [
-                                          IconButton(onPressed: (){
-                                            navigator?.pop(context);
-                                            },
-                                              icon: Icon(Icons.arrow_back))
+                                          TextButton(onPressed: ()=>Navigator.pop(context,'Confirm'), child: const Text("Confirm")),
+                                          TextButton(onPressed: ()=>Navigator.pop(context,'Cancel'), child: const Text("Cancel"))
                                     ],
 
                                   ); },
