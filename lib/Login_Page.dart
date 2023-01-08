@@ -1,5 +1,6 @@
 import 'package:ecotone_app/main.dart';
 import 'package:ecotone_app/routes/login/Login_Setup.dart';
+import 'package:ecotone_app/routes/login/showSnackBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,14 +26,22 @@ class LogIn_Page extends StatefulWidget {
 class _LogIn_PageState extends State<LogIn_Page> {
 
   final _formKeyLogin = GlobalKey<FormState>();
+  final _formKeyEmployeePassword = GlobalKey<FormState>();
   final TextEditingController loginEmailController =  TextEditingController();
   final TextEditingController loginPasswordController = TextEditingController();
   final TextEditingController teamMemberPasswordController = TextEditingController();
   bool checkedValue = false;
   void _onCheckedValueChanged (bool newValue) => setState(() {
-    checkedValue = !checkedValue;
+    checkedValue = newValue;
 
   });
+
+  Widget getCheckedValueIcon() {
+    if(checkedValue == true)
+      return Icon(Icons.check_box);
+    else
+      return Icon(Icons.check_box_outline_blank);
+  }
 
   @override
   void dispose(){
@@ -207,27 +216,28 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                     builder: (BuildContext context) {
                                       return AlertDialog(
                                         title: Text("Enter Team Member Password"),
-                                        content: TextFormField(
-                                          obscureText: true,
-                                          controller: teamMemberPasswordController,
-                                          decoration: InputDecoration(
-                                            hintText: "Enter Your Team Member Password",
-                                          ),
-                                          validator: (val){
-                                            if(val == "1234") {
-                                              setState(() {
-                                                checkedValue = true;
-                                              });
-                                              return null;
-                                            }
-                                            else{
-                                              return 'Enter a valid password';
-                                            }
-                                          },
+                                        content: Form(
+                                          key: _formKeyEmployeePassword,
+                                          child: TextFormField(
+                                            obscureText: true,
+                                            controller: teamMemberPasswordController,
+                                            decoration: InputDecoration(
+                                              hintText: "Enter Your Team Member Password",
+                                            ),
 
+                                          ),
                                         ),
                                         actions: [
-                                          TextButton(onPressed: ()=>Navigator.pop(context,'Confirm'), child: const Text("Confirm")),
+                                          TextButton(onPressed: (){
+                                            if(teamMemberPasswordController.text == "1234") {
+                                              _onCheckedValueChanged(true);
+                                            }
+                                            else {
+                                              _onCheckedValueChanged(false);
+                                              showSnackBar(context, "Password is incorrect, please try again");
+                                            }
+                                            Navigator.pop(context,'Confirm');
+                                          }, child: const Text("Confirm")),
                                           TextButton(onPressed: ()=>Navigator.pop(context,'Cancel'), child: const Text("Cancel"))
                                     ],
 
@@ -258,11 +268,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                             ),
                                           ),
                                         ),
-                                        Checkbox(value: checkedValue, onChanged: (newValue){
-                                          setState(() {
-                                            checkedValue = newValue!;
-                                          });
-                                        })
+                                        getCheckedValueIcon(),
                                       ]
                                   ),
                                 )
