@@ -76,7 +76,10 @@ class _LogIn_PageState extends State<LogIn_Page> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasData) {
-                return const RouteGenerator();
+                if(checkedValue == true)
+                  return const RouteGenerator();
+                else
+                  return const ConsumerRouteGenerator();
               } else if (snapshot.hasError) {
                 return const Center(child: Text("Something Went Wrong with the Sign in"));
               } else {
