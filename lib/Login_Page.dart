@@ -2,6 +2,7 @@ import 'package:ecotone_app/main.dart';
 import 'package:ecotone_app/routes/login/Login_Setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -26,12 +27,19 @@ class _LogIn_PageState extends State<LogIn_Page> {
   final _formKeyLogin = GlobalKey<FormState>();
   final TextEditingController loginEmailController =  TextEditingController();
   final TextEditingController loginPasswordController = TextEditingController();
+  final TextEditingController teamMemberPasswordController = TextEditingController();
+  bool checkedValue = false;
+  void _onCheckedValueChanged (bool newValue) => setState(() {
+    checkedValue = !checkedValue;
+
+  });
 
   @override
   void dispose(){
     super.dispose();
     loginEmailController.dispose();
     loginPasswordController.dispose();
+    teamMemberPasswordController.dispose();
   }
 
   void emailLogin() async {
@@ -191,60 +199,41 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                 )
                             ),
                             Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                            InkWell(                                              // FaceBook in Button
+                            InkWell(                                                // google Sign in Button
                                 splashColor: Colors.white,
-                                onTap: (){
-                                  FirebaseAuthMethods(FirebaseAuth.instance)
-                                      .signInWithFacebook(context);
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFF3B5998),
-                                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                                  ),
-                                  height: 60,
-                                  width: 350,
-                                  child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        const Icon(
-                                          IconData(
-                                            0xe255,
-                                            fontFamily: 'MaterialICons',
-
+                                onTap: ()=>
+                                  showDialog <String>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Enter Team Member Password"),
+                                        content: TextFormField(
+                                          obscureText: true,
+                                          controller: teamMemberPasswordController,
+                                          decoration: InputDecoration(
+                                            hintText: "Enter Your Team Member Password",
                                           ),
-                                          size:48,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(
-                                          height: MediaQuery.of(context).size.height*0.1,
-                                          width: MediaQuery.of(context).size.width*0.6,
+                                          validator: (val){
+                                            if(val!.isEmpty)
+                                              return "Please enter Your Team Member Password ";
+                                            else if(val == "1234"){
+                                            } return null;
+                                          },
 
-                                          child: Center(
-                                            child: Text("SIGN IN WITH FACEBOOK",
-                                              style: GoogleFonts.roboto(
-                                                  fontSize: 18,
-                                                  color: Colors.white
-                                              ),
-                                            ),
-                                          ),
                                         ),
-                                      ]
+                                        actions: [
+                                          IconButton(onPressed: (){
+                                            navigator?.pop(context);
+                                            },
+                                              icon: Icon(Icons.arrow_back))
+                                    ],
+
+                                  ); },
                                   ),
-                                )
-                            ),
-                            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                            InkWell(                                               // Apple in Button
-                                splashColor: Colors.white,
-                                onTap: (){
-                                  /*FirebaseAuthMethods(FirebaseAuth.instance)
-                      .signInWithApple(context);*/
-                                },
+
                                 child: Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(color: Colors.black),
-                                    color: Colors.black,
                                     borderRadius: BorderRadius.all(Radius.circular(20)),
                                   ),
                                   height: 60,
@@ -253,28 +242,24 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: <Widget>[
-                                        const Icon(
-                                          IconData(
-                                            0xf04be,
-                                            fontFamily: 'MaterialICons',
-
-                                          ),
-                                          size:48,
-                                          color: Colors.white,
-                                        ),
+                                        Icon(Icons.person),
                                         SizedBox(
                                           height: MediaQuery.of(context).size.height*0.1,
                                           width: MediaQuery.of(context).size.width*0.6,
 
                                           child: Center(
-                                            child: Text("SIGN IN WITH APPLE",
+                                            child: Text("I am a Team Member",
                                               style: GoogleFonts.roboto(
-                                                  fontSize: 18,
-                                                  color: Colors.white
+                                                fontSize: 18,
                                               ),
                                             ),
                                           ),
                                         ),
+                                        Checkbox(value: checkedValue, onChanged: (newValue){
+                                          setState(() {
+                                            checkedValue = newValue!;
+                                          });
+                                        })
                                       ]
                                   ),
                                 )
