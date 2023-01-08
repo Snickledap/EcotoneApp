@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -84,10 +85,15 @@ class _MapState extends State<Map> {
   Future<dynamic> zeusLocation() async{
 
     QuerySnapshot querySnapshot = await cl.get();
-    var allLocationData = querySnapshot.docs.map((doc) => doc.data()).toList();
-    var locations = allLocationData[0];
-    var zeus = locations;
-    print(zeus);
+    List<dynamic> allLocationData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    //var locations = allLocationData[0];
+    //var zeus = locations;
+    print("All location data*** " + allLocationData.toString());
+
+    for(var i = 0; i < allLocationData.length; i++) {
+      var location = jsonDecode(allLocationData[i]);
+      print(location.runtimeType.toString());
+    }
 
     // List zeusLocation = allLocationData[0]?.key['LatLng'];
     // List zeusLatLng = allLocationData.map((e) => e['LatLng']).toList();
