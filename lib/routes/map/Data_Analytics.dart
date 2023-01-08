@@ -191,6 +191,7 @@ class AnalyticsPageState extends State<AnalyticsPage> {
 
     var response = await http.get(Uri.parse(url));
 
+    print(response.body.runtimeType);
     Map<String, dynamic> obj = jsonDecode(response.body);
     print(obj["feeds"]);
 
@@ -328,7 +329,8 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                                                                       itemCount: fieldValues.length,
                                                                       itemBuilder: (context, index) {
                                                                         return ListTile(
-                                                                            title: Text("Time:" )
+                                                                            title: Text("Time:" + fieldValues[index][0].toString()),
+
                                                                         );
                                                                       }
                                                                   );
