@@ -214,10 +214,15 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                             hintText: "Enter Your Team Member Password",
                                           ),
                                           validator: (val){
-                                            if(val!.isEmpty)
-                                              return "Please enter Your Team Member Password ";
-                                            else if(val == "1234"){
-                                            } return null;
+                                            if(val == "1234") {
+                                              setState(() {
+                                                checkedValue = true;
+                                              });
+                                              return null;
+                                            }
+                                            else{
+                                              return 'Enter a valid password';
+                                            }
                                           },
 
                                         ),
