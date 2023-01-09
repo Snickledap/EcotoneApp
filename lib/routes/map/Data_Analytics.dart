@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -93,7 +94,18 @@ class AnalyticsPageState extends State<AnalyticsPage> {
 
   late List listOfFieldNames;
   late List latestValues;
+  late List fieldValuesReversed = [];
   late List fieldValues = [];
+  final List<IconData> _IconList = [
+    Icons.opacity,
+    Icons.opacity,
+    Icons.opacity,
+    Icons.opacity,
+    Icons.opacity,
+    Icons.opacity,
+    Icons.opacity,
+    Icons.opacity,
+  ];
 
 
 
@@ -203,14 +215,14 @@ class AnalyticsPageState extends State<AnalyticsPage> {
 
     //print("Feeds keys: " + feedsKeys.toString());
 
-    fieldValues = [];
+    fieldValuesReversed = [];
 
     for(var i = 0; i < feeds.length; i++) {
       if(feeds[i][feedsKeys.last] != null)
-        fieldValues.add([feeds[i][feedsKeys.first], feeds[i][feedsKeys.last]]);
-
+        fieldValuesReversed.add([feeds[i][feedsKeys.first], feeds[i][feedsKeys.last]]);
     }
 
+    fieldValues = fieldValuesReversed.reversed.toList();
     //print("Field values: " + fieldValues.toString());
 
   }
@@ -222,147 +234,178 @@ class AnalyticsPageState extends State<AnalyticsPage> {
     //print('df:  ${df}');
 
     return Sizer(builder: (context, orientation, deviceType) {
-      return Scaffold(
-          appBar: AppBar(
-            title: Text("Analytics"),
-            leadingWidth: 17.w,
-            backgroundColor: const Color(0xFF309BE9), //Ecotone Colors
-          ),
-          bottomNavigationBar: NavBar(),
-          body: SizedBox(
-            child: Column(
-                children: <Widget>[
-                  Center(
-                    child: Container( //Dropdown for selecting system
-                        child: DropdownButton<String>(
-                          value: dropdownValue,
-                          icon: const Icon(Icons.arrow_downward),
-                          elevation: 16,
-                          style: const TextStyle(color: Colors.black),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownValue = newValue!;
-                            });
-                            //print("New value:  ${newValue}");
-                            //print("Dropdown value:  ${dropdownValue}");
-                          },
-                          //Drop Down List
-                          items: systemNames.map<DropdownMenuItem<String>>((
-                              String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        )
-                    ),
-                  ), //Dropdown menu for system selection
-                  FutureBuilder<dynamic>(
-                        future: getLatestData(),
-                        builder: (ctx, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                          else {
-                            if (snapshot.error != null) {
-                              return Center(child: Text('An error occured'));
+      return SafeArea(
+        top: true,
+        bottom: false,
+        minimum: EdgeInsets.only(top: 10.h),
+        child: Scaffold(
+            bottomNavigationBar: NavBar(),
+            body: SingleChildScrollView(
+              child: Column(
+                  children: <Widget>[
+                    Center(
+                      child: Container( //Dropdown for selecting system
+                          child: DropdownButton<String>(
+                            value: dropdownValue,
+                            icon: const Icon(Icons.arrow_downward),
+                            elevation: 16,
+                            style: const TextStyle(color: Colors.black),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                dropdownValue = newValue!;
+                              });
+                              //print("New value:  ${newValue}");
+                              //print("Dropdown value:  ${dropdownValue}");
+                            },
+                            //Drop Down List
+                            items: systemNames.map<DropdownMenuItem<String>>((
+                                String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          )
+                      ),
+                    ), //Dropdown menu for system selection
+                    FutureBuilder<dynamic>(
+                          future: getLatestData(),
+                          builder: (ctx, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
                             }
-                            else {  //Where you use the data
-                              //print("From after the future returned: ${snapshot.data}");
-                              return Container(
-                                height: 550,
-                                width: 400,
-                                child: ListView.builder(
-                                  itemCount: listOfFieldNames.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return
-                                      Container(
-                                        decoration:BoxDecoration(
+                            else {
+                              if (snapshot.error != null) {
+                                return Center(child: Text('Select A Zeus'));
+                              }
+                              else {  //Where you use the data
+                                //print("From after the future returned: ${snapshot.data}");
+                                return Container(
+                                  height: 80.h,
+                                  width: 100.w,
+                                  child: GridView.builder(
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                    ),
+                                    itemCount: listOfFieldNames.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Material(
                                             borderRadius: BorderRadius.all(Radius.circular(20)),
-                                            border: Border.all(color: Colors.black)
-                                        ),
-                                        height: 125,
-                                        width: 125,
-                                        child: InkWell(
-                                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                                            child: Center(
-                                              child: Text(
-                                                listOfFieldNames[index][1].toString()+ '\n'+ '\n' +' ${latestValues[index]}',
-                                                textAlign:TextAlign.center,
+                                            elevation: 10,
+                                            child: Container(
+                                              decoration:BoxDecoration(
+                                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                                  border: Border.all(color: Colors.white)
                                               ),
-                                            ),
-                                            onTap:(){
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext context){
-                                                    return AlertDialog(
-                                                      icon: Align(
-                                                          alignment: Alignment.topLeft,
-                                                          child:IconButton(
-                                                            onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back),
-                                                          )),
-                                                      title: Text("${listOfFieldNames[index][1]}",
-                                                        textAlign: TextAlign.center,),
-                                                      content: Padding(
-                                                        padding: EdgeInsets.all(2),
-                                                        child: SizedBox(
-                                                          height: 350,
-                                                          width: 400,
-                                                          child: FutureBuilder<dynamic>(
-                                                            future: getFieldData(index),  /*FIELD DATA*********************/
-                                                            builder: (ctx, snapshot) {
-                                                              if(snapshot.connectionState == ConnectionState.waiting) {
-                                                                return Center(child: CircularProgressIndicator());
-                                                              }
-                                                              else {
-                                                                if (snapshot.error != null) {
-                                                                  //print(fieldValues.toString());
-                                                                  return Center(child: Text('An error occured'));
-                                                                }
-                                                                else {
-                                                                  return ListView.builder(
-                                                                      scrollDirection: Axis.vertical,
-                                                                      shrinkWrap: true,
-                                                                      itemCount: fieldValues.length,
-                                                                      itemBuilder: (context, index) {
-                                                                        return ListTile(
-                                                                            title: Text("Time:" + fieldValues[index][0].toString()),
-                                                                            subtitle: Text("Value: " + fieldValues[index][1].toString()),
+                                              height: 125,
+                                              width: 125,
+                                              child: InkWell(
+                                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Column(
+                                                      children: [
+                                                        Icon(_IconList[index]),
+                                                        Text(
+                                                          listOfFieldNames[index][1].toString()+ '\n'+ '\n' +' ${latestValues[index]}',
+                                                          textAlign:TextAlign.center,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  onTap:(){
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext context){
+                                                          return AlertDialog(
+                                                            icon: Align(
+                                                                alignment: Alignment.topLeft,
+                                                                child:IconButton(
+                                                                  onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back),
+                                                                )),
+                                                            title: Column(
+                                                              children: [
+                                                                Icon(_IconList[index]),
+                                                                Text("${listOfFieldNames[index][1]}",
+                                                                  textAlign: TextAlign.center,),
+                                                              ],
+                                                            ),
+                                                            content: Padding(
+                                                              padding: EdgeInsets.all(2),
+                                                              child: SizedBox(
+                                                                height: 350,
+                                                                width: 400,
+                                                                child: FutureBuilder<dynamic>(
+                                                                  future: getFieldData(index),  /*FIELD DATA*********************/
+                                                                  builder: (ctx, snapshot) {
+                                                                    if(snapshot.connectionState == ConnectionState.waiting) {
+                                                                      return Center(child: CircularProgressIndicator());
+                                                                    }
+                                                                    else {
+                                                                      if (snapshot.error != null) {
+                                                                        //print(fieldValues.toString());
+                                                                        return Center(child: Text('An error occured'));
+                                                                      }
+                                                                      else {
+                                                                        return ListView.builder(
+                                                                            scrollDirection: Axis.vertical,
+                                                                            shrinkWrap: true,
+                                                                            itemCount: fieldValues.length,
+                                                                            itemBuilder: (context, index) {
+                                                                              return ListTile(
+                                                                                  title: Center(
+                                                                                    child: Text("Time:${DateFormat.yMd()
+                                                                                        .add_jm()
+                                                                                        .format(
+                                                                                         DateTime
+                                                                                        .parse(fieldValues[index][0])
+                                                                                        .toLocal()).toString()}",
+                                                                                      style: TextStyle(
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  subtitle: Center(child: Text("Value: " + fieldValues[index][1].toString())),
 
+                                                                              );
+                                                                            }
                                                                         );
                                                                       }
-                                                                  );
-                                                                }
-                                                              }
-                                                            }
+                                                                    }
+                                                                  }
 
-                                                          ),
+                                                                ),
 
-                                                        ),
-                                                      ),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        }
                                                     );
                                                   }
-                                              );
-                                            }
-                                        ),
-                                      );
-                                  },
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                    },
 
-                                ),
-                              );
+                                  ),
+                                );
 
 
-                                     }
+                                       }
 
+                              }
                             }
-                          }
-                          ),
+                            ),
 
 
-                ]
+                  ]
     ),
-          )
+            )
+        ),
       );
      });
   }
