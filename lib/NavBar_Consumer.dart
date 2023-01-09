@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-List<String> routeNames = ['/QR', "/System_Input", "/Consumer_Profile"];
+List<String> routeNames = [ '/QR', "/Map", "/Consumer_Profile"];
 
 
 class NavBar_Consumer extends StatefulWidget {
@@ -32,14 +32,14 @@ class NavBar_ConsumerState extends State<NavBar_Consumer> {
       unselectedItemColor: Colors.white,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.map, color: Colors.white),
-          activeIcon: Icon(Icons.map, color: Colors.lightBlue),
+          icon: Icon(Icons.camera, color: Colors.white),
+          activeIcon: Icon(Icons.camera, color: Colors.lightBlue),
           label: 'QR',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
-          activeIcon: Icon(Icons.shopping_cart_outlined, color: Colors.lightBlue),
-          label: 'System Input',
+          icon: Icon(Icons.map, color: Colors.white),
+          activeIcon: Icon(Icons.map, color: Colors.lightBlue),
+          label: 'Map',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline, color: Colors.white),

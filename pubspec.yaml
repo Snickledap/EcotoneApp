@@ -60,6 +60,7 @@ dependencies:
   dio: ^4.0.6
   sliding_up_panel: ^2.0.0+1
   flutter_polyline_points: ^1.0.0
+  mobile_scanner: ^2.1.0
 
 dev_dependencies:
   flutter_launcher_icons: "^0.10.0"
@@ -99,6 +100,7 @@ flutter:
     - lib/assets/images/Ecotone_Logo.png
     - lib/assets/images/Abstract-wavy-green-eco-style-background-vector-03-1280x720.jpg
     - lib/assets/images/270nhy.jpg
+    - lib/assets/images/pexels-akil-mazumder-1072824.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

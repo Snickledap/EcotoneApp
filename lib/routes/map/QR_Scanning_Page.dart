@@ -1,3 +1,4 @@
+import 'package:ecotone_app/routes/map/Camera_Page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ecotone_app/NavBar_Consumer.dart';
@@ -17,49 +18,11 @@ class QR_Scanning_PageState extends State<QR_Scanning_Page> {
 
     //Back Button
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-
-            //Button Action
-            onPressed: () {},                   // need to add a function
-          ),
-
-          // Header Text
-          centerTitle: true,
-          title: const Text('Name of the Container + #'),
-        ),
-
         body:Column(
+          mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-
                 //Top Text Format
-                Padding(padding: EdgeInsets.only(bottom: 10)),
-                Container(
-                  alignment: Alignment.topCenter,
-                  height: 200,
-                  width: 300,
-
-                  //Top Text
-                  child: Column(
-                    children:const <Widget>[            //remove const modifier when back-end is imported
-                    Text(
-                    'Location:',
-                    style: TextStyle(fontSize: 20),
-                  ),
-
-                  //Top Text Subtext
-                  Padding(padding: EdgeInsets.all(5)),
-                    Text(
-                    "Import data from back-end for actual location, long place holder",
-                    style: TextStyle(fontSize: 18,),
-                    textAlign: TextAlign.center,
-                  ),
-                    ],
-                ),
-                ),
-
-                //Center Text
+                Padding(padding: EdgeInsets.only(bottom: 10)), //Center Text
                 Center(
                   child: Column(
                   children: <Widget>[
@@ -90,7 +53,12 @@ class QR_Scanning_PageState extends State<QR_Scanning_Page> {
                           ),
 
                           //Scan Button Action
-                          onPressed: (){},
+                          onPressed: (){Navigator
+                              .push(context, MaterialPageRoute(
+                              builder: (context) => ConsumerCamera()
+                          ),
+                          );
+                          },
 
                           //Scan Button Text
                           child: Text(

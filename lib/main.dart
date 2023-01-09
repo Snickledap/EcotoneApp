@@ -1,15 +1,14 @@
 import 'package:ecotone_app/Login_Page.dart';
 import 'package:ecotone_app/Signup_Page.dart';
-import 'package:ecotone_app/routes/checklist/System_Data_Input_Page.dart';
 import 'package:ecotone_app/routes/login/Login_Setup.dart';
+import 'package:ecotone_app/routes/map/Map_Page.dart';
 import 'package:ecotone_app/routes/map/QR_Scanning_Page.dart';
 import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
 import 'package:ecotone_app/routes/profile/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/routes/map/Map_Page.dart';
+import 'package:ecotone_app/routes/map/Consumer_Map_Page.dart';
 import 'package:ecotone_app/routes/checklist/Checklist.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:ecotone_app/routes/information/Information.dart';
@@ -169,7 +168,7 @@ class RouteGenerator extends StatelessWidget{
           case '/data_analytics':
             return PageTransition(child: AnalyticsPage(), type: PageTransitionType.fade);
           case '/map':
-            return PageTransition(child: Map(), type: PageTransitionType.fade);
+            return PageTransition(child: TeamMap(), type: PageTransitionType.fade);
           case '/checklist':
             return PageTransition(child: ChecklistPage(), type: PageTransitionType.fade);
           case '/info':
@@ -197,8 +196,8 @@ class ConsumerRouteGenerator extends StatelessWidget{
         switch(settings.name) {
           case '/Consumer_Profile':
             return PageTransition(child: Consumer_Profile(), type: PageTransitionType.fade);
-          case '/System_Input':
-            return PageTransition(child: System_Data_Input_Page(), type: PageTransitionType.fade);
+          case '/Map':
+            return PageTransition(child: ConsumerMap(), type: PageTransitionType.fade);
           case '/QR':
             return PageTransition(child: QR_Scanning_Page(), type: PageTransitionType.fade);
           default:
