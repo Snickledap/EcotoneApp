@@ -53,11 +53,12 @@ class QR_Scanning_PageState extends State<QR_Scanning_Page> {
                           ),
 
                           //Scan Button Action
-                          onPressed: (){Navigator
-                              .push(context, MaterialPageRoute(
-                              builder: (context) => ConsumerCamera()
-                          ),
-                          );
+                          onPressed: (){
+                          //   Navigator
+                          //     .push(context, MaterialPageRoute(
+                          //     builder: (context) => ConsumerCamera()
+                          // ),
+                          // );
                           },
 
                           //Scan Button Text
