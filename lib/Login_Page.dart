@@ -3,10 +3,9 @@ import 'package:ecotone_app/routes/login/Login_Setup.dart';
 import 'package:ecotone_app/routes/login/showSnackBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:provider/provider.dart';
+
 
 
 Future <void> main() async{
@@ -61,15 +60,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<FirebaseAuthMethods>(
-          create: (_) => FirebaseAuthMethods(
-              FirebaseAuth.instance),
-        ),
-        StreamProvider(create: (context) => context.read<FirebaseAuthMethods>().authState, initialData: null,)
-      ],
-      child: Scaffold(
+    return  Scaffold(
           body: StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
@@ -283,8 +274,6 @@ class _LogIn_PageState extends State<LogIn_Page> {
               }
             },
           ),
-        ),
-
-    );
+        );
   }
 }

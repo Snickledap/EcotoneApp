@@ -80,28 +80,6 @@ class Consumer_ProfileState extends State<Consumer_Profile> {
 
                   //Shop Button Formatting
                   const Padding(padding: EdgeInsets.all(20)),
-                  SizedBox(
-                    height:55,
-                    width:350,
-
-                    //Shop Button
-                    child: ElevatedButton(
-                        style:ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white, backgroundColor: Color(0xFF015486),
-                          elevation: 4,
-                      ),
-                    onPressed: (){ Navigator.pop(
-                      context);},
-
-                      //Shop Button Text
-                      child: Text(
-                        "Team Facing App",
-                        style: TextStyle(fontSize: 24.0),
-                        textAlign: TextAlign.center
-                      ),
-                    )
-                ),
-
                   //Sign Out Button Formatting
                   const Padding(padding: EdgeInsets.all(45)),
                   SizedBox(

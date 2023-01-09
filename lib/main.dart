@@ -1,9 +1,11 @@
 import 'package:ecotone_app/Login_Page.dart';
 import 'package:ecotone_app/Signup_Page.dart';
 import 'package:ecotone_app/routes/checklist/System_Data_Input_Page.dart';
+import 'package:ecotone_app/routes/login/Login_Setup.dart';
 import 'package:ecotone_app/routes/map/QR_Scanning_Page.dart';
 import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
 import 'package:ecotone_app/routes/profile/profile_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ecotone_app/routes/map/Map_Page.dart';
 import 'package:ecotone_app/routes/checklist/Checklist.dart';
@@ -13,6 +15,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:ecotone_app/routes/information/Information.dart';
 import 'package:ecotone_app/routes/map/Data_Analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -32,11 +35,108 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: Home(),
-        )
+    return MultiProvider(
+      providers: [
+        Provider<FirebaseAuthMethods>(
+          create: (_) => FirebaseAuthMethods(
+              FirebaseAuth.instance),
+        ),
+        StreamProvider(create: (context) => context.read<FirebaseAuthMethods>().authState, initialData: null,)
+      ],
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: Builder(
+            builder: (BuildContext context) {
+              return Scaffold(
+                body: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Container(
+                          padding: EdgeInsets.only(top: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.13),
+                          child: Container(
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height * .5,
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width * .7,
+                            child: Center(
+                              child: Image.asset(
+                                  "lib/assets/images/Ecotone_Logo_Transparent.png"),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 60)),
+                      SizedBox(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.08,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.9,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator
+                                .push(context, MaterialPageRoute(
+                                builder: (context) => SignUpPage()
+                            ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF60c301)
+                          ),
+                          child: Text("GET STARTED",
+                            style: GoogleFonts.roboto(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                      SizedBox(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.08,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.9,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator
+                                .push(context, MaterialPageRoute(
+                                builder: (context) => LogIn_Page()
+                            ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF309be9),
+                          ),
+                          child: Text("I ALREADY HAVE AN ACCOUNT",
+                            style: GoogleFonts.roboto(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+          )
+      ),
     );
   }
   @override
@@ -52,7 +152,6 @@ class _HomePageState extends State<HomePage> {
 
 class RouteGenerator extends StatelessWidget{
   const RouteGenerator({super.key});
-
 
   @override
   Widget build(BuildContext context){
@@ -108,100 +207,4 @@ class ConsumerRouteGenerator extends StatelessWidget{
       },
     );
   }
-}
-
-
-class Home extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                padding: EdgeInsets.only(top: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.13),
-                child: Container(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * .5,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * .7,
-                  child: Center(
-                    child: Image.asset(
-                        "lib/assets/images/Ecotone_Logo_Transparent.png"),
-                  ),
-                ),
-              ),
-            ),
-            Padding(padding: EdgeInsets.symmetric(vertical: 60)),
-            SizedBox(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.08,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.9,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator
-                      .push(context, MaterialPageRoute(
-                      builder: (context) => SignUpPage()
-                  ),
-                  );
-                  },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF60c301)
-                ),
-                child: Text("GET STARTED",
-                  style: GoogleFonts.roboto(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-            SizedBox(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.08,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.9,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator
-                      .push(context, MaterialPageRoute(
-                      builder: (context) => LogIn_Page()
-                  ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF309be9),
-                ),
-                child: Text("I ALREADY HAVE AN ACCOUNT",
-                  style: GoogleFonts.roboto(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
 }
