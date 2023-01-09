@@ -8,7 +8,7 @@ class DirectionsRepository {
 
   final Dio _dio;
 
-  DirectionsRepository({dio}) : _dio = dio ?? Dio();
+  DirectionsRepository({Dio? dio}) : _dio = dio ?? Dio();
 
   Future<Directions?> getDirections({
     required LatLng origin,

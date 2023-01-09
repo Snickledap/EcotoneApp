@@ -1,11 +1,13 @@
-import 'dart:async';
-import 'dart:convert';
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ecotone_app/NavBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'directions_model.dart';
 import 'directions_repository.dart';
 
@@ -24,14 +26,13 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
 
   late CollectionReference cl;
-
   @override
   void initState() {
     super.initState();
     cl = FirebaseFirestore.instance.collection('Container_Location');
     getCurrentLocation();
     getMapBody();
-    zeusLocation();
+    //zeusLocation();
     setState(() {});
   }
 
@@ -82,23 +83,23 @@ class _MapState extends State<Map> {
     }
   }
 
-  Future<dynamic> zeusLocation() async{
-
-    QuerySnapshot querySnapshot = await cl.get();
-    List<dynamic> allLocationData = querySnapshot.docs.map((doc) => doc.data()).toList();
-    //var locations = allLocationData[0];
-    //var zeus = locations;
-    print("All location data*** " + allLocationData.toString());
-
-    for(var i = 0; i < allLocationData.length; i++) {
-      var location = jsonDecode(allLocationData[i]);
-      print(location.runtimeType.toString());
-    }
-
-    // List zeusLocation = allLocationData[0]?.key['LatLng'];
-    // List zeusLatLng = allLocationData.map((e) => e['LatLng']).toList();
-    // print(zeusLatLng);
-  }
+  // Future<dynamic> zeusLocation() async{
+  //
+  //   QuerySnapshot querySnapshot = await cl.get();
+  //   List<dynamic> allLocationData = querySnapshot.docs.map((doc) => doc.data()).toList();
+  //   //var locations = allLocationData[0];
+  //   //var zeus = locations;
+  //   print("All location data*** " + allLocationData.toString());
+  //
+  //   for(var i = 0; i < allLocationData.length; i++) {
+  //     var location = jsonDecode(allLocationData[i]);
+  //     print(location.runtimeType.toString());
+  //   }
+  //
+  //   // List zeusLocation = allLocationData[0]?.key['LatLng'];
+  //   // List zeusLatLng = allLocationData.map((e) => e['LatLng']).toList();
+  //   // print(zeusLatLng);
+  // }
 
 
 
@@ -137,6 +138,18 @@ class PanelWidget extends StatefulWidget {
 }
 
 class _PanelWidgetState extends State<PanelWidget> {
+
+  final zeusLatLngApple = [
+    Uri.parse('https://maps.apple.com/?saddr=&daddr=${40.42045488761319},${-79.88424417581666}&directionsmode=driving'),
+    Uri.parse('https://maps.apple.com/?saddr=&daddr=${40.451565},${-80.1770931}&directionsmode=driving')
+
+  ];
+  final zeusLatLngAndroid = [
+    Uri.parse('https://www.google.com/maps/search/?api=1&query=${40.42045488761319},${-79.88424417581666}'),
+    Uri.parse('https://www.google.com/maps/search/?api=1&query=${40.451565},${-80.1770931}')
+  ];
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -163,7 +176,6 @@ class _PanelWidgetState extends State<PanelWidget> {
                       }
                       if (snapshot.hasData) {
                         final data = snapshot.requireData;
-                        GeoPoint geoPoint = snapshot.data!.docs.first.get('LatLng');
                         return ListView.builder(
                           controller: widget.controller,
                           shrinkWrap: true,
@@ -196,18 +208,34 @@ class _PanelWidgetState extends State<PanelWidget> {
                                             '${data.docs[index]['Address']}'),
                                         trailing: IconButton(
                                             onPressed: () async {
-                                              _googleMapController
-                                                  .animateCamera(
-                                                  CameraUpdate
-                                                      .newCameraPosition(
-                                                      CameraPosition(
-                                                          target: LatLng(geoPoint.latitude,geoPoint.longitude),
-                                                          zoom: 19)
-                                                  ));
-                                              _addMarker(LatLng(geoPoint.latitude,geoPoint.longitude)
-                                              );
+                                              if (Platform.isIOS) {
+                                                if (await canLaunchUrl(zeusLatLngApple[index])) {
+                                                  await launchUrl(zeusLatLngApple[index]);
+                                                } else {
+                                                  if (await canLaunchUrl(zeusLatLngAndroid[index])) {
+                                                    await launchUrl(zeusLatLngAndroid[index]);
+                                                  } else {
+                                                    throw 'Could not open the map.';
+                                                  }
+                                                }
+                                              } else {
+                                                if (await canLaunchUrl(zeusLatLngAndroid[index])) {
+                                                  await launchUrl(zeusLatLngAndroid[index]);
+                                                } else {
+                                                  throw 'Could not open the map.';
+                                                }
+                                              }
+                                              // _googleMapController
+                                              //     .animateCamera(
+                                              //     CameraUpdate
+                                              //         .newCameraPosition(
+                                              //         CameraPosition(
+                                              //             target: zeusLatLng[index],
+                                              //             zoom: 19)
+                                              //     ));
+                                              // _addMarker(zeusLatLng[index]
+                                              // );
 
-                                              print(data.runtimeType);
                                             },
                                             icon: const Icon(Icons.place)),
                                       )),
@@ -229,7 +257,7 @@ class _PanelWidgetState extends State<PanelWidget> {
     );
 
   }
- Future _addMarker(LatLng pos) async{
+ void _addMarker(LatLng pos) async{
     if (_origin == null || (_origin != null && _destination != null)){
       setState((){
         _origin = Marker(
@@ -239,6 +267,7 @@ class _PanelWidgetState extends State<PanelWidget> {
               currentLocation!.latitude!, currentLocation!.longitude!),
         );
         _destination = null;
+        _info = null;
       });
     } else{
       setState(() {
@@ -249,8 +278,8 @@ class _PanelWidgetState extends State<PanelWidget> {
         );
       });
     }
-    final directions = await DirectionsRepository().getDirections(origin: pos, destination: pos);
-    setState(() => _info = directions!);
+    final directions = await DirectionsRepository().getDirections(origin: _origin!.position, destination: pos);
+    setState(() => _info = directions);
  }
 
 }

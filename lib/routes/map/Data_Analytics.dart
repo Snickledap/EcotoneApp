@@ -1,11 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ecotone_app/NavBar.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:graphic/graphic.dart';
@@ -99,12 +95,12 @@ class AnalyticsPageState extends State<AnalyticsPage> {
   final List<IconData> _IconList = [
     Icons.opacity,
     Icons.opacity,
+    Icons.thunderstorm,
+    Icons.local_florist,
     Icons.opacity,
-    Icons.opacity,
-    Icons.opacity,
-    Icons.opacity,
-    Icons.opacity,
-    Icons.opacity,
+    Icons.thermostat,
+    Icons.thermostat,
+    Icons.thermostat,
   ];
 
 
@@ -242,6 +238,7 @@ class AnalyticsPageState extends State<AnalyticsPage> {
             bottomNavigationBar: NavBar(),
             body: SingleChildScrollView(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Center(
                       child: Container( //Dropdown for selecting system
@@ -277,12 +274,13 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                             }
                             else {
                               if (snapshot.error != null) {
-                                return Center(child: Text('Select A Zeus'));
+                                return  Text('Select A Zeus',
+                                textAlign: TextAlign.center,);
                               }
                               else {  //Where you use the data
                                 //print("From after the future returned: ${snapshot.data}");
                                 return Container(
-                                  height: 80.h,
+                                  height: 77.h,
                                   width: 100.w,
                                   child: GridView.builder(
                                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -299,24 +297,25 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                                             child: Container(
                                               decoration:BoxDecoration(
                                                   borderRadius: BorderRadius.all(Radius.circular(20)),
-                                                  border: Border.all(color: Colors.white)
                                               ),
-                                              height: 125,
-                                              width: 125,
+                                              height: 15.h,
+                                              width: 15.w,
                                               child: InkWell(
                                                   borderRadius: BorderRadius.all(Radius.circular(20)),
-                                                  child: Align(
-                                                    alignment: Alignment.center,
                                                     child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
                                                       children: [
-                                                        Icon(_IconList[index]),
+                                                        Padding(padding: EdgeInsets.only(bottom: 6.h)),
+                                                        Icon(_IconList[index],
+                                                        size: 36.sp,),
+                                                        Padding(padding: EdgeInsets.only(bottom: 3.h)),
                                                         Text(
-                                                          listOfFieldNames[index][1].toString()+ '\n'+ '\n' +' ${latestValues[index]}',
+                                                          listOfFieldNames[index][1].toString()+ '\n'+' ${latestValues[index]}',
                                                           textAlign:TextAlign.center,
                                                         ),
                                                       ],
                                                     ),
-                                                  ),
+
                                                   onTap:(){
                                                     showDialog(
                                                         context: context,
@@ -329,7 +328,6 @@ class AnalyticsPageState extends State<AnalyticsPage> {
                                                                 )),
                                                             title: Column(
                                                               children: [
-                                                                Icon(_IconList[index]),
                                                                 Text("${listOfFieldNames[index][1]}",
                                                                   textAlign: TextAlign.center,),
                                                               ],
