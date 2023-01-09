@@ -70,6 +70,7 @@ class InformationPage extends StatefulWidget {
         appBar: AppBar(
           title: const Text('Information'),
           centerTitle: true,
+          backgroundColor: Colors.white,
         ),
         body:SingleChildScrollView(
             child:Padding(
@@ -125,9 +126,6 @@ class _VideoListState extends State<VideoList> with SingleTickerProviderStateMix
                     offset: Offset(1.0, 1.0), // shadow direction: bottom right
                   )
                 ],
-                border: Border.all(
-                  color: Colors.black
-                )
             ),
             child: ExpandablePanel(
               theme: const ExpandableThemeData(

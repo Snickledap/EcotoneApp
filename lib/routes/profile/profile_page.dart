@@ -48,13 +48,14 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
       return Scaffold(
             body:
                 CustomScrollView(
+                  physics: NeverScrollableScrollPhysics(),
                   slivers: [
                     SliverAppBar(
                       floating: true,
                       title: Column(
                         children: <Widget>[
                           Container(
-                            height: 80,
+                            height: 10.h,
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.grey.withAlpha(200)
@@ -108,7 +109,7 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                            )
                        ),
                        width:double.infinity,
-                       height:150.h,
+                       height:65.h,
                        child: Column(
                            children: <Widget>[
                              Padding(
@@ -140,10 +141,10 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                              ),
                              Padding(padding: EdgeInsets.symmetric(vertical: 0.9.h)),
                              Container(
-                               height: 63.h,
+                               height:54.h,
                                width: 100.w,
                                child: Column(
-                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                 mainAxisAlignment: MainAxisAlignment.start,
                                  children: <Widget>[
                                    Container(
                                        margin: EdgeInsets.only(
@@ -204,13 +205,14 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                                          },
                                        )
                                    ),
+                                   Padding(padding: EdgeInsets.symmetric(vertical: 3.h)),
                                    SizedBox(
                                      height:10.h,
                                      width: 40.w,
                                      child: ElevatedButton(
                                          style: ElevatedButton.styleFrom(
-                                           foregroundColor: Colors.white,
-                                           backgroundColor: Colors.blue,
+                                           foregroundColor: Colors.black,
+                                           backgroundColor: Colors.green,
                                            elevation: 4,
                                          ),
                                          //Button Action
@@ -219,10 +221,16 @@ final Stream<QuerySnapshot> Reminder = FirebaseFirestore
                                          child: const Text("InvolveMINT")
                                      ),
                                    ),
+                                   Padding(padding: EdgeInsets.symmetric(vertical: 1.5.h)),
                                    SizedBox(
                                      height:10.h,
                                      width: 40.w,
                                      child: ElevatedButton(
+                                       style: ElevatedButton.styleFrom(
+                                         foregroundColor: Colors.black,
+                                         backgroundColor: Colors.green,
+                                         elevation: 4,
+                                       ),
                                        onPressed: (){
                                         Navigator.push(context, MaterialPageRoute (
                                           builder: (BuildContext context) => const ConsumerRouteGenerator(),

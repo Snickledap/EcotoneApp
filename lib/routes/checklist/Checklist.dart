@@ -65,6 +65,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
         appBar: AppBar(
           title: const Text('Checklist'),
           centerTitle: true,
+          backgroundColor: Colors.white,
         ),
 
         //Check Box Containers
