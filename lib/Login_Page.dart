@@ -1,82 +1,54 @@
 import 'package:ecotone_app/main.dart';
 import 'package:ecotone_app/routes/login/Login_Setup.dart';
+import 'package:ecotone_app/routes/login/showSnackBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'dart:io';
 
 
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(LoginPage());
+  runApp(LogIn_Page());
 }
 
-class LoginPage extends StatelessWidget {
+class LogIn_Page extends StatefulWidget {
+  const LogIn_Page({super.key});
+
 
   @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<FirebaseAuthMethods>(
-          create: (_) => FirebaseAuthMethods(
-              FirebaseAuth.instance),
-        ),
-        StreamProvider(create: (context) => context.read<FirebaseAuthMethods>().authState, initialData: null,)
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: Login(),
-        ),
-      ),
-    );
-  }
+  State<LogIn_Page> createState() => _LogIn_PageState();
 }
 
+class _LogIn_PageState extends State<LogIn_Page> {
 
-
-class Login extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context)=> Scaffold(
-    body: StreamBuilder(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasData) {
-          return RouteGenerator();
-        } else if (snapshot.hasError) {
-          return const Center(child: Text("Something Went Wrong with the Sign in"));
-        } else {
-          return Sign_In();
-        }
-      },
-    ),
-  );
-}
-
-
-class Sign_In extends StatefulWidget {
-
-  @override
-  State<Sign_In> createState() => _Sign_InState();
-}
-
-
-class _Sign_InState extends State<Sign_In> {
   final _formKeyLogin = GlobalKey<FormState>();
+  final _formKeyEmployeePassword = GlobalKey<FormState>();
   final TextEditingController loginEmailController =  TextEditingController();
   final TextEditingController loginPasswordController = TextEditingController();
+  final TextEditingController teamMemberPasswordController = TextEditingController();
+  bool checkedValue = false;
+  void _onCheckedValueChanged (bool newValue) => setState(() {
+    checkedValue = newValue;
+
+  });
+
+  Widget getCheckedValueIcon() {
+    if(checkedValue == true)
+      return Icon(Icons.check_box);
+    else
+      return Icon(Icons.check_box_outline_blank);
+  }
 
   @override
   void dispose(){
     super.dispose();
     loginEmailController.dispose();
     loginPasswordController.dispose();
+    teamMemberPasswordController.dispose();
   }
 
   void emailLogin() async {
@@ -89,228 +61,230 @@ class _Sign_InState extends State<Sign_In> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading:IconButton(
-          color: Colors.black,
-            icon: Icon(Icons.arrow_back),
-            onPressed: (){
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Home()
-                  ),
-              );
-            }
+    return MultiProvider(
+      providers: [
+        Provider<FirebaseAuthMethods>(
+          create: (_) => FirebaseAuthMethods(
+              FirebaseAuth.instance),
         ),
-      ),
-      body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Column(
-          children: <Widget>[
-            Text(
-              'Sign In With Email',
-              style: GoogleFonts.roboto(
-                fontSize: 18,
-              ),
-            ),
-            Form(
-              key:_formKeyLogin,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical:40, horizontal: 20),
-                    child: TextFormField(
-                      controller: loginEmailController,
-                      decoration: InputDecoration(
-                        hintText:"Enter Your Email",
-                      ) ,
-                      validator: (val){
-                        if(val!.isEmpty)
-                          return "Please Enter Your Email";
-                        return null;
-                      },
-                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                    child: TextFormField(
-                      obscureText: true,
-                      controller: loginPasswordController,
-                      decoration: InputDecoration(
-                        hintText: "Enter Your Password",
-                      ),
-                      validator: (val){
-                      if(val!.isEmpty)
-                      return "Please enter the Password ";
-                      return null;
-                      },
-                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                    ),
-                  ),
-                  Container(
-                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                      height: 100,
-                      width: 400,
-                      child: ElevatedButton(
-                        onPressed: (){
-                          if (_formKeyLogin.currentState!.validate()){
-                              emailLogin();
+        StreamProvider(create: (context) => context.read<FirebaseAuthMethods>().authState, initialData: null,)
+      ],
+      child: Scaffold(
+          body: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasData) {
+                if(checkedValue == true)
+                  return const RouteGenerator();
+                else
+                  return const ConsumerRouteGenerator();
+              } else if (snapshot.hasError) {
+                return const Center(child: Text("Something Went Wrong with the Sign in"));
+              } else {
+                return Scaffold(
+                    appBar: AppBar(
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      leading:IconButton(
+                          color: Colors.black,
+                          icon: Icon(Icons.arrow_back),
+                          onPressed: (){
+                            Navigator.pop(
+                              context);
                           }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF309be9),
-                        ),
-                        child: Text("SIGN IN",
-                          style: GoogleFonts.roboto(
-                            fontSize: 18,
-                          ),
-                        ),
-                      )
-                  )
-                ],
-              ),
-            ),
-            Padding(padding: EdgeInsets.symmetric(vertical: 15)),
-              Text(
-              'Or',
-              style: GoogleFonts.roboto(
-                fontSize: 18,
-              ),
-            ),
-            Padding(padding: EdgeInsets.symmetric(vertical: 15)),
-           InkWell(                                                // google Sign in Button
-                splashColor: Colors.white,
-                onTap: (){
-                  FirebaseAuthMethods(FirebaseAuth.instance)
-                      .signInWithGoogle(context);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  height: 60,
-                  width: 350,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset(
-                            height: 50,
-                            width: 50,
-                            "lib/assets/images/google-logo.png"),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height*0.1,
-                          width: MediaQuery.of(context).size.width*0.6,
-
-                          child: Center(
-                            child: Text("SIGN IN WITH GOOGLE",
+                      ),
+                    ),
+                    body: SingleChildScrollView(
+                      physics: NeverScrollableScrollPhysics(),
+                      child: Column(
+                          children: <Widget>[
+                            Text(
+                              'Sign In With Email',
                               style: GoogleFonts.roboto(
                                 fontSize: 18,
                               ),
                             ),
-                          ),
-                        ),
-                      ]
-                  ),
-                )
-            ),
-            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-            InkWell(                                              // FaceBook in Button
-                splashColor: Colors.white,
-                onTap: (){
-                  FirebaseAuthMethods(FirebaseAuth.instance)
-                      .signInWithFacebook(context);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFF3B5998),
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  height: 60,
-                  width: 350,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        const Icon(
-                          IconData(
-                            0xe255,
-                            fontFamily: 'MaterialICons',
-
-                          ),
-                          size:48,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height*0.1,
-                          width: MediaQuery.of(context).size.width*0.6,
-
-                          child: Center(
-                            child: Text("SIGN IN WITH FACEBOOK",
-                              style: GoogleFonts.roboto(
-                                  fontSize: 18,
-                                  color: Colors.white
+                            Form(
+                              key:_formKeyLogin,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(vertical:40, horizontal: 20),
+                                    child: TextFormField(
+                                      controller: loginEmailController,
+                                      decoration: InputDecoration(
+                                        hintText:"Enter Your Email",
+                                      ) ,
+                                      validator: (val){
+                                        if(val!.isEmpty)
+                                          return "Please Enter Your Email";
+                                        return null;
+                                      },
+                                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                                    child: TextFormField(
+                                      obscureText: true,
+                                      controller: loginPasswordController,
+                                      decoration: InputDecoration(
+                                        hintText: "Enter Your Password",
+                                      ),
+                                      validator: (val){
+                                        if(val!.isEmpty)
+                                          return "Please enter the Password ";
+                                        return null;
+                                      },
+                                      onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                                    ),
+                                  ),
+                                  Container(
+                                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                                      height: 100,
+                                      width: 400,
+                                      child: ElevatedButton(
+                                        onPressed: (){
+                                          if (_formKeyLogin.currentState!.validate()){
+                                            emailLogin();
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: const Color(0xFF309be9),
+                                        ),
+                                        child: Text("SIGN IN",
+                                          style: GoogleFonts.roboto(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      )
+                                  )
+                                ],
                               ),
                             ),
-                          ),
-                        ),
-                      ]
-                  ),
-                )
-            ),
-            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-            InkWell(                                               // Apple in Button
-                splashColor: Colors.white,
-                onTap: (){
-                  /*FirebaseAuthMethods(FirebaseAuth.instance)
-                      .signInWithApple(context);*/
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: Colors.black,
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  height: 60,
-                  width: 350,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        const Icon(
-                          IconData(
-                            0xf04be,
-                            fontFamily: 'MaterialICons',
-
-                          ),
-                          size:48,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height*0.1,
-                          width: MediaQuery.of(context).size.width*0.6,
-
-                          child: Center(
-                            child: Text("SIGN IN WITH APPLE",
+                            Padding(padding: EdgeInsets.symmetric(vertical: 15)),
+                            Text(
+                              'Or',
                               style: GoogleFonts.roboto(
-                                  fontSize: 18,
-                                  color: Colors.white
+                                fontSize: 18,
                               ),
                             ),
-                          ),
-                        ),
-                      ]
-                  ),
-                )
-            ),
-        ]
+                            Padding(padding: EdgeInsets.symmetric(vertical: 15)),
+                            InkWell(                                                // google Sign in Button
+                                splashColor: Colors.white,
+                                onTap: (){
+                                  FirebaseAuthMethods(FirebaseAuth.instance)
+                                      .signInWithGoogle(context);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black),
+                                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                                  ),
+                                  height: 60,
+                                  width: 350,
+                                  child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Image.asset(
+                                            height: 50,
+                                            width: 50,
+                                            "lib/assets/images/google-logo.png"),
+                                        SizedBox(
+                                          height: MediaQuery.of(context).size.height*0.1,
+                                          width: MediaQuery.of(context).size.width*0.6,
+
+                                          child: Center(
+                                            child: Text("SIGN IN WITH GOOGLE",
+                                              style: GoogleFonts.roboto(
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ]
+                                  ),
+                                )
+                            ),
+                            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                            InkWell(                                                // google Sign in Button
+                                splashColor: Colors.white,
+                                onTap: ()=>
+                                  showDialog <String>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Enter Team Member Password"),
+                                        content: Form(
+                                          key: _formKeyEmployeePassword,
+                                          child: TextFormField(
+                                            obscureText: true,
+                                            controller: teamMemberPasswordController,
+                                            decoration: InputDecoration(
+                                              hintText: "Enter Your Team Member Password",
+                                            ),
+
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(onPressed: (){
+                                            if(teamMemberPasswordController.text == "1234") {
+                                              _onCheckedValueChanged(true);
+                                            }
+                                            else {
+                                              _onCheckedValueChanged(false);
+                                              showSnackBar(context, "Password is incorrect, please try again");
+                                            }
+                                            Navigator.pop(context,'Confirm');
+                                          }, child: const Text("Confirm")),
+                                          TextButton(onPressed: ()=>Navigator.pop(context,'Cancel'), child: const Text("Cancel"))
+                                    ],
+
+                                  ); },
+                                  ),
+
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black),
+                                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                                  ),
+                                  height: 60,
+                                  width: 350,
+                                  child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Icon(Icons.person),
+                                        SizedBox(
+                                          height: MediaQuery.of(context).size.height*0.1,
+                                          width: MediaQuery.of(context).size.width*0.6,
+
+                                          child: Center(
+                                            child: Text("I am a Team Member",
+                                              style: GoogleFonts.roboto(
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        getCheckedValueIcon(),
+                                      ]
+                                  ),
+                                )
+                            ),
+                          ]
+                      ),
+                    )
+                );
+              }
+            },
+          ),
         ),
-      )
+
     );
   }
 }

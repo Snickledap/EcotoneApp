@@ -13,6 +13,8 @@ Future <void> main() async{
   await Firebase.initializeApp();
   runApp(SignUpPage());
 }
+
+
 class SignUpPage extends StatelessWidget {
 
   @override
@@ -25,12 +27,9 @@ class SignUpPage extends StatelessWidget {
         ),
         StreamProvider(create: (context) => context.read<FirebaseAuthMethods>().authState, initialData: null,)
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
+      child:  Scaffold(
           body: SignUp(),
         ),
-      ),
     );
   }
 }
@@ -71,11 +70,8 @@ class _SignUpState extends State<SignUp> {
         leading:IconButton(
             color: Colors.black,
             icon: Icon(Icons.arrow_back),
-            onPressed: (){Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Home()
-              ),
-            );
+            onPressed: (){
+              Navigator.pop(context);
             }
         ),
       ),
