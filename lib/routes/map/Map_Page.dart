@@ -14,16 +14,16 @@ import 'directions_repository.dart';
 
 late GoogleMapController _googleMapController ;
 
-class Map extends StatefulWidget {
+class TeamMap extends StatefulWidget {
   @override
-  State<Map> createState() => _MapState();
+  State<TeamMap> createState() => _TeamMapState();
 }
-  Marker? _origin;
-  Marker? _destination;
-  Directions? _info;
-  LocationData? currentLocation;
+Marker? _origin;
+Marker? _destination;
+Directions? _info;
+LocationData? currentLocation;
 
-class _MapState extends State<Map> {
+class _TeamMapState extends State<TeamMap> {
 
   late CollectionReference cl;
   @override
@@ -31,7 +31,7 @@ class _MapState extends State<Map> {
     super.initState();
     cl = FirebaseFirestore.instance.collection('Container_Location');
     getCurrentLocation();
-    getMapBody();
+    getTeamMapBody();
     //zeusLocation();
     setState(() {});
   }
@@ -48,7 +48,7 @@ class _MapState extends State<Map> {
     );
   }
 
-  Widget getMapBody() {
+  Widget getTeamMapBody() {
 
     if (currentLocation == null) {
       return Center(child: Text("Loading"),);
@@ -86,7 +86,7 @@ class _MapState extends State<Map> {
   // Future<dynamic> zeusLocation() async{
   //
   //   QuerySnapshot querySnapshot = await cl.get();
-  //   List<dynamic> allLocationData = querySnapshot.docs.map((doc) => doc.data()).toList();
+  //   List<dynamic> allLocationData = querySnapshot.docs.Teammap((doc) => doc.data()).toList();
   //   //var locations = allLocationData[0];
   //   //var zeus = locations;
   //   print("All location data*** " + allLocationData.toString());
@@ -97,7 +97,7 @@ class _MapState extends State<Map> {
   //   }
   //
   //   // List zeusLocation = allLocationData[0]?.key['LatLng'];
-  //   // List zeusLatLng = allLocationData.map((e) => e['LatLng']).toList();
+  //   // List zeusLatLng = allLocationData.Teammap((e) => e['LatLng']).toList();
   //   // print(zeusLatLng);
   // }
 
@@ -112,11 +112,11 @@ class _MapState extends State<Map> {
         parallaxOffset: 0.5,
         borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
         minHeight: MediaQuery.of(context).size.height*0.06,
-          maxHeight: MediaQuery.of(context).size.height*0.5,
-          body: getMapBody(),
-       panelBuilder: (controller) => PanelWidget(
-        controller:controller,
-    ),
+        maxHeight: MediaQuery.of(context).size.height*0.5,
+        body: getTeamMapBody(),
+        panelBuilder: (controller) => PanelWidget(
+          controller:controller,
+        ),
       ),
       bottomNavigationBar: NavBar(),
     );
@@ -156,104 +156,104 @@ class _PanelWidgetState extends State<PanelWidget> {
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text("Zeus Locations",
-              style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 24),
               ),
             ),
             StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('Container_Location').snapshots(),
                 builder:
                     (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return const Text(
-                            "Something Went wrong with the snapshot of the Container Location");
-                      }
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Text("Loading");
-                      }
-                      if (snapshot.hasData) {
-                        final data = snapshot.requireData;
-                        return ListView.builder(
-                          controller: widget.controller,
-                          shrinkWrap: true,
-                          itemCount: data.size,
-                          scrollDirection: Axis.vertical,
-                          padding: EdgeInsets.only(top: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.01),
-                          itemBuilder: (context, index) {
-                            return Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () {},
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                      height: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .height * 0.09,
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width * 0.02,
-                                      child: ListTile(
-                                        title: Text(
-                                            '${data.docs[index]['Name']}'),
-                                        subtitle: Text(
-                                            '${data.docs[index]['Address']}'),
-                                        trailing: IconButton(
-                                            onPressed: () async {
-                                              if (Platform.isIOS) {
-                                                if (await canLaunchUrl(zeusLatLngApple[index])) {
-                                                  await launchUrl(zeusLatLngApple[index]);
-                                                } else {
-                                                  if (await canLaunchUrl(zeusLatLngAndroid[index])) {
-                                                    await launchUrl(zeusLatLngAndroid[index]);
-                                                  } else {
-                                                    throw 'Could not open the map.';
-                                                  }
-                                                }
+                  if (snapshot.hasError) {
+                    return const Text(
+                        "Something Went wrong with the snapshot of the Container Location");
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Text("Loading");
+                  }
+                  if (snapshot.hasData) {
+                    final data = snapshot.requireData;
+                    return ListView.builder(
+                      controller: widget.controller,
+                      shrinkWrap: true,
+                      itemCount: data.size,
+                      scrollDirection: Axis.vertical,
+                      padding: EdgeInsets.only(top: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.01),
+                      itemBuilder: (context, index) {
+                        return Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                  height: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height * 0.09,
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width * 0.02,
+                                  child: ListTile(
+                                    title: Text(
+                                        '${data.docs[index]['Name']}'),
+                                    subtitle: Text(
+                                        '${data.docs[index]['Address']}'),
+                                    trailing: IconButton(
+                                        onPressed: () async {
+                                          if (Platform.isIOS) {
+                                            if (await canLaunchUrl(zeusLatLngApple[index])) {
+                                              await launchUrl(zeusLatLngApple[index]);
+                                            } else {
+                                              if (await canLaunchUrl(zeusLatLngAndroid[index])) {
+                                                await launchUrl(zeusLatLngAndroid[index]);
                                               } else {
-                                                if (await canLaunchUrl(zeusLatLngAndroid[index])) {
-                                                  await launchUrl(zeusLatLngAndroid[index]);
-                                                } else {
-                                                  throw 'Could not open the map.';
-                                                }
+                                                throw 'Could not open the Teammap.';
                                               }
-                                              // _googleMapController
-                                              //     .animateCamera(
-                                              //     CameraUpdate
-                                              //         .newCameraPosition(
-                                              //         CameraPosition(
-                                              //             target: zeusLatLng[index],
-                                              //             zoom: 19)
-                                              //     ));
-                                              // _addMarker(zeusLatLng[index]
-                                              // );
+                                            }
+                                          } else {
+                                            if (await canLaunchUrl(zeusLatLngAndroid[index])) {
+                                              await launchUrl(zeusLatLngAndroid[index]);
+                                            } else {
+                                              throw 'Could not open the Teammap.';
+                                            }
+                                          }
+                                          // _googleTeamMapController
+                                          //     .animateCamera(
+                                          //     CameraUpdate
+                                          //         .newCameraPosition(
+                                          //         CameraPosition(
+                                          //             target: zeusLatLng[index],
+                                          //             zoom: 19)
+                                          //     ));
+                                          // _addMarker(zeusLatLng[index]
+                                          // );
 
-                                            },
-                                            icon: const Icon(Icons.place)),
-                                      )),
-                                ),
+                                        },
+                                        icon: const Icon(Icons.place)),
+                                  )),
+                            ),
 
-                              ),
-                            );
-                          },
+                          ),
                         );
-                      }
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    ),
+                      },
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+            ),
           ],
         ),
       ),
     );
 
   }
- void _addMarker(LatLng pos) async{
+  void _addMarker(LatLng pos) async{
     if (_origin == null || (_origin != null && _destination != null)){
       setState((){
         _origin = Marker(
@@ -276,7 +276,7 @@ class _PanelWidgetState extends State<PanelWidget> {
     }
     final directions = await DirectionsRepository().getDirections(origin: _origin!.position, destination: pos);
     setState(() => _info = directions);
- }
+  }
 
 }
 
