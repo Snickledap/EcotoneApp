@@ -1,28 +1,22 @@
-import 'package:ecotone_app/Login_Page.dart';
-import 'package:ecotone_app/Signup_Page.dart';
-import 'package:ecotone_app/routes/login/Login_Setup.dart';
-import 'package:ecotone_app/routes/map/Map_Page.dart';
-import 'package:ecotone_app/routes/map/QR_Scanning_Page.dart';
-import 'package:ecotone_app/routes/profile/Consumer_Profile.dart';
+import 'package:ecotone_app/routes/login_and_signup/login_page.dart';
+import 'package:ecotone_app/routes/login_and_signup/signup_page.dart';
+import 'package:ecotone_app/routes/login_and_signup/login_setup.dart';
+import 'package:ecotone_app/routes/map/qr_scanning_page.dart';
 import 'package:ecotone_app/routes/profile/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/routes/map/Consumer_Map_Page.dart';
-import 'package:ecotone_app/routes/checklist/Checklist.dart';
+import 'package:ecotone_app/routes/map/map_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:ecotone_app/routes/information/Information.dart';
-import 'package:ecotone_app/routes/map/Data_Analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-
 
 
 
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(HomePage());
+  runApp(const HomePage());
 }
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -57,7 +51,7 @@ class _HomePageState extends State<HomePage> {
                               .of(context)
                               .size
                               .height * 0.13),
-                          child: Container(
+                          child: SizedBox(
                             height: MediaQuery
                                 .of(context)
                                 .size
@@ -73,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      Padding(padding: EdgeInsets.symmetric(vertical: 60)),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 60)),
                       SizedBox(
                         height: MediaQuery
                             .of(context)
@@ -87,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             Navigator
                                 .push(context, MaterialPageRoute(
-                                builder: (context) => SignUpPage()
+                                builder: (context) => const SignUpPage()
                             ),
                             );
                           },
@@ -115,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             Navigator
                                 .push(context, MaterialPageRoute(
-                                builder: (context) => LogIn_Page()
+                                builder: (context) => const LoginPage()
                             ),
                             );
                           },
@@ -140,50 +134,14 @@ class _HomePageState extends State<HomePage> {
   }
   @override
   void dispose() {
-    print("Disposing first route");
     super.dispose();
   }
 }
 
 
 
-
-
 class RouteGenerator extends StatelessWidget{
   const RouteGenerator({super.key});
-
-  @override
-  Widget build(BuildContext context){
-    String initialRoute = "/profile";
-
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
-      ),
-      initialRoute: initialRoute,
-      onGenerateRoute: (settings) {
-        switch(settings.name) {
-          case '/profile':
-            return PageTransition(child: ProfilePage(), type: PageTransitionType.fade);
-          case '/data_analytics':
-            return PageTransition(child: AnalyticsPage(), type: PageTransitionType.fade);
-          case '/map':
-            return PageTransition(child: TeamMap(), type: PageTransitionType.fade);
-          case '/checklist':
-            return PageTransition(child: ChecklistPage(), type: PageTransitionType.fade);
-          case '/info':
-            return PageTransition(child: InformationPage(), type: PageTransitionType.fade);
-          default:
-            return null;
-        }
-      },
-    );
-  }
-}
-
-
-class ConsumerRouteGenerator extends StatelessWidget{
-  const ConsumerRouteGenerator({super.key});
 
   @override
   Widget build(BuildContext context){
@@ -195,11 +153,11 @@ class ConsumerRouteGenerator extends StatelessWidget{
       onGenerateRoute: (settings) {
         switch(settings.name) {
           case '/Consumer_Profile':
-            return PageTransition(child: Consumer_Profile(), type: PageTransitionType.fade);
+            return PageTransition(child: const ProfilePage(), type: PageTransitionType.fade);
           case '/Map':
-            return PageTransition(child: ConsumerMap(), type: PageTransitionType.fade);
+            return PageTransition(child: const MapPage(), type: PageTransitionType.fade);
           case '/QR':
-            return PageTransition(child: QR_Scanning_Page(), type: PageTransitionType.fade);
+            return PageTransition(child: const QRScanningPage(), type: PageTransitionType.fade);
           default:
             return null;
         }

@@ -1,4 +1,4 @@
-import 'package:ecotone_app/routes/login/showSnackBar.dart';
+import 'package:ecotone_app/routes/login_and_signup/show_snack_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -10,7 +10,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 class FirebaseAuthMethods {
   final FirebaseAuth _auth;
   FirebaseAuthMethods(this._auth);
-  Future<void> SignUpWithEmail({
+  Future<void> signupWithEmail({
   required String email,
   required String password,
   required BuildContext context,

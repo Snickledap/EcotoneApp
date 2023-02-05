@@ -1,293 +1,145 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecotone_app/main.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_cards/flutter_custom_cards.dart';
+import 'package:ecotone_app/navbar.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
-import 'package:ecotone_app/NavBar.dart';
-import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:ecotone_app/routes/login/Login_Setup.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+import '../login_and_signup/login_setup.dart';
 
-class Profile extends StatelessWidget {
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ProfilePage(),
-    );
-  }
-}
-
+String points = "100";
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<ProfilePage> createState() => ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  Future<void> _launchUrl() async {
-    final Uri _url = Uri.parse('https://involvemint.io/');
-    if (!await launchUrl(_url)) {
-      throw 'Could not launch $_url';
-    }
-  }
+class ProfilePageState extends State<ProfilePage> {
 
-final Stream<QuerySnapshot> Reminder = FirebaseFirestore
-    .instance
-    .collection("Reminder")
-    .orderBy('Time_Of_Event')
-    .snapshots();
   @override
   Widget build(BuildContext context) {
-    return Sizer(
-      builder: (BuildContext context, Orientation orientation, DeviceType deviceType) {
-      return Scaffold(
-            body:
-                CustomScrollView(
-                  physics: NeverScrollableScrollPhysics(),
-                  slivers: [
-                    SliverAppBar(
-                      floating: true,
-                      title: Column(
-                        children: <Widget>[
-                          Container(
-                            height: 10.h,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.grey.withAlpha(200)
-                            ),
-                            child: FittedBox(
-                              child: Icon(Icons.person_outline,
-                                color: Colors.black,),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          Text("Team Member",
-                            style: TextStyle(
-                                color: Colors.black
-                            ),)
-                        ],
-                      ),
-                      toolbarHeight: 20.h,
-                      flexibleSpace: FittedBox(
-                        child: Image.asset("lib/assets/images/270nhy.jpg"),
-                        fit: BoxFit.fill,
-                      ),
-                      elevation: 5,
-                      actions: <Widget>[
-                        Align(alignment: Alignment.topRight,
-                          child: IconButton(
-                            onPressed: () {
-                              context.read<FirebaseAuthMethods>().signOut(context);
-                            },
-                            icon: Icon(Icons.logout),
-                          ),
-                        ),
-                      ],
-                      centerTitle: true,
-                      backgroundColor: Colors.transparent,
-                      shadowColor: Colors.transparent, //Ecotone Colors
-                    ),
-                   SliverList(
-                       delegate: SliverChildListDelegate(
-                           [
-                     Container(
-                       decoration: BoxDecoration(
-                           gradient:LinearGradient(
-                               begin: Alignment.topCenter,
-                               end: Alignment.bottomCenter,
-                               colors: [
-                                 Color(0xFFddedc8),
-                                 Colors.green.withAlpha(150),
-                                 Colors.lightGreen.withAlpha(150),
-                                 Colors.greenAccent.withAlpha(150),
-                               ]
-                           )
-                       ),
-                       width:double.infinity,
-                       height:65.h,
-                       child: Column(
-                           children: <Widget>[
-                             Padding(
-                               padding: EdgeInsets.only(top: 0.9.h,
-                                   left: 3.w
-                               ),
-                               child: Container(
-                                   child: Align(
-                                     alignment: Alignment.centerLeft,
-                                     child: Column(
-                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                       children: <Widget>[
-                                         Text('Reminder',
-                                             style: TextStyle(
-                                               fontSize: 25.sp,
-                                               color: Color(0xFF000000),
-                                             )
-                                         ),
-                                         Text('You have some tasks to complete',
-                                             style: TextStyle(
-                                               fontSize: 13.sp,
-                                               color: Color(0xFF000000),
-                                             )
-                                         ),
-                                       ],
-                                     ),
-                                   )
-                               ),
-                             ),
-                             Padding(padding: EdgeInsets.symmetric(vertical: 0.9.h)),
-                             Container(
-                               height:54.h,
-                               width: 100.w,
-                               child: Column(
-                                 mainAxisAlignment: MainAxisAlignment.start,
-                                 children: <Widget>[
-                                   Container(
-                                       margin: EdgeInsets.only(
-                                         top:1.h,
-                                         left: 3.w,
-                                         right: 3.w,
-                                       ),
-                                       height: 15.h,
-                                       width: 100.w,
-                                       child: StreamBuilder<QuerySnapshot>(
-                                         stream: Reminder,
-                                         builder: (
-                                             BuildContext context,
-                                             AsyncSnapshot<QuerySnapshot> snapshot,
-                                             ) {
-                                           if(snapshot.hasError){
-                                             return Text("Soemthing Went Wrong with Snapshot of the Reminder Data");
-                                           }
-                                           if(snapshot.connectionState == ConnectionState.waiting){
-                                             return Text("Reminder Data is Loading");
-                                           }
-                                           final data = snapshot.requireData;
-                                           return
-                                             ListView.builder(
-                                                 shrinkWrap: true,
-                                                 itemCount: data.size,
-                                                 scrollDirection: Axis.horizontal,
-                                                 itemBuilder:(context,index){
-                                                   return CustomCard(
-                                                     borderRadius: 15.sp,
-                                                     borderColor: Colors.blue,
-                                                     width: MediaQuery.of(context).size.width *0.6,
-                                                     color: Color(0xffe6eef3),
-                                                     child: ListTile(
-                                                       title: Text(
-                                                           DateFormat.yMMMd().add_jm().format(data
-                                                               .docs[index]['Time_Of_Event']
-                                                               .toDate())
-                                                       ),
-                                                       subtitle: Text('${data
-                                                           .docs[index]['Name_Of_Event']}'
-                                                       ),
-                                                       trailing: IconButton(
-                                                         alignment: Alignment.centerRight,
-                                                         icon: Icon(
-                                                           Icons.alarm_add_outlined,
-                                                           size: 25.sp,
-                                                           color: Colors.brown[900],
-                                                         ),
-                                                         onPressed: () {
-
-                                                         },
-                                                       ),
-                                                     ),
-                                                   );
-                                                 }
-                                             );
-                                         },
-                                       )
-                                   ),
-                                   Padding(padding: EdgeInsets.symmetric(vertical: 3.h)),
-                                   SizedBox(
-                                     height:10.h,
-                                     width: 40.w,
-                                     child: ElevatedButton(
-                                         style: ElevatedButton.styleFrom(
-                                           foregroundColor: Colors.black,
-                                           backgroundColor: Colors.green,
-                                           elevation: 4,
-                                         ),
-                                         //Button Action
-                                         onPressed: _launchUrl,
-                                         //Button Text
-                                         child: const Text("InvolveMINT")
-                                     ),
-                                   ),
-                                   Padding(padding: EdgeInsets.symmetric(vertical: 1.5.h)),
-                                   SizedBox(
-                                     height:10.h,
-                                     width: 40.w,
-                                     child: ElevatedButton(
-                                       style: ElevatedButton.styleFrom(
-                                         foregroundColor: Colors.black,
-                                         backgroundColor: Colors.green,
-                                         elevation: 4,
-                                       ),
-                                       onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute (
-                                          builder: (BuildContext context) => const ConsumerRouteGenerator(),
-                                        ),);
-                                       }, child: const Text("Consumer Page"),
-                                     ),
-                                   )
-
-                                 ],
-                               ),
-                             ),
-                           ]
-                       ),
-                     ),
-                   ]))
-                  ],
-                ),
-            //Top Text Container
+    return Scaffold(
+          body: SlidingUpPanel(
+            parallaxEnabled: true,
+            parallaxOffset: 0.5,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(50)),
+            minHeight: MediaQuery.of(context).size.height*0.56,
+            maxHeight: MediaQuery.of(context).size.height*0.68,
+            body: const CProfileBody(),
+            panelBuilder: (controller) => CProfilePanel(
+              controller:controller,
+            ),
+          ),
+        //Bottom Navigation Bar
         bottomNavigationBar: const NavBar(),
-        );
-        },
       );
 
   }
 }
 
+class CProfileBody extends StatefulWidget {
+  const CProfileBody({Key? key}) : super(key: key);
 
-class MyBehavior extends ScrollBehavior{
   @override
-  Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details){
-    return child;
+  State<CProfileBody> createState() => _CProfileBodyState();
+}
+
+class _CProfileBodyState extends State<CProfileBody> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: const BoxDecoration(color: Colors.green),
+        child: Stack(
+          children: <Widget>[
+            Image.asset("lib/assets/images/pexels-akil-mazumder-1072824.jpg"),
+            Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: Container(
+                height:75,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient:LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          const Color(0xFFddedc8),
+                          Colors.green.withAlpha(150),
+                          Colors.lightGreen.withAlpha(150),
+                          Colors.greenAccent.withAlpha(150),
+                        ]
+                    )
+                ),
+                child: const FittedBox(
+                  fit: BoxFit.fill,
+                  child: Icon(Icons.person_outline,
+                    color: Colors.black,),
+                ),
+              ),
+            ),
+          )],
+        ),
+      ),
+    );
   }
 }
 
-class CustomShapePainter extends CustomPainter {
+
+class CProfilePanel extends StatefulWidget {
+  const CProfilePanel({Key? key, required this.controller}) : super(key: key);
+  final ScrollController controller;
   @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = Colors.blue
-      ..strokeWidth = 15;
+  State<CProfilePanel> createState() => _CProfilePanelState();
+}
 
-    var path = Path();
-    path.moveTo(0,0);
-    path.lineTo(size.width, 0);
-
-    path.lineTo(size.width, size.height*0.8);
-    path.lineTo(size.width*0.5, size.height);
-    path.lineTo(0, size.height*0.8);
-    path.lineTo(0, 0);
-
-    canvas.drawPath(path, paint);
-  }
+class _CProfilePanelState extends State<CProfilePanel> {
 
   @override
-  bool shouldRepaint(CustomShapePainter oldDelegate) {
-    return false;
+  Widget build(BuildContext context) {
+    return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Padding(padding: EdgeInsets.all(10)),
+            const Text(
+              "Hello, User",
+              style: TextStyle(fontSize: 24),
+            ),
+            const Padding(padding: EdgeInsets.all(10)),
+            const Text(
+              "Your Soil Sauce Points",
+              style: TextStyle(fontSize: 30),
+            ),
+            Text(
+              points,
+              style: const TextStyle(fontSize: 30),
+            ),
+
+            const Padding(padding: EdgeInsets.all(55)),
+            Container(
+              height:75,
+              decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red
+              ),
+              child: IconButton(
+                style:ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: const Color(0xFF860101),
+                  elevation: 4,
+                ),
+                onPressed: (){
+                  context.read<FirebaseAuthMethods>().signOut(context);
+                },
+                icon: const Icon(Icons.power_settings_new),
+                color: Colors.white
+              ),
+            )
+          ],
+        )
+    );
   }
 }
 

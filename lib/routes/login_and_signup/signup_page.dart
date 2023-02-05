@@ -1,21 +1,22 @@
-import 'package:ecotone_app/routes/login/Login_Setup.dart';
+import 'package:ecotone_app/routes/login_and_signup/login_setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'main.dart';
 
 
 
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(SignUpPage());
+  runApp(const SignUpPage());
 }
 
 
 class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class SignUpPage extends StatelessWidget {
         ),
         StreamProvider(create: (context) => context.read<FirebaseAuthMethods>().authState, initialData: null,)
       ],
-      child:  Scaffold(
+      child:  const Scaffold(
           body: SignUp(),
         ),
     );
@@ -36,6 +37,8 @@ class SignUpPage extends StatelessWidget {
 
 
 class SignUp extends StatefulWidget {
+  const SignUp({super.key});
+
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -56,7 +59,7 @@ class _SignUpState extends State<SignUp> {
 
   void emailSignUp() async{
     FirebaseAuthMethods(FirebaseAuth.instance)
-        .SignUpWithEmail(
+        .signupWithEmail(
         email: emailController.text,
         password: passwordController.text,
         context: context);
@@ -69,14 +72,14 @@ class _SignUpState extends State<SignUp> {
         elevation: 0,
         leading:IconButton(
             color: Colors.black,
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: (){
               Navigator.pop(context);
             }
         ),
       ),
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             Form(
@@ -84,38 +87,39 @@ class _SignUpState extends State<SignUp> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Container(
-                    child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
+                  SizedBox(
                     height: 200,
                     width: 200,
+                    child: Image.asset("lib/assets/images/Ecotone_Logo_Transparent.png"),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 50, right: 10, left: 10),
+                    padding: const EdgeInsets.only(top: 50, right: 10, left: 10),
                     child: TextFormField(
                       controller: emailController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText:"Enter Your Email",
                       ) ,
                       onEditingComplete: () => FocusScope.of(context).nextFocus(),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: TextFormField(
                       obscureText: true,
                       controller:passwordController,
                       validator: (val){
-                        if(val!.isEmpty)
+                        if(val!.isEmpty) {
                           return "Please enter the Password";
+                        }
                         return null;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Enter Your Password",
                       ),
                       onEditingComplete: () => FocusScope.of(context).nextFocus(),
                     ),
                   ),Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: TextFormField(
                       obscureText: true,
                       controller:confirmPasswordController,
@@ -135,7 +139,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(top: 30, right: 10, left: 10),
+                    padding: const EdgeInsets.only(top: 30, right: 10, left: 10),
                     height: 100,
                     width: 400,
                     child: ElevatedButton(
@@ -144,13 +148,13 @@ class _SignUpState extends State<SignUp> {
                           emailSignUp();
                         }
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF60c301),
+                      ),
                       child: Text("Sign Up Through Email",
                         style: GoogleFonts.roboto(
                           fontSize: 18,
                         ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF60c301),
                       ),
                     ),
                     ),

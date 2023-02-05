@@ -1,17 +1,17 @@
-import 'package:ecotone_app/routes/map/Camera_Page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ecotone_app/NavBar_Consumer.dart';
+import 'package:ecotone_app/navbar.dart';
+
+import 'camera_page.dart';
 
 
-class QR_Scanning_Page extends StatefulWidget {
-  const QR_Scanning_Page({Key? key}) : super(key: key);
+class QRScanningPage extends StatefulWidget {
+  const QRScanningPage({Key? key}) : super(key: key);
 
   @override
-  QR_Scanning_PageState createState() => QR_Scanning_PageState();
+  QRScanningPageState createState() => QRScanningPageState();
 }
 
-class QR_Scanning_PageState extends State<QR_Scanning_Page> {
+class QRScanningPageState extends State<QRScanningPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +22,12 @@ class QR_Scanning_PageState extends State<QR_Scanning_Page> {
           mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 //Top Text Format
-                Padding(padding: EdgeInsets.only(bottom: 10)), //Center Text
+                const Padding(padding: EdgeInsets.only(bottom: 10)), //Center Text
                 Center(
                   child: Column(
                   children: <Widget>[
                     //Center Text Format
-                    Container(
+                    const SizedBox(
                       width:250,
                       child:Text(
                         "Scan the QR code and input drop off information.",
@@ -48,21 +48,21 @@ class QR_Scanning_PageState extends State<QR_Scanning_Page> {
                         child: ElevatedButton(
                           style:ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Color(0xFF3B7621),
+                            backgroundColor: const Color(0xFF3B7621),
                             elevation: 4,
                           ),
 
                           //Scan Button Action
                           onPressed: (){
-                          //   Navigator
-                          //     .push(context, MaterialPageRoute(
-                          //     builder: (context) => ConsumerCamera()
-                          // ),
-                          // );
+                            Navigator
+                              .push(context, MaterialPageRoute(
+                              builder: (context) => const ConsumerCamera()
+                          ),
+                          );
                           },
 
                           //Scan Button Text
-                          child: Text(
+                          child: const Text(
                           "Scan",
                           style: TextStyle(fontSize: 50),
                           textAlign: TextAlign.center
@@ -78,7 +78,7 @@ class QR_Scanning_PageState extends State<QR_Scanning_Page> {
             ),
 
         //Bottom Nav Bar
-        bottomNavigationBar:  NavBar_Consumer(),
+        bottomNavigationBar:  const NavBar(),
       );
 
   }

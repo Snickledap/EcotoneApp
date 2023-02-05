@@ -1,6 +1,5 @@
 import 'package:ecotone_app/main.dart';
-import 'package:ecotone_app/routes/login/Login_Setup.dart';
-import 'package:ecotone_app/routes/login/showSnackBar.dart';
+import 'package:ecotone_app/routes/login_and_signup//login_setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,36 +10,23 @@ import 'package:firebase_core/firebase_core.dart';
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(LogIn_Page());
+  runApp(const LoginPage());
 }
 
-class LogIn_Page extends StatefulWidget {
-  const LogIn_Page({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
 
   @override
-  State<LogIn_Page> createState() => _LogIn_PageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LogIn_PageState extends State<LogIn_Page> {
+class _LoginPageState extends State<LoginPage> {
 
   final _formKeyLogin = GlobalKey<FormState>();
-  final _formKeyEmployeePassword = GlobalKey<FormState>();
   final TextEditingController loginEmailController =  TextEditingController();
   final TextEditingController loginPasswordController = TextEditingController();
   final TextEditingController teamMemberPasswordController = TextEditingController();
-  bool checkedValue = false;
-  void _onCheckedValueChanged (bool newValue) => setState(() {
-    checkedValue = newValue;
-
-  });
-
-  Widget getCheckedValueIcon() {
-    if(checkedValue == true)
-      return Icon(Icons.check_box);
-    else
-      return Icon(Icons.check_box_outline_blank);
-  }
 
   @override
   void dispose(){
@@ -67,10 +53,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasData) {
-                if(checkedValue == true)
                   return const RouteGenerator();
-                else
-                  return const ConsumerRouteGenerator();
               } else if (snapshot.hasError) {
                 return const Center(child: Text("Something Went Wrong with the Sign in"));
               } else {
@@ -80,7 +63,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                       elevation: 0,
                       leading:IconButton(
                           color: Colors.black,
-                          icon: Icon(Icons.arrow_back),
+                          icon: const Icon(Icons.arrow_back),
                           onPressed: (){
                             Navigator.pop(
                               context);
@@ -88,7 +71,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                       ),
                     ),
                     body: SingleChildScrollView(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       child: Column(
                           children: <Widget>[
                             Text(
@@ -103,38 +86,40 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Padding(
-                                    padding: EdgeInsets.symmetric(vertical:40, horizontal: 20),
+                                    padding: const EdgeInsets.symmetric(vertical:40, horizontal: 20),
                                     child: TextFormField(
                                       controller: loginEmailController,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         hintText:"Enter Your Email",
                                       ) ,
                                       validator: (val){
-                                        if(val!.isEmpty)
+                                        if(val!.isEmpty) {
                                           return "Please Enter Your Email";
+                                        }
                                         return null;
                                       },
                                       onEditingComplete: () => FocusScope.of(context).nextFocus(),
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                                    padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                                     child: TextFormField(
                                       obscureText: true,
                                       controller: loginPasswordController,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         hintText: "Enter Your Password",
                                       ),
                                       validator: (val){
-                                        if(val!.isEmpty)
+                                        if(val!.isEmpty) {
                                           return "Please enter the Password ";
+                                        }
                                         return null;
                                       },
                                       onEditingComplete: () => FocusScope.of(context).nextFocus(),
                                     ),
                                   ),
                                   Container(
-                                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                                       height: 100,
                                       width: 400,
                                       child: ElevatedButton(
@@ -156,14 +141,14 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                 ],
                               ),
                             ),
-                            Padding(padding: EdgeInsets.symmetric(vertical: 15)),
+                            const Padding(padding: EdgeInsets.symmetric(vertical: 15)),
                             Text(
                               'Or',
                               style: GoogleFonts.roboto(
                                 fontSize: 18,
                               ),
                             ),
-                            Padding(padding: EdgeInsets.symmetric(vertical: 15)),
+                            const Padding(padding: EdgeInsets.symmetric(vertical: 15)),
                             InkWell(                                                // google Sign in Button
                                 splashColor: Colors.white,
                                 onTap: (){
@@ -173,7 +158,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(color: Colors.black),
-                                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
                                   ),
                                   height: 60,
                                   width: 350,
@@ -197,72 +182,6 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                             ),
                                           ),
                                         ),
-                                      ]
-                                  ),
-                                )
-                            ),
-                            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                            InkWell(                                                // google Sign in Button
-                                splashColor: Colors.white,
-                                onTap: ()=>
-                                  showDialog <String>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text("Enter Team Member Password"),
-                                        content: Form(
-                                          key: _formKeyEmployeePassword,
-                                          child: TextFormField(
-                                            obscureText: true,
-                                            controller: teamMemberPasswordController,
-                                            decoration: InputDecoration(
-                                              hintText: "Enter Your Team Member Password",
-                                            ),
-
-                                          ),
-                                        ),
-                                        actions: [
-                                          TextButton(onPressed: (){
-                                            if(teamMemberPasswordController.text == "1234") {
-                                              _onCheckedValueChanged(true);
-                                            }
-                                            else {
-                                              _onCheckedValueChanged(false);
-                                              showSnackBar(context, "Password is incorrect, please try again");
-                                            }
-                                            Navigator.pop(context,'Confirm');
-                                          }, child: const Text("Confirm")),
-                                          TextButton(onPressed: ()=>Navigator.pop(context,'Cancel'), child: const Text("Cancel"))
-                                    ],
-
-                                  ); },
-                                  ),
-
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black),
-                                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                                  ),
-                                  height: 60,
-                                  width: 350,
-                                  child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Icon(Icons.person),
-                                        SizedBox(
-                                          height: MediaQuery.of(context).size.height*0.1,
-                                          width: MediaQuery.of(context).size.width*0.6,
-
-                                          child: Center(
-                                            child: Text("I am a Team Member",
-                                              style: GoogleFonts.roboto(
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        getCheckedValueIcon(),
                                       ]
                                   ),
                                 )

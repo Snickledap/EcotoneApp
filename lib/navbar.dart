@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 List<String> routeNames = [ '/QR', "/Map", "/Consumer_Profile"];
 
 
-class NavBar_Consumer extends StatefulWidget {
-  const NavBar_Consumer({Key? key}) : super(key: key);
+class NavBar extends StatefulWidget {
+  const NavBar({Key? key}) : super(key: key);
 
 
   @override
-  State<NavBar_Consumer> createState() => NavBar_ConsumerState();
+  State<NavBar> createState() => NavBarState();
 }
 
-class NavBar_ConsumerState extends State<NavBar_Consumer> {
+class NavBarState extends State<NavBar> {
   static int selectedIndex = 2;
 
   void onItemTapped(int index) {
