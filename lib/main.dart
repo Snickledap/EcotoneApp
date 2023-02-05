@@ -1,7 +1,7 @@
 import 'package:ecotone_app/routes/login_and_signup/login_page.dart';
 import 'package:ecotone_app/routes/login_and_signup/signup_page.dart';
 import 'package:ecotone_app/routes/login_and_signup/login_setup.dart';
-import 'package:ecotone_app/routes/map/qr_scanning_page.dart';
+import 'package:ecotone_app/routes/camera/qr_scanning_page.dart';
 import 'package:ecotone_app/routes/profile/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
